@@ -14,7 +14,6 @@ import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.IOException;
 
-@Service
 public class ConfigurationService {
     private final TicketPoolRepository ticketPoolRepository;
     private Configuration configuration = new Configuration(100, 10, 5,

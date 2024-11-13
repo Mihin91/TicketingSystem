@@ -4,6 +4,9 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class TicketingSystem {
     private Configuration configuration;
@@ -13,6 +16,26 @@ public class TicketingSystem {
 
     public TicketingSystem() {
         super();
+    }
+
+    private void saveConfigurationToFile() {
+
+        String json = String.format("{\n" + "  \"totalTickets\": %d,\n" + "  \"ticketReleaseRate\": %d,\n" +
+                        "  \"customerRetrievalRate\": %d,\n" +
+                        "  \"maxTicketCapacity\": %d\n" + "}",
+
+                configuration.getTotalTickets(),
+                configuration.getTicketReleaseRate(),
+                configuration.getCustomerRetrievalRate(),
+                configuration.getMaxTicketCapacity());
+
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("ticketing_system.json"))) {
+            writer.write(json);
+            System.out.println("Configuration saved to ticketing_system_config.json");
+        } catch (IOException e) {
+            System.out.println("Error writing to file: " + e.getMessage());
+        }
     }
 
     public void start() {
@@ -125,7 +148,7 @@ public class TicketingSystem {
             customerThread.start();
         }
 
-
+        saveConfigurationToFile();
 
         String option;
         while (true) {
