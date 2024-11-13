@@ -1,19 +1,9 @@
 package lk.ac.iit.Mihin.TicketingSystem.TicketPool;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "ticket_pool")
 
 public class TicketPool {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "current_tickets")
     private int currentTickets;
-
-    @Column(name = "maxCapacity")
     private int maxCapacity;
 
     public TicketPool() {
