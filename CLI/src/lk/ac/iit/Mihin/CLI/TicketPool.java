@@ -45,7 +45,7 @@ public class TicketPool {
         }
     }
 
-    // checking if their is more space to add more tickets
+    // checking if there is more space to add more tickets
     public boolean hasCapacity() {
         synchronized (tickets) {
             return tickets.size() < maxCapacity;

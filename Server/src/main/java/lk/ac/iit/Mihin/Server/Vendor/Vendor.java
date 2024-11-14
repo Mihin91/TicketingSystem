@@ -1,4 +1,6 @@
-package lk.ac.iit.Mihin.CLI;
+package lk.ac.iit.Mihin.Server.Vendor;
+
+import lk.ac.iit.Mihin.Server.TicketPool.TicketPool;
 
 
 public class Vendor implements Runnable {

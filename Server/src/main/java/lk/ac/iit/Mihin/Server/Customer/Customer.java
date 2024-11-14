@@ -1,4 +1,6 @@
-package lk.ac.iit.Mihin.CLI;
+package lk.ac.iit.Mihin.Server.Customer;
+
+import lk.ac.iit.Mihin.Server.TicketPool.TicketPool;
 
 import java.time.LocalDateTime;
 
