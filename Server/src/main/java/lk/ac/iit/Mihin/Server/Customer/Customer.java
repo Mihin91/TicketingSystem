@@ -1,7 +1,6 @@
 package lk.ac.iit.Mihin.Server.Customer;
 
 import lk.ac.iit.Mihin.Server.TicketPool.TicketPool;
-
 import java.time.LocalDateTime;
 
 public class Customer implements Runnable {
@@ -10,7 +9,6 @@ public class Customer implements Runnable {
     private final TicketPool ticketPool;
 
     public Customer(int customerId, int retrievalInterval, TicketPool ticketPool) {
-        super();
         this.customerId = customerId;
         this.retrievalInterval = retrievalInterval;
         this.ticketPool = ticketPool;
@@ -20,23 +18,22 @@ public class Customer implements Runnable {
     public void run() {
         while (true) {
             try {
-                synchronized (ticketPool) {
-                    if (ticketPool.hasTickets()) {
-                        System.out.println("Customer " + customerId + " purchased a ticket");
-                        ticketPool.removeTicket();
-                        System.out.println("Ticket sold to customer " + customerId + " at " + LocalDateTime.now());
-                    } else {
-                        System.out.println("Customer " + customerId + " could not purchase a ticket due to unavailability");
-                    }
+                // No need for synchronized block, as ticketPool handles synchronization itself
+                if (ticketPool.hasTickets()) {
+                    System.out.println("Customer " + customerId + " purchased a ticket.");
+                    ticketPool.removeTicket((long) customerId);
+                    System.out.println("Ticket sold to customer " + customerId + " at " + LocalDateTime.now());
+                } else {
+                    System.out.println("Customer " + customerId + " could not purchase a ticket due to unavailability.");
                 }
-                Thread.sleep(retrievalInterval);
+
+                Thread.sleep(retrievalInterval);  // Simulate the interval between ticket retrieval attempts
 
             } catch (InterruptedException e) {
-                System.out.println("Customer " + customerId + " thread interrupted");
-                Thread.currentThread().interrupt();
+                System.out.println("Customer " + customerId + " thread interrupted.");
+                Thread.currentThread().interrupt();  // Propagate the interrupt signal
                 break;
             }
         }
     }
 }
-

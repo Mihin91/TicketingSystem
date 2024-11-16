@@ -5,40 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f9f25cc4-a124-4a7b-9edc-970ffbe268a6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Configuration/Configuration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/TicketController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Services/TicketService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/Customer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/TicketPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/TicketPool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/Vendor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/Vendor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ticketing_system.json" beforeDir="false" afterPath="$PROJECT_DIR$/ticketing_system.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/.idea/jarRepositories.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/.idea/uiDesigner.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/HELP.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/src/main/java/lk/ac/iit/Mihin/TicketingSystem/configuration/Service/ConfigurationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/CLI/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/Customer/Customer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/Repositories/CustomerRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/Repositories/TicketPoolRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/Repositories/TicketSalesRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/Repositories/VendorRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/TicketPool/TicketPool.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/TicketingSystemApplication.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/Vendor/Vendor.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/configuration/Configuration.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/configuration/Controller/ConfigurationController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/configuration/Service/ConfigurationService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/database/CustomerData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/database/TicketSales.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/classes/lk/ac/iit/Mihin/TicketingSystem/database/VendorData.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TicketingSystem/target/test-classes/lk/ac/iit/Mihin/TicketingSystem/TicketingSystemApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/TicketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/TicketController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +98,7 @@
       <workItem from="1731512767121" duration="2898000" />
       <workItem from="1731517267030" duration="330000" />
       <workItem from="1731517793108" duration="2156000" />
-      <workItem from="1731556158253" duration="1924000" />
+      <workItem from="1731556158253" duration="2248000" />
     </task>
     <servers />
   </component>
