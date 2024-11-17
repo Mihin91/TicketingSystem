@@ -132,7 +132,6 @@ public class TicketingSystem {
             }
         }
 
-        // Create configuration and ticket pool
         configuration = new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
         ticketPool = new TicketPool(maxTicketCapacity);
 
@@ -173,7 +172,7 @@ public class TicketingSystem {
     }
 
     private void stopThreads() {
-        // Interrupt all vendor and customer threads
+
         for (Thread vendorThread : vendorThreads) {
             vendorThread.interrupt();
         }
