@@ -1,7 +1,6 @@
 package lk.ac.iit.Mihin.Server.Controllers;
 
-
-import lk.ac.iit.Mihin.Server.Vendor.VendorEntity;
+import lk.ac.iit.Mihin.Server.Vendor.Vendor;
 import lk.ac.iit.Mihin.Server.Services.VendorService;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,16 +13,18 @@ public class VendorController {
         this.vendorService = vendorService;
     }
 
-    @PostMapping
-    public String addVendor(@RequestBody VendorEntity vendor) {
-        return vendorService.addVendor(vendor);
-    }
-
+    // Correct path with @PathVariable
     @GetMapping("/{id}")
-    public VendorEntity getVendor(@PathVariable Long id) {
+    public Vendor getVendor(@PathVariable Long id) {
         return vendorService.getVendor(id);
     }
 
+    @PostMapping
+    public String addVendor(@RequestBody Vendor vendor) {
+        return vendorService.addVendor(vendor);
+    }
+
+    // Correct path with @PathVariable
     @DeleteMapping("/{id}")
     public String deleteVendor(@PathVariable Long id) {
         return vendorService.deleteVendor(id);

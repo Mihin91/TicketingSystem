@@ -1,39 +1,38 @@
 package lk.ac.iit.Mihin.Server.Customer;
 
-import lk.ac.iit.Mihin.Server.TicketPool.TicketPool;
-import java.time.LocalDateTime;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-public class Customer implements Runnable {
-    private final int customerId;
-    private final int retrievalInterval;
-    private final TicketPool ticketPool;
+@Entity
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    public Customer(int customerId, int retrievalInterval, TicketPool ticketPool) {
-        this.customerId = customerId;
-        this.retrievalInterval = retrievalInterval;
-        this.ticketPool = ticketPool;
+    private String name;
+
+    // Constructors, getters, and setters
+    public Customer() {}
+
+    public Customer(String name) {
+        this.name = name;
     }
 
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                // No need for synchronized block, as ticketPool handles synchronization itself
-                if (ticketPool.hasTickets()) {
-                    System.out.println("Customer " + customerId + " purchased a ticket.");
-                    ticketPool.removeTicket((long) customerId);
-                    System.out.println("Ticket sold to customer " + customerId + " at " + LocalDateTime.now());
-                } else {
-                    System.out.println("Customer " + customerId + " could not purchase a ticket due to unavailability.");
-                }
+    public Long getId() {
+        return id;
+    }
 
-                Thread.sleep(retrievalInterval);  // Simulate the interval between ticket retrieval attempts
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-            } catch (InterruptedException e) {
-                System.out.println("Customer " + customerId + " thread interrupted.");
-                Thread.currentThread().interrupt();  // Propagate the interrupt signal
-                break;
-            }
-        }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

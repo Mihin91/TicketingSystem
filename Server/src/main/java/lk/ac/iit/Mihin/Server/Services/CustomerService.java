@@ -1,7 +1,7 @@
 package lk.ac.iit.Mihin.Server.Services;
 
 
-import lk.ac.iit.Mihin.Server.Customer.CustomerEntity;
+import lk.ac.iit.Mihin.Server.Customer.Customer;
 import lk.ac.iit.Mihin.Server.Repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +14,12 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public String addCustomer(CustomerEntity customer) {
+    public String addCustomer(Customer customer) {
         customerRepository.save(customer);
         return "Customer added successfully";
     }
 
-    public CustomerEntity getCustomer(Long id) {
+    public Customer getCustomer(Long id) {
         return customerRepository.findById(id).orElse(null);
     }
 

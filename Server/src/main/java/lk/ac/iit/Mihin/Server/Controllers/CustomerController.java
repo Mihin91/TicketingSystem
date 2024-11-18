@@ -1,7 +1,7 @@
 package lk.ac.iit.Mihin.Server.Controllers;
 
 
-import lk.ac.iit.Mihin.Server.Customer.CustomerEntity;
+import lk.ac.iit.Mihin.Server.Customer.Customer;
 import lk.ac.iit.Mihin.Server.Services.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,12 +15,12 @@ public class CustomerController {
     }
 
     @PostMapping
-    public String addCustomer(@RequestBody CustomerEntity customer) {
+    public String addCustomer(@RequestBody Customer customer) {
         return customerService.addCustomer(customer);
     }
 
     @GetMapping("/{id}")
-    public CustomerEntity getCustomer(@PathVariable Long id) {
+    public Customer getCustomer(@PathVariable Long id) {
         return customerService.getCustomer(id);
     }
 

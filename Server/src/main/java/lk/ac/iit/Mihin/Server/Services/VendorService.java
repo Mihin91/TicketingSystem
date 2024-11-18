@@ -1,7 +1,7 @@
 package lk.ac.iit.Mihin.Server.Services;
 
 
-import lk.ac.iit.Mihin.Server.Vendor.VendorEntity;
+import lk.ac.iit.Mihin.Server.Vendor.Vendor;
 import lk.ac.iit.Mihin.Server.Repositories.VendorRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +15,13 @@ public class VendorService {
         this.vendorRepository = vendorRepository;
     }
 
-    public String addVendor(VendorEntity vendor) {
+    public String addVendor(Vendor vendor) {
         vendorRepository.save(vendor);
         return "Vendor added successfully";
     }
 
-    public VendorEntity getVendor(Long id) {
-        Optional<VendorEntity> vendor = vendorRepository.findById(id);
+    public Vendor getVendor(Long id) {
+        Optional<Vendor> vendor = vendorRepository.findById(id);
         return vendor.orElseThrow(() -> new RuntimeException("Vendor not found"));
     }
 

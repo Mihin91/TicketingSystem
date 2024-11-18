@@ -1,42 +1,39 @@
 package lk.ac.iit.Mihin.Server.Vendor;
 
-import lk.ac.iit.Mihin.Server.TicketPool.TicketPool;
 
-public class Vendor implements Runnable {
-    private final int vendorId;
-    private final int ticketsPerRelease;
-    private final int releaseInterval;
-    private final TicketPool ticketPool;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-    public Vendor(int vendorId, int ticketsPerRelease, int releaseInterval, TicketPool ticketPool) {
-        this.vendorId = vendorId;
-        this.ticketsPerRelease = ticketsPerRelease;
-        this.releaseInterval = releaseInterval;
-        this.ticketPool = ticketPool;
+@Entity
+public class Vendor {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // Constructors, getters, and setters
+    public Vendor() {}
+
+    public Vendor(String name) {
+        this.name = name;
     }
 
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                // Using TicketPool's own lock (ReentrantLock)
-                if (ticketPool.hasCapacity()) {
-                    // Adding tickets with vendorId
-                    ticketPool.addTickets(ticketsPerRelease, (long) vendorId);
-                    System.out.println("Vendor " + vendorId + " has released " + ticketsPerRelease + " tickets at " + System.currentTimeMillis());
-                } else {
-                    System.out.println("Vendor " + vendorId + " has exceeded pool capacity");
-                    break;
-                }
+    public Long getId() {
+        return id;
+    }
 
-                // Simulate the interval between ticket releases
-                Thread.sleep(releaseInterval);
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-            } catch (InterruptedException e) {
-                System.out.println("Vendor " + vendorId + " was interrupted");
-                Thread.currentThread().interrupt();  // Propagate the interrupt signal
-                break;
-            }
-        }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
