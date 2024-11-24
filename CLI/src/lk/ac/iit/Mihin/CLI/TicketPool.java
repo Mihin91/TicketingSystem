@@ -1,6 +1,5 @@
 package lk.ac.iit.Mihin.CLI;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +19,6 @@ public class TicketPool {
         }
         return false;
     }
-
 
     // Remove a ticket from the pool
     public synchronized Integer removeTicket() {
@@ -43,5 +41,10 @@ public class TicketPool {
     // Get the current size of the ticket pool
     public synchronized int getCurrentTickets() {
         return tickets.size();
+    }
+
+    // Get the remaining tickets
+    public synchronized int getRemainingTickets() {
+        return maxCapacity - tickets.size();
     }
 }

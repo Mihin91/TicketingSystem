@@ -47,7 +47,7 @@ public class TicketingSystem {
             configureSystem(scanner);
             saveConfigurationToFile();
         }
-
+        System.out.println("---------Real-Time Ticketing System---------");
         System.out.println("System ready. Enter 'start' to start, 'stop' to stop, 'display' to show ticket counts, or 'exit' to quit.");
 
         while (true) {
