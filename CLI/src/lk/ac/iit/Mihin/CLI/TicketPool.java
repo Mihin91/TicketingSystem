@@ -1,60 +1,47 @@
 package lk.ac.iit.Mihin.CLI;
 
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class TicketPool {
-    private final List<Integer> tickets;
+    private final List<Integer> tickets = new ArrayList<>(); // To store tickets
     private final int maxCapacity;
 
     public TicketPool(int maxCapacity) {
         this.maxCapacity = maxCapacity;
-        this.tickets = Collections.synchronizedList(new ArrayList<>());
     }
 
-    public void addTickets(int ticketCount) {
-        synchronized (tickets) {
-            if (tickets.size() + ticketCount <= maxCapacity) {
-                for(int i =0; i < ticketCount; i++){
-                    tickets.add(i);
-                }
-                System.out.println("Added " + tickets + " tickets to the pool");
-            } else {
-                System.out.println("Cannot add more tickets, maximum capacity reached");
-            }
+    // Add tickets to the pool, ensuring no duplicates
+    public synchronized boolean addTicket(int ticketId) {
+        if (tickets.size() < maxCapacity && !tickets.contains(ticketId)) {
+            tickets.add(ticketId);
+            return true;
         }
+        return false;
     }
 
-    public boolean removeTicket() {
-        synchronized (tickets) {
-            if (!tickets.isEmpty()) {
-                tickets.remove(0);
-                System.out.println("Removed a ticket from the pool");
-                return true;
-            } else {
-                System.out.println("No tickets left to remove from the pool");
-                return false;
-            }
+
+    // Remove a ticket from the pool
+    public synchronized Integer removeTicket() {
+        if (!tickets.isEmpty()) {
+            return tickets.remove(0); // Remove and return the first ticket
         }
-    }
-// checking if there are tickets available
-    public boolean hasTickets() {
-        synchronized (tickets){
-            return !tickets.isEmpty();
-        }
+        return null; // No tickets available
     }
 
-    // checking if there is more space to add more tickets
-    public boolean hasCapacity() {
-        synchronized (tickets) {
-            return tickets.size() < maxCapacity;
-        }
+    // Check if there are tickets in the pool
+    public synchronized boolean hasTickets() {
+        return !tickets.isEmpty();
     }
 
-    public int getCurrentTickets() {
-        synchronized (tickets) {
-            return tickets.size();
-        }
+    // Check if there's capacity to add more tickets
+    public synchronized boolean hasCapacity() {
+        return tickets.size() < maxCapacity;
+    }
+
+    // Get the current size of the ticket pool
+    public synchronized int getCurrentTickets() {
+        return tickets.size();
     }
 }

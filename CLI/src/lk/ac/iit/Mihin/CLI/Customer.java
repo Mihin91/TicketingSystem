@@ -6,6 +6,7 @@ public class Customer implements Runnable {
     private final int customerId;
     private final int retrievalInterval;
     private final TicketPool ticketPool;
+    private int ticketCount = 0; // Counter for the number of tickets purchased
 
     public Customer(int customerId, int retrievalInterval, TicketPool ticketPool) {
         super();
@@ -16,19 +17,18 @@ public class Customer implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 synchronized (ticketPool) {
                     if (ticketPool.hasTickets()) {
-                        System.out.println("Customer " + customerId + " purchased a ticket");
                         ticketPool.removeTicket();
-                        System.out.println("Ticket sold to customer " + customerId + " at " + LocalDateTime.now());
+                        ticketCount++; // Increment the counter
+                        System.out.println("Customer " + customerId + " purchased a ticket at " + LocalDateTime.now());
                     } else {
                         System.out.println("Customer " + customerId + " could not purchase a ticket due to unavailability");
                     }
                 }
                 Thread.sleep(retrievalInterval);
-
             } catch (InterruptedException e) {
                 System.out.println("Customer " + customerId + " thread interrupted");
                 Thread.currentThread().interrupt();
@@ -36,5 +36,12 @@ public class Customer implements Runnable {
             }
         }
     }
-}
 
+    public int getTicketCount() {
+        return ticketCount;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+}

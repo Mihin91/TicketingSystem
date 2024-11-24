@@ -13,23 +13,26 @@ public class TicketService {
         this.ticketPool = ticketPool;
     }
 
+    // Method to add tickets, checks capacity first
     public String addTickets(int ticketCount, Long vendorId) {
         if (ticketPool.hasCapacity()) {
-            return ticketPool.addTickets(ticketCount, vendorId);  // Pass vendorId here
+            return ticketPool.addTickets(ticketCount, vendorId);  // Passing vendorId to addTickets
         } else {
             return "Max capacity reached. Cannot add more tickets.";
         }
     }
 
-    public String purchaseTicket(int customerId) {
+    // Method for a customer to purchase a ticket
+    public String purchaseTicket(Long customerId) { // Changed customerId type to Long for consistency
         if (ticketPool.hasTickets()) {
-            ticketPool.removeTicket((long) customerId);  // Assuming customerId is of type Long
+            ticketPool.removeTicket(customerId);  // Assuming removeTicket takes Long
             return "Customer " + customerId + " purchased a ticket.";
         } else {
             return "No tickets available for purchase.";
         }
     }
 
+    // Method to get the current ticket count
     public int getTicketCount() {
         return ticketPool.getCurrentTickets();
     }

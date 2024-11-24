@@ -1,6 +1,5 @@
 package lk.ac.iit.Mihin.CLI;
 
-
 public class Vendor implements Runnable {
     private final int vendorId;
     private final int ticketsPerRelease;
@@ -17,23 +16,26 @@ public class Vendor implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
+                boolean ticketsAdded = false;
                 synchronized (ticketPool) {
-                    if (ticketPool.hasCapacity()) {
-                        ticketPool.addTickets(ticketsPerRelease);
-                        System.out.println("Vendor " + vendorId + " has released " + ticketsPerRelease + " tickets");
-
-                        System.out.println("Vendor " + vendorId + " added " + ticketsPerRelease + " tickets at " + System.currentTimeMillis());
-                    } else {
-                        System.out.println("Vendor " + vendorId + " has exceeded pool capacity");
-                        break;
+                    for (int i = 0; i < ticketsPerRelease; i++) {
+                        if (ticketPool.hasCapacity() && ticketPool.addTicket(i)) { // Simplified ticket ID
+                            ticketsAdded = true;
+                        } else {
+                            break;
+                        }
                     }
                 }
+                if (ticketsAdded) {
+                    System.out.println("Vendor " + vendorId + " has released " + ticketsPerRelease + " tickets at " + System.currentTimeMillis());
+                } else {
+                    System.out.println("Vendor " + vendorId + " could not add more tickets.");
+                }
                 Thread.sleep(releaseInterval);
-
             } catch (InterruptedException e) {
-                System.out.println("Vendor " + vendorId + " is interrupted");
+                System.out.println("Vendor " + vendorId + " thread interrupted");
                 Thread.currentThread().interrupt();
                 break;
             }

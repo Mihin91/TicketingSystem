@@ -68,7 +68,7 @@ public class TicketPool {
     }
 
     public boolean hasCapacity() {
-        return ticketRepository.count() >= maxCapacity;
+        return ticketRepository.count() < maxCapacity;
     }
 
     public int getCurrentTickets() {
