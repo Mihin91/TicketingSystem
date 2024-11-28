@@ -1,6 +1,6 @@
 package lk.ac.iit.Mihin.Server.Controllers;
 
-import lk.ac.iit.Mihin.Server.Customer.Customer;
+import lk.ac.iit.Mihin.Server.DTO.CustomerDTO;
 import lk.ac.iit.Mihin.Server.Services.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,25 +16,25 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("id") Long id) {
-        Customer customer = customerService.getCustomer(id);
-        if (customer == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND); // If customer not found
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("id") Long id) {
+        CustomerDTO customerDTO = customerService.getCustomer(id);
+        if (customerDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addCustomer(@RequestBody Customer customer) {
-        String response = customerService.addCustomer(customer);
+    public ResponseEntity<String> addCustomer(@RequestBody CustomerDTO customerDTO) {
+        String response = customerService.addCustomer(customerDTO);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<String> updateCustomer(@RequestBody Customer customer) {
-        String response = customerService.updateCustomer(customer);
+    public ResponseEntity<String> updateCustomer(@RequestBody CustomerDTO customerDTO) {
+        String response = customerService.updateCustomer(customerDTO);
         if (response.equals("Customer not found")) {
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); // Customer not found
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -43,7 +43,7 @@ public class CustomerController {
     public ResponseEntity<String> deleteCustomer(@PathVariable("id") Long id) {
         String response = customerService.deleteCustomer(id);
         if (response.equals("Customer not found")) {
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND); // Customer not found
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

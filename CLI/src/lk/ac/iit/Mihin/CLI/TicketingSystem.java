@@ -1,142 +1,108 @@
 package lk.ac.iit.Mihin.CLI;
 
-import java.util.Scanner;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.Scanner;
 
 public class TicketingSystem {
     private Configuration configuration;
     private TicketPool ticketPool;
-    private List<Thread> vendorThreads = new ArrayList<>();
-    private List<Thread> customerThreads = new ArrayList<>();
-    private List<Customer> customers = new ArrayList<>(); // List of Customer objects
-    private boolean isRunning = false; // Flag to track system state
+    private final List<Thread> vendorThreads = new ArrayList<>();
+    private final List<Thread> customerThreads = new ArrayList<>();
+    private final List<Customer> customers = new ArrayList<>();
+    private boolean isRunning = false;
     private int numVendors;
     private int numCustomers;
-
-    public TicketingSystem() {
-        super();
-    }
-
-    private void saveConfigurationToFile() {
-        String json = String.format("{\n" + "  \"totalTickets\": %d,\n" + "  \"ticketReleaseRate\": %d,\n" +
-                        "  \"customerRetrievalRate\": %d,\n" +
-                        "  \"maxTicketCapacity\": %d\n" + "}",
-
-                configuration.getTotalTickets(),
-                configuration.getTicketReleaseRate(),
-                configuration.getCustomerRetrievalRate(),
-                configuration.getMaxTicketCapacity());
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("ticketing_system.json"))) {
-            writer.write(json);
-            System.out.println("Configuration saved to ticketing_system.json");
-        } catch (IOException e) {
-            System.out.println("Error writing to file: " + e.getMessage());
-        }
-    }
+    private static final String fileName = "ticketing_system.json";
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
 
-        if (!isRunning) {
-            // Configuration input only needed once
+        if (promptLoadConfiguration(scanner)) {
+            loadConfigurationFromFile();
+        } else {
             configureSystem(scanner);
-            saveConfigurationToFile();
         }
-        System.out.println("---------Real-Time Ticketing System---------");
-        System.out.println("System ready. Enter 'start' to start, 'stop' to stop, 'display' to show ticket counts, or 'exit' to quit.");
+
+        promptForVendorsAndCustomers(scanner);
+        initializeTicketPool();
+
+        mainMenu(scanner);
+    }
+
+    private boolean promptLoadConfiguration(Scanner scanner) {
+        System.out.print("Do you want to load the existing configuration? (yes/no): ");
+        String input = scanner.nextLine().trim().toLowerCase();
+        return "yes".equals(input);
+    }
+
+    private void configureSystem(Scanner scanner) {
+        configuration = Configuration.promptForConfiguration(scanner);
+        saveConfigurationToFile();
+    }
+
+    private void initializeTicketPool() {
+        ticketPool = new TicketPool(configuration.getMaxTicketCapacity());
+        System.out.println("Ticket pool initialized with capacity: " + configuration.getMaxTicketCapacity());
+    }
+
+    private void promptForVendorsAndCustomers(Scanner scanner) {
+        numVendors = getPositiveInt(scanner, "Enter number of vendors: ");
+        numCustomers = getPositiveInt(scanner, "Enter number of customers: ");
+    }
+
+    private void mainMenu(Scanner scanner) {
+        System.out.println("--------- Real-Time Ticketing System ---------");
+        System.out.println("Commands: start, stop, display, reconfigure, exit");
 
         while (true) {
-            String option = scanner.nextLine().toLowerCase();
+            System.out.print("> ");
+            String command = scanner.nextLine().trim().toLowerCase();
 
-            switch (option) {
+            switch (command) {
                 case "start":
-                    if (isRunning) {
-                        System.out.println("System is already running...");
-                    } else {
+                    if (!isRunning) {
                         restartThreads();
-                        System.out.println("System started.");
+                    } else {
+                        System.out.println("System is already running.");
                     }
                     break;
                 case "stop":
                     stopThreads();
-                    System.out.println("System stopped.");
                     break;
                 case "display":
                     displayTicketCounts();
+                    break;
+                case "reconfigure":
+                    reconfigureSystem(scanner);
                     break;
                 case "exit":
                     stopThreads();
                     System.out.println("Exiting the system...");
                     return;
                 default:
-                    System.out.println("Unknown command. Please enter 'start', 'stop', 'display', or 'exit'.");
-            }
-        }
-    }
-
-    public void displayTicketCounts() {
-        int totalTicketsPurchased = 0;
-        for (Customer customer : customers) {
-            totalTicketsPurchased += customer.getTicketCount();
-            System.out.println("Customer " + customer.getCustomerId() + " purchased " + customer.getTicketCount() + " tickets.");
-        }
-        System.out.println("Total tickets purchased by all customers: " + totalTicketsPurchased);
-    }
-
-    private void configureSystem(Scanner scanner) {
-        int totalTickets = getPositiveInt(scanner, "Enter total tickets: ");
-        int ticketReleaseRate = getPositiveInt(scanner, "Enter ticket release rate (milliseconds): ");
-        int customerRetrievalRate = getPositiveInt(scanner, "Enter customer retrieval rate (milliseconds): ");
-        int maxTicketCapacity = getPositiveInt(scanner, "Enter max ticket capacity: ");
-        numVendors = getPositiveInt(scanner, "Enter number of vendors: ");
-        numCustomers = getPositiveInt(scanner, "Enter number of customers: ");
-
-        configuration = new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
-        ticketPool = new TicketPool(maxTicketCapacity);
-    }
-
-    private int getPositiveInt(Scanner scanner, String prompt) {
-        int value;
-        while (true) {
-            try {
-                System.out.print(prompt);
-                value = Integer.parseInt(scanner.nextLine());
-                if (value > 0) {
-                    return value;
-                } else {
-                    System.out.println("Value must be a positive number. Please try again.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a valid number.");
+                    System.out.println("Unknown command. Try again.");
             }
         }
     }
 
     private void restartThreads() {
-        // Stop threads if running
         stopThreads();
+        initializeThreads();
+        System.out.println("System started.");
+    }
 
-        // Clear old threads
-        vendorThreads.clear();
-        customerThreads.clear();
-        customers.clear();
-
-        // Create and start new vendor threads
+    private void initializeThreads() {
         for (int i = 0; i < numVendors; i++) {
-            Vendor vendor = new Vendor(i + 1, configuration.getTotalTickets(), configuration.getTicketReleaseRate(), ticketPool);
+            Vendor vendor = new Vendor(i + 1, configuration.getTicketReleaseRate(), 1000, ticketPool);
             Thread vendorThread = new Thread(vendor);
             vendorThreads.add(vendorThread);
             vendorThread.start();
         }
 
-        // Create and start new customer threads
         for (int i = 0; i < numCustomers; i++) {
-            Customer customer = new Customer(i + 1, configuration.getCustomerRetrievalRate(), ticketPool);
+            Customer customer = new Customer(i + 1, ticketPool, configuration.getCustomerRetrievalRate());
             Thread customerThread = new Thread(customer);
             customerThreads.add(customerThread);
             customers.add(customer);
@@ -147,20 +113,70 @@ public class TicketingSystem {
     }
 
     private void stopThreads() {
-        if (!isRunning) return;
+        vendorThreads.forEach(thread -> {
+            if (thread != null) thread.interrupt();
+        });
 
-        for (Thread vendorThread : vendorThreads) {
-            vendorThread.interrupt();
-        }
-        for (Thread customerThread : customerThreads) {
-            customerThread.interrupt();
-        }
+        customerThreads.forEach(thread -> {
+            if (thread != null) thread.interrupt();
+        });
 
         isRunning = false;
+        System.out.println("System stopped.");
+    }
+
+    private void displayTicketCounts() {
+        if (ticketPool == null) {
+            System.out.println("Ticket pool not initialized.");
+            return;
+        }
+
+        int totalPurchased = customers.stream().mapToInt(Customer::getTicketCount).sum();
+        System.out.println("Tickets purchased: " + totalPurchased);
+        System.out.println("Remaining tickets: " + ticketPool.getRemainingTickets());
+        System.out.println("Tickets released by vendors: " + ticketPool.getTotalTicketsReleased());
+    }
+
+    private void reconfigureSystem(Scanner scanner) {
+        stopThreads();
+        configureSystem(scanner);
+        promptForVendorsAndCustomers(scanner);
+        initializeTicketPool();
+        System.out.println("Reconfiguration complete.");
+    }
+
+    private void saveConfigurationToFile() {
+        try {
+            configuration.saveToFile(fileName);
+            System.out.println("Configuration saved to " + fileName);
+        } catch (IOException e) {
+            System.err.println("Error saving configuration: " + e.getMessage());
+        }
+    }
+
+    private void loadConfigurationFromFile() {
+        try {
+            configuration = Configuration.loadFromFile(fileName);
+            System.out.println("Configuration loaded from " + fileName);
+        } catch (IOException e) {
+            System.err.println("Error loading configuration: " + e.getMessage());
+        }
+    }
+
+    private int getPositiveInt(Scanner scanner, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (scanner.hasNextInt()) {
+                int value = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+                if (value > 0) return value;
+            }
+            System.out.println("Please enter a positive number.");
+            scanner.nextLine(); // Clear invalid input
+        }
     }
 
     public static void main(String[] args) {
-        TicketingSystem ticketSystem = new TicketingSystem();
-        ticketSystem.start();
+        new TicketingSystem().start();
     }
 }

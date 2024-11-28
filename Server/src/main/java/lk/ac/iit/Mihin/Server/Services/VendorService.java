@@ -1,49 +1,47 @@
 package lk.ac.iit.Mihin.Server.Services;
 
-import lk.ac.iit.Mihin.Server.Vendor.Vendor;
+import lk.ac.iit.Mihin.Server.DTO.VendorDTO;
+import lk.ac.iit.Mihin.Server.Model.Vendor;
 import lk.ac.iit.Mihin.Server.Repositories.VendorRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VendorService {
+
     private final VendorRepository vendorRepository;
 
+    @Autowired
     public VendorService(VendorRepository vendorRepository) {
         this.vendorRepository = vendorRepository;
     }
 
-    // Add a new vendor
-    public String addVendor(Vendor vendor) {
-        vendorRepository.save(vendor);
-        return "Vendor added successfully";
+    // Method to save or update Vendor
+    public VendorDTO saveVendor(VendorDTO vendorDTO) {
+        Vendor vendor = new Vendor(vendorDTO.getName());
+        vendor = vendorRepository.save(vendor);
+        return new VendorDTO(vendor.getId(), vendor.getName());
     }
 
-    // Get vendor by ID
-    public Vendor getVendor(Long id) {
+    // Method to get Vendor by ID
+    public Optional<VendorDTO> getVendor(Long id) {
         Optional<Vendor> vendor = vendorRepository.findById(id);
-        return vendor.orElseThrow(() -> new RuntimeException("Vendor not found"));
+        return vendor.map(v -> new VendorDTO(v.getId(), v.getName()));
     }
 
-    // Update vendor by ID
-    public String updateVendor(Long id, Vendor vendor) {
-        if (vendorRepository.existsById(id)) {
-            vendor.setId(id); // Set the vendor's ID to the one passed in the path
-            vendorRepository.save(vendor);
-            return "Vendor updated successfully";
-        } else {
-            throw new RuntimeException("Vendor not found");
-        }
+    // Method to delete Vendor by ID
+    public void deleteVendor(Long id) {
+        vendorRepository.deleteById(id);
     }
 
-    // Delete vendor by ID
-    public String deleteVendor(Long id) {
-        if (vendorRepository.existsById(id)) {
-            vendorRepository.deleteById(id);
-            return "Vendor deleted successfully";
-        } else {
-            throw new RuntimeException("Vendor not found");
-        }
+    // Method to get all vendors (optional)
+    public List<VendorDTO> getAllVendors() {
+        return vendorRepository.findAll().stream()
+                .map(v -> new VendorDTO(v.getId(), v.getName()))
+                .collect(Collectors.toList());
     }
 }

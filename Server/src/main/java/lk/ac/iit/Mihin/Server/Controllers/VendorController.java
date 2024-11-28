@@ -1,45 +1,51 @@
 package lk.ac.iit.Mihin.Server.Controllers;
 
-import lk.ac.iit.Mihin.Server.Vendor.Vendor;
+import lk.ac.iit.Mihin.Server.DTO.VendorDTO;
 import lk.ac.iit.Mihin.Server.Services.VendorService;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/vendors")
 public class VendorController {
+
     private final VendorService vendorService;
 
+    @Autowired
     public VendorController(VendorService vendorService) {
         this.vendorService = vendorService;
     }
 
-    // Corrected endpoint for getting vendor by id
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Vendor> getVendorById(@PathVariable("id") Long id) {
-        Vendor vendor = vendorService.getVendor(id); // Using existing method in service
-        return new ResponseEntity<>(vendor, HttpStatus.OK);
+    // Create or update a vendor
+    @PostMapping
+    public ResponseEntity<VendorDTO> createOrUpdateVendor(@RequestBody VendorDTO vendorDTO) {
+        VendorDTO savedVendor = vendorService.saveVendor(vendorDTO);
+        return ResponseEntity.ok(savedVendor);
     }
 
-    // Add new vendor
-    @PostMapping("/add")
-    public ResponseEntity<String> addVendor(@RequestBody Vendor vendor) {
-        String response = vendorService.addVendor(vendor);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    // Get a vendor by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<VendorDTO> getVendor(@PathVariable Long id) {
+        Optional<VendorDTO> vendor = vendorService.getVendor(id);
+        return vendor.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Corrected the mapping for updateVendor to use the correct endpoint
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateVendor(@PathVariable("id") Long id, @RequestBody Vendor vendor) {
-        String response = vendorService.updateVendor(id, vendor);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    // Get all vendors
+    @GetMapping
+    public ResponseEntity<List<VendorDTO>> getAllVendors() {
+        List<VendorDTO> vendors = vendorService.getAllVendors();
+        return ResponseEntity.ok(vendors);
     }
 
-    // Delete vendor by id
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteVendor(@PathVariable("id") Long id) {
-        String response = vendorService.deleteVendor(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    // Delete a vendor by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVendor(@PathVariable Long id) {
+        vendorService.deleteVendor(id);
+        return ResponseEntity.noContent().build(); // 204 No Content
     }
 }

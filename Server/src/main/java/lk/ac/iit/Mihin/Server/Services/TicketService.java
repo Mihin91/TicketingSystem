@@ -1,39 +1,52 @@
 package lk.ac.iit.Mihin.Server.Services;
 
-import lk.ac.iit.Mihin.Server.TicketPool.TicketPool;
+import lk.ac.iit.Mihin.Server.DTO.TicketDTO;
+import lk.ac.iit.Mihin.Server.Model.TicketPool;
+import lk.ac.iit.Mihin.Server.Repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class TicketService {
-    private final TicketPool ticketPool;
+
+    private final TicketRepository ticketRepository;
 
     @Autowired
-    public TicketService(TicketPool ticketPool) {
-        this.ticketPool = ticketPool;
+    public TicketService(TicketRepository ticketRepository) {
+        this.ticketRepository = ticketRepository;
     }
 
-    // Method to add tickets, checks capacity first
-    public String addTickets(int ticketCount, Long vendorId) {
-        if (ticketPool.hasCapacity()) {
-            return ticketPool.addTickets(ticketCount, vendorId);  // Passing vendorId to addTickets
-        } else {
-            return "Max capacity reached. Cannot add more tickets.";
-        }
+    // Method to save or update TicketPool
+    public TicketDTO saveTicketPool(TicketDTO ticketPoolDTO) {
+        TicketPool ticketPool = new TicketPool(ticketPoolDTO.getMaxCapacity());
+        ticketPool.setMaxCapacity(ticketPoolDTO.getMaxCapacity());
+        ticketPool = ticketRepository.save(ticketPool);
+
+        // Return DTO with the updated ticket pool details
+        return new TicketDTO(ticketPool.getId(), ticketPool.getMaxCapacity(),
+                ticketPool.getCurrentTickets(), ticketPool.getRemainingTickets());
     }
 
-    // Method for a customer to purchase a ticket
-    public String purchaseTicket(Long customerId) { // Changed customerId type to Long for consistency
-        if (ticketPool.hasTickets()) {
-            ticketPool.removeTicket(customerId);  // Assuming removeTicket takes Long
-            return "Customer " + customerId + " purchased a ticket.";
-        } else {
-            return "No tickets available for purchase.";
-        }
+    // Method to get TicketPool by ID
+    public Optional<TicketDTO> getTicketPool(Long id) {
+        Optional<TicketPool> ticketPool = ticketRepository.findById(id);
+        return ticketPool.map(tp -> new TicketDTO(tp.getId(), tp.getMaxCapacity(),
+                tp.getCurrentTickets(), tp.getRemainingTickets()));
     }
 
-    // Method to get the current ticket count
-    public int getTicketCount() {
-        return ticketPool.getCurrentTickets();
+    // Method to delete TicketPool by ID
+    public void deleteTicketPool(Long id) {
+        ticketRepository.deleteById(id);
+    }
+
+    // Method to get all TicketPools
+    public List<TicketDTO> getAllTicketPools() {
+        return ticketRepository.findAll().stream()
+                .map(tp -> new TicketDTO(tp.getId(), tp.getMaxCapacity(), tp.getCurrentTickets(), tp.getRemainingTickets()))
+                .collect(Collectors.toList());
     }
 }

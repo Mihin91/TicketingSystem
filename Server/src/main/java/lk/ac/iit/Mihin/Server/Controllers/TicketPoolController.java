@@ -1,43 +1,51 @@
 package lk.ac.iit.Mihin.Server.Controllers;
 
+import lk.ac.iit.Mihin.Server.DTO.TicketDTO;
 import lk.ac.iit.Mihin.Server.Services.TicketService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/tickets")
+@RequestMapping("/api/ticketpool")
 public class TicketPoolController {
 
-    private final TicketService ticketService;
+    private final TicketService ticketPoolService;
 
     @Autowired
-    public TicketPoolController(TicketService ticketService) {
-        this.ticketService = ticketService;
+    public TicketPoolController(TicketService ticketPoolService) {
+        this.ticketPoolService = ticketPoolService;
     }
 
-
-    @GetMapping("/count")
-    public ResponseEntity<Integer> getTicketCount() {
-        int ticketCount = ticketService.getTicketCount();
-        return new ResponseEntity<>(ticketCount, HttpStatus.OK);
+    // Create or update TicketPool
+    @PostMapping
+    public ResponseEntity<TicketDTO> createOrUpdateTicketPool(@RequestBody TicketDTO ticketPoolDTO) {
+        TicketDTO savedTicketPool = ticketPoolService.saveTicketPool(ticketPoolDTO);
+        return ResponseEntity.ok(savedTicketPool);
     }
 
-
-    @PostMapping("/add")
-    public ResponseEntity<String> addTickets(@RequestParam int ticketCount, @RequestParam Long vendorId) {
-        String response = ticketService.addTickets(ticketCount, vendorId);
-        return new ResponseEntity<>(response, HttpStatus.CREATED); // Created status for successful resource creation
+    // Get TicketPool by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<TicketDTO> getTicketPool(@PathVariable Long id) {
+        Optional<TicketDTO> ticketPool = ticketPoolService.getTicketPool(id);
+        return ticketPool.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/purchase")
-    public ResponseEntity<String> purchaseTicket(@RequestParam Long customerId) {  // Changed to Long for consistency
-        String response = ticketService.purchaseTicket(customerId);
-        if(response.contains("purchased")) {
-            return new ResponseEntity<>(response, HttpStatus.OK);  // Success
-        } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);  // Failure (no tickets available)
-        }
+    // Get all TicketPools
+    @GetMapping
+    public ResponseEntity<List<TicketDTO>> getAllTicketPools() {
+        List<TicketDTO> ticketPools = ticketPoolService.getAllTicketPools();
+        return ResponseEntity.ok(ticketPools);
+    }
+
+    // Delete TicketPool by ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteTicketPool(@PathVariable Long id) {
+        ticketPoolService.deleteTicketPool(id);
+        return ResponseEntity.noContent().build(); // 204 No Content
     }
 }

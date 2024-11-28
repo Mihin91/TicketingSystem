@@ -1,13 +1,14 @@
 package lk.ac.iit.Mihin.CLI;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class Vendor implements Runnable {
-    private final int vendorId;
-    private final int ticketsPerRelease;
-    private final int releaseInterval;
-    private final TicketPool ticketPool;
+    private final int vendorId; // Unique identifier for the vendor
+    private final int ticketsPerRelease; // Number of tickets released per interval
+    private final int releaseInterval; // Interval between releases in milliseconds
+    private final TicketPool ticketPool; // Shared ticket pool for all vendors and customers
 
     public Vendor(int vendorId, int ticketsPerRelease, int releaseInterval, TicketPool ticketPool) {
-        super();
         this.vendorId = vendorId;
         this.ticketsPerRelease = ticketsPerRelease;
         this.releaseInterval = releaseInterval;
@@ -18,27 +19,28 @@ public class Vendor implements Runnable {
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                synchronized (ticketPool) {
-                    if (ticketPool.hasCapacity()) {
-                        for (int i = 0; i < ticketsPerRelease; i++) {
-                            if (!ticketPool.addTicket(vendorId)) {
-                                System.out.println("Vendor " + vendorId + " could not add more tickets.");
-                                break;
-                            }
-                        }
-                        System.out.println("Vendor " + vendorId + " has released " + ticketsPerRelease + " tickets at " + System.currentTimeMillis());
-                    } else {
-                        System.out.println("Vendor " + vendorId + " has exceeded pool capacity");
-                        break;
-                    }
+                // Add tickets to the pool up to the max capacity or ticketsPerRelease
+                int ticketsToAdd = Math.min(ticketsPerRelease, ticketPool.getRemainingTickets());
+                for (int i = 0; i < ticketsToAdd; i++) {
+                    String ticket = "Ticket-" + ThreadLocalRandom.current().nextInt(1000, 9999);
+                    ticketPool.addTicket(ticket); // Add ticket to the pool
                 }
-                Thread.sleep(releaseInterval);
 
+                if (ticketsToAdd > 0) {
+                    System.out.println("[Vendor] " + vendorId + " released " + ticketsToAdd
+                            + " tickets. Total tickets available: " + ticketPool.getCurrentTickets());
+                } else {
+                    System.out.println("[Vendor] " + vendorId + " found the pool full. Waiting...");
+                }
+
+                // Wait for the specified release interval
+                Thread.sleep(releaseInterval);
             } catch (InterruptedException e) {
-                System.out.println("Vendor " + vendorId + " is interrupted");
+                System.out.println("[Vendor] " + vendorId + " interrupted. Stopping...");
                 Thread.currentThread().interrupt();
                 break;
             }
         }
     }
 }
+

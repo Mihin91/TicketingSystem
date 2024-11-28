@@ -1,6 +1,7 @@
 package lk.ac.iit.Mihin.Server.Services;
 
-import lk.ac.iit.Mihin.Server.Customer.Customer;
+import lk.ac.iit.Mihin.Server.DTO.CustomerDTO;
+import lk.ac.iit.Mihin.Server.Model.Customer;
 import lk.ac.iit.Mihin.Server.Repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,24 +14,30 @@ public class CustomerService {
     }
 
     // Add Customer
-    public String addCustomer(Customer customer) {
+    public String addCustomer(CustomerDTO customerDTO) {
+        Customer customer = new Customer(customerDTO.getName());
         customerRepository.save(customer);
         return "Customer added successfully";
     }
 
     // Get Customer by ID
-    public Customer getCustomer(Long id) {
-        return customerRepository.findById(id).orElse(null); // Return null if not found
+    public CustomerDTO getCustomer(Long id) {
+        Customer customer = customerRepository.findById(id).orElse(null);
+        if (customer == null) {
+            return null;
+        }
+        return new CustomerDTO(customer.getId(), customer.getName());
     }
 
     // Update Customer
-    public String updateCustomer(Customer customer) {
-        // Check if the customer exists
-        if (customerRepository.existsById(customer.getId())) {
-            customerRepository.save(customer); // Update if found
+    public String updateCustomer(CustomerDTO customerDTO) {
+        if (customerRepository.existsById(customerDTO.getId())) {
+            Customer customer = new Customer(customerDTO.getName());
+            customer.setId(customerDTO.getId());
+            customerRepository.save(customer);
             return "Customer updated successfully";
         } else {
-            return "Customer not found"; // Return an error if the customer is not found
+            return "Customer not found";
         }
     }
 
@@ -40,7 +47,7 @@ public class CustomerService {
             customerRepository.deleteById(id);
             return "Customer deleted successfully";
         } else {
-            return "Customer not found"; // Return an error if the customer is not found
+            return "Customer not found";
         }
     }
 }
