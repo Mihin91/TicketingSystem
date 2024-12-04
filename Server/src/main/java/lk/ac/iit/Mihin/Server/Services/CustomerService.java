@@ -1,53 +1,50 @@
 package lk.ac.iit.Mihin.Server.Services;
 
-import lk.ac.iit.Mihin.Server.DTO.CustomerDTO;
 import lk.ac.iit.Mihin.Server.Model.Customer;
+import lk.ac.iit.Mihin.Server.Model.TicketPool;
 import lk.ac.iit.Mihin.Server.Repositories.CustomerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final TicketPool ticketPool;
+    private final Map<Integer, Thread> customerThreads = new ConcurrentHashMap<>();
 
-    public CustomerService(CustomerRepository customerRepository) {
+    @Autowired
+    public CustomerService(CustomerRepository customerRepository, TicketPool ticketPool) {
         this.customerRepository = customerRepository;
+        this.ticketPool = ticketPool;
     }
 
-    // Add Customer
-    public String addCustomer(CustomerDTO customerDTO) {
-        Customer customer = new Customer(customerDTO.getName());
+    public void startCustomer(int customerId, int retrievalInterval) {
+        Customer customer = new Customer(customerId, ticketPool, retrievalInterval);
+        Thread customerThread = new Thread(customer);
+        customerThreads.put(customerId, customerThread);
+        customerThread.start();
+        // Save customer to the repository if needed
         customerRepository.save(customer);
-        return "Customer added successfully";
     }
 
-    // Get Customer by ID
-    public CustomerDTO getCustomer(Long id) {
-        Customer customer = customerRepository.findById(id).orElse(null);
-        if (customer == null) {
-            return null;
+    public void stopAllCustomers() {
+        for (Map.Entry<Integer, Thread> entry : customerThreads.entrySet()) {
+            Thread thread = entry.getValue();
+            thread.interrupt();
         }
-        return new CustomerDTO(customer.getId(), customer.getName());
+        customerThreads.clear();
     }
 
-    // Update Customer
-    public String updateCustomer(CustomerDTO customerDTO) {
-        if (customerRepository.existsById(customerDTO.getId())) {
-            Customer customer = new Customer(customerDTO.getName());
-            customer.setId(customerDTO.getId());
-            customerRepository.save(customer);
-            return "Customer updated successfully";
-        } else {
-            return "Customer not found";
+    public void stopCustomer(int customerId) {
+        Thread thread = customerThreads.get(customerId);
+        if (thread != null) {
+            thread.interrupt();
+            customerThreads.remove(customerId);
         }
     }
 
-    // Delete Customer by ID
-    public String deleteCustomer(Long id) {
-        if (customerRepository.existsById(id)) {
-            customerRepository.deleteById(id);
-            return "Customer deleted successfully";
-        } else {
-            return "Customer not found";
-        }
-    }
+    // Additional methods for managing customers
 }

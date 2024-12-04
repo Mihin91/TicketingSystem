@@ -1,47 +1,50 @@
 package lk.ac.iit.Mihin.Server.Services;
 
-import lk.ac.iit.Mihin.Server.DTO.VendorDTO;
+import lk.ac.iit.Mihin.Server.Model.TicketPool;
 import lk.ac.iit.Mihin.Server.Model.Vendor;
 import lk.ac.iit.Mihin.Server.Repositories.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
 
 @Service
 public class VendorService {
-
     private final VendorRepository vendorRepository;
+    private final TicketPool ticketPool;
+    private final Map<Integer, Thread> vendorThreads = new ConcurrentHashMap<>();
 
     @Autowired
-    public VendorService(VendorRepository vendorRepository) {
+    public VendorService(VendorRepository vendorRepository, TicketPool ticketPool) {
         this.vendorRepository = vendorRepository;
+        this.ticketPool = ticketPool;
     }
 
-    // Method to save or update Vendor
-    public VendorDTO saveVendor(VendorDTO vendorDTO) {
-        Vendor vendor = new Vendor(vendorDTO.getName());
-        vendor = vendorRepository.save(vendor);
-        return new VendorDTO(vendor.getId(), vendor.getName());
+    public void startVendor(int vendorId, int ticketsPerRelease, int releaseInterval) {
+        Vendor vendor = new Vendor(vendorId, ticketsPerRelease, releaseInterval, ticketPool);
+        Thread vendorThread = new Thread(vendor);
+        vendorThreads.put(vendorId, vendorThread);
+        vendorThread.start();
+        // Save vendor to the repository if needed
+        vendorRepository.save(vendor);
     }
 
-    // Method to get Vendor by ID
-    public Optional<VendorDTO> getVendor(Long id) {
-        Optional<Vendor> vendor = vendorRepository.findById(id);
-        return vendor.map(v -> new VendorDTO(v.getId(), v.getName()));
+    public void stopAllVendors() {
+        for (Map.Entry<Integer, Thread> entry : vendorThreads.entrySet()) {
+            Thread thread = entry.getValue();
+            thread.interrupt();
+        }
+        vendorThreads.clear();
     }
 
-    // Method to delete Vendor by ID
-    public void deleteVendor(Long id) {
-        vendorRepository.deleteById(id);
+    public void stopVendor(int vendorId) {
+        Thread thread = vendorThreads.get(vendorId);
+        if (thread != null) {
+            thread.interrupt();
+            vendorThreads.remove(vendorId);
+        }
     }
 
-    // Method to get all vendors (optional)
-    public List<VendorDTO> getAllVendors() {
-        return vendorRepository.findAll().stream()
-                .map(v -> new VendorDTO(v.getId(), v.getName()))
-                .collect(Collectors.toList());
-    }
+    // Additional methods for managing vendors
 }

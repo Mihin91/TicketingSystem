@@ -2,7 +2,8 @@ package lk.ac.iit.Mihin.Server.Controllers;
 
 import lk.ac.iit.Mihin.Server.DTO.CustomerDTO;
 import lk.ac.iit.Mihin.Server.Services.CustomerService;
-import org.springframework.http.HttpStatus;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,41 +11,19 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/customers")
 public class CustomerController {
     private final CustomerService customerService;
+    private final ModelMapper modelMapper;
 
-    public CustomerController(CustomerService customerService) {
+    @Autowired
+    public CustomerController(CustomerService customerService, ModelMapper modelMapper) {
         this.customerService = customerService;
+        this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("id") Long id) {
-        CustomerDTO customerDTO = customerService.getCustomer(id);
-        if (customerDTO == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(customerDTO, HttpStatus.OK);
+    @PostMapping("/start")
+    public ResponseEntity<?> startCustomer(@RequestBody CustomerDTO customerDTO) {
+        customerService.startCustomer(customerDTO.getCustomerId(), customerDTO.getRetrievalInterval());
+        return ResponseEntity.ok("Customer started");
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addCustomer(@RequestBody CustomerDTO customerDTO) {
-        String response = customerService.addCustomer(customerDTO);
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/update")
-    public ResponseEntity<String> updateCustomer(@RequestBody CustomerDTO customerDTO) {
-        String response = customerService.updateCustomer(customerDTO);
-        if (response.equals("Customer not found")) {
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteCustomer(@PathVariable("id") Long id) {
-        String response = customerService.deleteCustomer(id);
-        if (response.equals("Customer not found")) {
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+    // Additional endpoints for customers
 }

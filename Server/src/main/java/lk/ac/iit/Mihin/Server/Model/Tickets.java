@@ -1,51 +1,37 @@
 package lk.ac.iit.Mihin.Server.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data // Generates getters, setters, toString, equals, and hashCode methods
+@NoArgsConstructor // Generates a no-argument constructor
+@AllArgsConstructor
 
 @Entity
 public class Tickets {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String status; // e.g., "AVAILABLE", "PURCHASED"
-    private Long customerId;
-    private Long vendorId;
+    @Enumerated(EnumType.STRING)
+    private TicketStatus status;
 
+    @ManyToOne
+    private Customer customer;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToOne
+    private Vendor vendor;
 
-    public String getStatus() {
-        return status;
-    }
+    private int maxCapacity;
+    private int currentTickets;
+    private int remainingTickets;
 
-    public Long getCustomerId() {
-        return customerId;
-    }
-
-    public Long getVendorId() {
-        return vendorId;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
-    }
-
-    public void setVendorId(Long vendorId) {
-        this.vendorId = vendorId;
+    public enum TicketStatus {
+        AVAILABLE,
+        PURCHASED
     }
 }
-

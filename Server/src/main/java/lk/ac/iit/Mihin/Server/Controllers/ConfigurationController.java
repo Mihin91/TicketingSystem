@@ -1,44 +1,43 @@
 package lk.ac.iit.Mihin.Server.Controllers;
 
 import lk.ac.iit.Mihin.Server.DTO.ConfigurationDTO;
+import lk.ac.iit.Mihin.Server.Model.Configuration;
 import lk.ac.iit.Mihin.Server.Services.ConfigurationService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/api/configurations")
-@CrossOrigin
 public class ConfigurationController {
-
     private final ConfigurationService configurationService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ConfigurationController(ConfigurationService configurationService) {
+    public ConfigurationController(ConfigurationService configurationService, ModelMapper modelMapper) {
         this.configurationService = configurationService;
+        this.modelMapper = modelMapper;
     }
 
-    // Create or update a configuration
-    @PostMapping
-    public ResponseEntity<ConfigurationDTO> createOrUpdateConfiguration(@RequestBody ConfigurationDTO dto) {
-        ConfigurationDTO savedConfiguration = configurationService.saveConfiguration(dto);
-        return ResponseEntity.ok(savedConfiguration);
+    @PostMapping("/save")
+    public ResponseEntity<ConfigurationDTO> saveConfiguration(@RequestBody ConfigurationDTO configDTO) {
+        Configuration config = modelMapper.map(configDTO, Configuration.class);
+        Configuration savedConfig = configurationService.saveConfiguration(config);
+        ConfigurationDTO savedConfigDTO = modelMapper.map(savedConfig, ConfigurationDTO.class);
+        return ResponseEntity.ok(savedConfigDTO);
     }
 
-    // Get a configuration by ID
     @GetMapping("/{id}")
-    public ResponseEntity<ConfigurationDTO> getConfiguration(@PathVariable Long id) {
-        Optional<ConfigurationDTO> configuration = configurationService.getConfiguration(id);
-        return configuration.map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<ConfigurationDTO> getConfiguration(@PathVariable int id) {
+        Configuration config = configurationService.getConfiguration(id);
+        if (config != null) {
+            ConfigurationDTO configDTO = modelMapper.map(config, ConfigurationDTO.class);
+            return ResponseEntity.ok(configDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    // Delete a configuration by ID
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteConfiguration(@PathVariable Long id) {
-        configurationService.deleteConfiguration(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
-    }
+    // Additional endpoints for configurations
 }

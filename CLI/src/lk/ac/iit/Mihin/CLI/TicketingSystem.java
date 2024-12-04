@@ -95,7 +95,7 @@ public class TicketingSystem {
 
     private void initializeThreads() {
         for (int i = 0; i < numVendors; i++) {
-            Vendor vendor = new Vendor(i + 1, configuration.getTicketReleaseRate(), 1000, ticketPool);
+            Vendor vendor = new Vendor(i + 1, configuration.getTicketReleaseRate(), configuration.getTicketReleaseRate(), ticketPool);
             Thread vendorThread = new Thread(vendor);
             vendorThreads.add(vendorThread);
             vendorThread.start();

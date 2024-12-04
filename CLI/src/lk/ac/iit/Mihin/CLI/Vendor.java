@@ -22,7 +22,7 @@ public class Vendor implements Runnable {
                 // Add tickets to the pool up to the max capacity or ticketsPerRelease
                 int ticketsToAdd = Math.min(ticketsPerRelease, ticketPool.getRemainingTickets());
                 for (int i = 0; i < ticketsToAdd; i++) {
-                    String ticket = "Ticket-" + ThreadLocalRandom.current().nextInt(1000, 9999);
+                    String ticket = "Ticket-" + ThreadLocalRandom.current().nextInt(1, 1000);
                     ticketPool.addTicket(ticket); // Add ticket to the pool
                 }
 

@@ -1,65 +1,34 @@
 package lk.ac.iit.Mihin.Server.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data // Generates getters, setters, toString, equals, and hashCode methods
+@NoArgsConstructor // Generates a no-argument constructor
+@AllArgsConstructor
 
 @Entity
 public class Configuration {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Primary key
+    private int id;
 
+    @NotNull
     private int totalTickets;
+
+    @NotNull
     private int ticketReleaseRate;
+
+    @NotNull
     private int customerRetrievalRate;
+
+    @NotNull
     private int maxTicketCapacity;
 
-    public Configuration() {
-    }
 
-    public Configuration(int totalTickets, int ticketReleaseRate, int customerRetrievalRate, int maxTicketCapacity) {
-        this.totalTickets = totalTickets;
-        this.ticketReleaseRate = ticketReleaseRate;
-        this.customerRetrievalRate = customerRetrievalRate;
-        this.maxTicketCapacity = maxTicketCapacity;
-    }
-
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public int getTotalTickets() {
-        return totalTickets;
-    }
-
-    public void setTotalTickets(int totalTickets) {
-        this.totalTickets = totalTickets;
-    }
-
-    public int getTicketReleaseRate() {
-        return ticketReleaseRate;
-    }
-
-    public void setTicketReleaseRate(int ticketReleaseRate) {
-        this.ticketReleaseRate = ticketReleaseRate;
-    }
-
-    public int getCustomerRetrievalRate() {
-        return customerRetrievalRate;
-    }
-
-    public void setCustomerRetrievalRate(int customerRetrievalRate) {
-        this.customerRetrievalRate = customerRetrievalRate;
-    }
-
-    public int getMaxTicketCapacity() {
-        return maxTicketCapacity;
-    }
-
-    public void setMaxTicketCapacity(int maxTicketCapacity) {
-        this.maxTicketCapacity = maxTicketCapacity;
-    }
 }

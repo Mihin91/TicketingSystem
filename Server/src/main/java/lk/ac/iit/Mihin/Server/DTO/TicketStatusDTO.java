@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 @Data // Generates getters, setters, toString, equals, and hashCode methods
 @NoArgsConstructor // Generates a no-argument constructor
 @AllArgsConstructor
-public class TicketDTO {
-    private Long id;
-    private int maxCapacity;
+public class TicketStatusDTO {
     private int currentTickets;
-    private int remainingTickets;
+    private int totalTicketsReleased;
+    private int totalTicketsPurchased;
 
 }

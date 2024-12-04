@@ -1,98 +1,80 @@
 package lk.ac.iit.Mihin.Server.Model;
 
-import jakarta.persistence.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.atomic.AtomicInteger;
+import lk.ac.iit.Mihin.Server.DTO.TicketStatusDTO;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 
-@Entity
-@Table(name = "ticket_pool")
+import java.util.LinkedList;
+import java.util.Queue;
+
+@Component
 public class TicketPool {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Primary key for the entity
-
-    @Column(name = "max_capacity", nullable = false)
     private int maxCapacity;
+    private final Queue<String> tickets;
+    private int totalTicketsReleased = 0;
+    private int totalTicketsPurchased = 0;
 
-    @Transient // Excluded from persistence, as it is managed in-memory
-    private final ConcurrentLinkedQueue<Integer> tickets = new ConcurrentLinkedQueue<>();
+    private final SimpMessagingTemplate messagingTemplate;
 
-    @Transient // Excluded from persistence, as it is managed in-memory
-    private final AtomicInteger currentSize = new AtomicInteger(0);
-
-    // Default constructor required by JPA
-    public TicketPool() {
-        this.maxCapacity = 100; // Default maximum capacity
+    public TicketPool(SimpMessagingTemplate messagingTemplate) {
+        this.tickets = new LinkedList<>();
+        this.messagingTemplate = messagingTemplate;
+        // maxCapacity should be set via a setter before use
     }
 
-    public TicketPool(int maxCapacity) {
-        this.maxCapacity = maxCapacity;
-    }
-
-    // Add a ticket to the pool
-    public boolean addTicket(int ticketId) {
-        if (currentSize.get() < maxCapacity) {
-            boolean added = tickets.offer(ticketId); // Non-blocking, thread-safe addition
-            if (added) {
-                currentSize.incrementAndGet(); // Atomically increase the size
-                System.out.println("[TicketPool] Added ticket: " + ticketId);
-            } else {
-                System.out.println("[TicketPool] Failed to add ticket: " + ticketId);
-            }
-            return added;
+    public synchronized void addTicket(String ticket) throws InterruptedException {
+        while (tickets.size() >= maxCapacity) {
+            System.out.println("[TicketPool] Pool is full. Vendor waiting...");
+            wait();
         }
-        System.out.println("[TicketPool] Cannot add ticket: " + ticketId + ". Pool is at maximum capacity.");
-        return false;
+        tickets.add(ticket);
+        totalTicketsReleased++;
+        System.out.println("[TicketPool] Ticket added: " + ticket + " | Pool size: " + tickets.size());
+        notifyAll();
+        broadcastStatus();
     }
 
-    // Remove a ticket from the pool
-    public Integer removeTicket() {
-        Integer ticketId = tickets.poll(); // Non-blocking, thread-safe removal
-        if (ticketId != null) {
-            currentSize.decrementAndGet(); // Atomically decrease the size
-            System.out.println("[TicketPool] Removed ticket: " + ticketId);
-        } else {
-            System.out.println("[TicketPool] No tickets available to remove.");
+    public synchronized String removeTicket() throws InterruptedException {
+        while (tickets.isEmpty()) {
+            System.out.println("[TicketPool] No tickets available. Customer waiting...");
+            wait();
         }
-        return ticketId;
+        String ticket = tickets.poll();
+        totalTicketsPurchased++;
+        System.out.println("[TicketPool] Ticket purchased: " + ticket + " | Pool size: " + tickets.size());
+        notifyAll();
+        broadcastStatus();
+        return ticket;
     }
 
-    // Check if there are tickets in the pool
-    public boolean hasTickets() {
-        return !tickets.isEmpty();
+    private void broadcastStatus() {
+        TicketStatusDTO statusDTO = new TicketStatusDTO();
+        statusDTO.setCurrentTickets(getCurrentTickets());
+        statusDTO.setTotalTicketsReleased(getTotalTicketsReleased());
+        statusDTO.setTotalTicketsPurchased(getTotalTicketsPurchased());
+        messagingTemplate.convertAndSend("/topic/tickets/status", statusDTO);
     }
 
-    // Check if there's capacity to add more tickets
-    public boolean hasCapacity() {
-        return currentSize.get() < maxCapacity;
+    public synchronized int getCurrentTickets() {
+        return tickets.size();
     }
 
-    // Get the current size of the ticket pool
-    public int getCurrentTickets() {
-        return currentSize.get();
+    public synchronized int getRemainingCapacity() {
+        return maxCapacity - tickets.size();
     }
 
-    // Get the remaining tickets
-    public int getRemainingTickets() {
-        return maxCapacity - currentSize.get();
+    public synchronized int getTotalTicketsReleased() {
+        return totalTicketsReleased;
     }
 
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
+    public synchronized int getTotalTicketsPurchased() {
+        return totalTicketsPurchased;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public int getMaxCapacity() {
-        return maxCapacity;
-    }
-
+    // Setter for maxCapacity
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
+
+    // Existing methods...
 }

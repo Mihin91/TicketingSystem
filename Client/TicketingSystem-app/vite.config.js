@@ -1,7 +1,35 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-})
+  resolve: {
+    alias: {
+      global: 'global',
+    },
+  },
+  optimizeDeps: {
+    esbuildOptions: {
+      define: {
+        global: 'globalThis', // Fixes 'global' is not defined
+      },
+      plugins: [
+        NodeGlobalsPolyfillPlugin({
+          process: true,
+          buffer: true,
+        }),
+      ],
+    },
+  },
+  server: {
+    proxy: {
+      '/ws': {
+        target: 'http://localhost:8080', // Backend server
+        changeOrigin: true,
+        ws: true,
+      },
+    },
+  },
+});
