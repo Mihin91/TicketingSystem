@@ -1,10 +1,10 @@
+// src/main/java/lk/ac/iit/Mihin/Server/Services/ConfigurationService.java
 package lk.ac.iit.Mihin.Server.Services;
 
 import lk.ac.iit.Mihin.Server.Model.Configuration;
 import lk.ac.iit.Mihin.Server.Repositories.ConfigurationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 @Service
 public class ConfigurationService {
@@ -23,6 +23,9 @@ public class ConfigurationService {
         return configurationRepository.findById(id).orElse(null);
     }
 
-    // Additional methods for configurations
-}
+    public Configuration getLatestConfiguration() {
+        return configurationRepository.findTopByOrderByIdDesc();
+    }
 
+
+}

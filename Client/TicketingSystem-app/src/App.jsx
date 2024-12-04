@@ -8,10 +8,11 @@ import ControlPanel from './components/ControlPanel';
 import TicketStatus from './components/TicketStatus';
 import LogDisplay from './components/LogDisplay';
 import ConfigurationDisplay from './components/ConfigurationDisplay';
+import ApiClient from './ApiClient';
 
 function App() {
   const [client, setClient] = useState(null);
-  const [status, setStatus] = useState({ currentTickets: 0 });
+  const [status, setStatus] = useState({ currentTickets: 0, totalTicketsReleased: 0, totalTicketsPurchased: 0 });
   const [logs, setLogs] = useState([]);
   const [config, setConfig] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
@@ -32,8 +33,8 @@ function App() {
       console.log('Connected to WebSocket');
       setIsLoading(false); // Connection established
 
-      // Subscribe to status updates
-      stompClient.subscribe('/topic/status', (message) => {
+      // Subscribe to ticket status updates
+      stompClient.subscribe('/topic/tickets/status', (message) => {
         const statusUpdate = JSON.parse(message.body);
         setStatus(statusUpdate);
       });
@@ -69,60 +70,78 @@ function App() {
     };
   }, []);
 
-  const handleStart = (configData) => {
-    if (client && client.active) {
-      client.publish({
-        destination: '/app/start',
-        body: JSON.stringify(configData),
-      });
-      console.log('Simulation started with config:', configData);
-      setConfig(configData);
-      setIsRunning(true);
-      setError(null); // Clear any existing errors
-    } else {
-      setError('WebSocket is not connected.');
+  /**
+   * Handles saving the configuration by calling the backend API.
+   *
+   * @param {Object} configData - Configuration data from the form.
+   */
+  const handleSaveConfiguration = async (configData) => {
+    try {
+      const savedConfig = await ApiClient.saveConfiguration(configData);
+      setConfig(savedConfig);
+      setError(null);
+      // Optionally, show success message
+    } catch (error) {
+      setError(error.message);
     }
   };
 
-  const handleStop = () => {
-    if (client && client.active) {
-      client.publish({ destination: '/app/stop' });
-      console.log('Simulation stopped.');
+  /**
+   * Handles starting the simulation by calling the backend API.
+   */
+  const handleStart = async () => {
+    try {
+      await ApiClient.startSystem();
+      setIsRunning(true);
+      setError(null);
+      // Optionally, fetch latest status or logs
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+
+  /**
+   * Handles stopping the simulation by calling the backend API.
+   */
+  const handleStop = async () => {
+    try {
+      await ApiClient.stopSystem();
       setIsRunning(false);
-      setError(null); // Clear any existing errors
-    } else {
-      setError('WebSocket is not connected.');
+      setError(null);
+      // Optionally, reset status or logs
+    } catch (error) {
+      setError(error.message);
     }
   };
 
   if (isLoading) {
     return (
-      <div style={styles.loadingContainer}>
-        <p>Connecting to the simulation server...</p>
-      </div>
+        <div style={styles.loadingContainer}>
+          <p>Connecting to the simulation server...</p>
+        </div>
     );
   }
 
   return (
-    <div style={styles.container}>
-      <h1>Ticket Simulation Dashboard</h1>
-      {error && (
-        <div style={styles.errorContainer}>
-          <p>{error}</p>
-        </div>
-      )}
-      <div style={styles.grid}>
-        <div style={styles.column}>
-          <ConfigurationForm onStart={handleStart} isRunning={isRunning} />
-          <ConfigurationDisplay config={config} />
-          <ControlPanel onStart={handleStart} onStop={handleStop} isRunning={isRunning} config={config} />
-        </div>
-        <div style={styles.column}>
-          <TicketStatus status={status} />
-          <LogDisplay logs={logs} />
+      <div style={styles.container}>
+        <h1>Ticket Simulation Dashboard</h1>
+        {error && (
+            <div style={styles.errorContainer}>
+              <p>{error}</p>
+            </div>
+        )}
+        <div style={styles.grid}>
+          <div style={styles.column}>
+            <ConfigurationForm onSave={handleSaveConfiguration} />
+            <ConfigurationDisplay config={config} />
+            <ControlPanel onStart={handleStart} onStop={handleStop} isRunning={isRunning} config={config} />
+          </div>
+          <div style={styles.column}>
+            <TicketStatus status={status} />
+            <LogDisplay logs={logs} />
+          </div>
         </div>
       </div>
-    </div>
   );
 }
 

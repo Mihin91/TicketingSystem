@@ -1,4 +1,4 @@
-
+// src/main/java/lk/ac/iit/Mihin/Server/Config/WebSocketConfig.java
 package lk.ac.iit.Mihin.Server.Config;
 
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
-                .setAllowedOrigins("http://localhost:5173") // Frontend URL
+                .setAllowedOrigins("http://localhost:5176") // Frontend URL
                 .withSockJS();
     }
 

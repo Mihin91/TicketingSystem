@@ -33,17 +33,16 @@ public class SecurityConfig {
     }
 
     /**
-     * Security configuration for WebSocket endpoints.
+     * Security configuration for WebSocket endpoints and REST API.
      */
     @Bean
     @Order(2) // This filter chain is evaluated after the H2 Console filter chain
     public SecurityFilterChain appSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/ws/**") // Apply this security filter to WebSocket endpoints
                 .cors(Customizer.withDefaults()) // Enable CORS with default settings
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for WebSocket endpoints
+                .csrf(csrf -> csrf.disable()) // Disable CSRF for WebSocket endpoints and APIs
                 .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().permitAll() // Permit all requests to WebSocket endpoints
+                        .anyRequest().permitAll() // Permit all requests (adjust as needed for production)
                 )
                 .headers(headers -> headers
                         .frameOptions(frameOptions -> frameOptions.sameOrigin()) // Allow frames from same origin

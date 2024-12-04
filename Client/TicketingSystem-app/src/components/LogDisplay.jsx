@@ -2,31 +2,54 @@
 import React, { useEffect, useRef } from 'react';
 
 function LogDisplay({ logs }) {
+  const logContainerRef = useRef(null);
   const logEndRef = useRef(null);
+  const shouldScrollRef = useRef(true);
 
   useEffect(() => {
-    // Scroll to the bottom when a new log is added
-    if (logEndRef.current) {
+    const logContainer = logContainerRef.current;
+
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } = logContainer;
+      // Determine if the user is near the bottom (e.g., within 100px)
+      const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
+      shouldScrollRef.current = isNearBottom;
+    };
+
+    if (logContainer) {
+      logContainer.addEventListener('scroll', handleScroll);
+    }
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      if (logContainer) {
+        logContainer.removeEventListener('scroll', handleScroll);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (shouldScrollRef.current && logEndRef.current) {
       logEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   }, [logs]);
 
   return (
-    <div style={styles.container}>
-      <h2>Logs</h2>
-      <div style={styles.logContainer}>
-        {logs.length === 0 ? (
-          <p>No logs available.</p>
-        ) : (
-          <ul style={styles.logList}>
-            {logs.map((log, index) => (
-              <li key={index} style={styles.logItem}>{log}</li>
-            ))}
-            <div ref={logEndRef} />
-          </ul>
-        )}
+      <div style={styles.container}>
+        <h2>Logs</h2>
+        <div style={styles.logContainer} ref={logContainerRef}>
+          {logs.length === 0 ? (
+              <p>No logs available.</p>
+          ) : (
+              <ul style={styles.logList}>
+                {logs.map((log, index) => (
+                    <li key={index} style={styles.logItem}>{log}</li>
+                ))}
+                <div ref={logEndRef} />
+              </ul>
+          )}
+        </div>
       </div>
-    </div>
   );
 }
 

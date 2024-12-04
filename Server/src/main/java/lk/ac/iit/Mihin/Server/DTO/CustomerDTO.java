@@ -1,15 +1,27 @@
+// src/main/java/lk/ac/iit/Mihin/Server/DTO/CustomerDTO.java
 package lk.ac.iit.Mihin.Server.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data // Generates getters, setters, toString, equals, and hashCode methods
-@NoArgsConstructor // Generates a no-argument constructor
-@AllArgsConstructor
 public class CustomerDTO {
     private int customerId;
-    private int ticketCount;
-    private int retrievalInterval; // Assuming you need this field
+    private int retrievalInterval;
 
+    public CustomerDTO() {
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public int getRetrievalInterval() {
+        return retrievalInterval;
+    }
+
+    public void setRetrievalInterval(int retrievalInterval) {
+        this.retrievalInterval = retrievalInterval;
+    }
 }

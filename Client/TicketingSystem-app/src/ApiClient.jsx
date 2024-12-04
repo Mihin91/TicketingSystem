@@ -1,44 +1,71 @@
+// src/ApiClient.jsx
 class ApiClient {
+    /**
+     * Saves the configuration to the backend.
+     *
+     * @param {Object} config - Configuration data.
+     * @returns {Promise<Object>} - The saved configuration.
+     */
+    static async saveConfiguration(config) {
+        try {
+            const response = await fetch("http://localhost:8080/api/configurations/save", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(config),
+            });
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Failed to save configuration:", errorText);
+                throw new Error(errorText || "Failed to save configuration");
+            }
+            return response.json();
+        } catch (error) {
+            console.error("Error in saveConfiguration:", error);
+            throw error;
+        }
+    }
+
+    /**
+     * Starts the simulation by calling the backend endpoint.
+     *
+     * @returns {Promise<Object>} - The response from the backend.
+     */
     static async startSystem() {
-      try {
-        const response = await fetch("http://localhost:8080/api/system/start", { method: "POST" });
-        if (!response.ok) {
-          throw new Error("Failed to start system");
+        try {
+            const response = await fetch("http://localhost:8080/api/system/start", { method: "POST" });
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Failed to start system:", errorText);
+                throw new Error(errorText || "Failed to start system");
+            }
+            return response.json();
+        } catch (error) {
+            console.error("Error in startSystem:", error);
+            throw error;
         }
-        return response.json();
-      } catch (error) {
-        throw error;
-      }
     }
-  
+
+    /**
+     * Stops the simulation by calling the backend endpoint.
+     *
+     * @returns {Promise<Object>} - The response from the backend.
+     */
     static async stopSystem() {
-      try {
-        const response = await fetch("http://localhost:8080/api/system/stop", { method: "POST" });
-        if (!response.ok) {
-          throw new Error("Failed to stop system");
+        try {
+            const response = await fetch("http://localhost:8080/api/system/stop", { method: "POST" });
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error("Failed to stop system:", errorText);
+                throw new Error(errorText || "Failed to stop system");
+            }
+            return response.json();
+        } catch (error) {
+            console.error("Error in stopSystem:", error);
+            throw error;
         }
-        return response.json();
-      } catch (error) {
-        throw error;
-      }
     }
-  
-    static async updateTicket(ticket) {
-      try {
-        const response = await fetch("http://localhost:8080/api/system/updateTicket", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(ticket),
-        });
-        if (!response.ok) {
-          throw new Error("Failed to update ticket");
-        }
-        return response.json();
-      } catch (error) {
-        throw error;
-      }
-    }
-  }
-  
-  export default ApiClient;
-  
+
+    // ... other methods if any
+}
+
+export default ApiClient;

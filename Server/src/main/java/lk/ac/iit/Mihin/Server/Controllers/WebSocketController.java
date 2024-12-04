@@ -1,6 +1,7 @@
 package lk.ac.iit.Mihin.Server.Controllers;
 
-import lk.ac.iit.Mihin.Server.Model.Tickets;
+
+import lk.ac.iit.Mihin.Server.Model.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;

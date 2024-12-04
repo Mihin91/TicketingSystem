@@ -1,5 +1,5 @@
+// src/main/java/lk/ac/iit/Mihin/Server/Repositories/CustomerRepository.java
 package lk.ac.iit.Mihin.Server.Repositories;
-
 
 import lk.ac.iit.Mihin.Server.Model.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;

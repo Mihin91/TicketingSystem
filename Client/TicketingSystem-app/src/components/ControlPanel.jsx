@@ -4,32 +4,32 @@ import React from 'react';
 function ControlPanel({ onStart, onStop, isRunning, config }) {
   const handleStart = () => {
     if (config) {
-      onStart(config);
+      onStart();
     } else {
       alert('Please save a configuration before starting the simulation.');
     }
   };
 
   return (
-    <div style={styles.container}>
-      <h2>Control Panel</h2>
-      <div style={styles.buttonGroup}>
-        <button
-          onClick={handleStart}
-          style={{ ...styles.startButton }}
-          disabled={isRunning || !config}
-        >
-          Start 
-        </button>
-        <button
-          onClick={onStop}
-          style={{ ...styles.stopButton }}
-          disabled={!isRunning}
-        >
-          Stop 
-        </button>
+      <div style={styles.container}>
+        <h2>Control Panel</h2>
+        <div style={styles.buttonGroup}>
+          <button
+              onClick={handleStart}
+              style={{ ...styles.startButton }}
+              disabled={isRunning || !config}
+          >
+            Start
+          </button>
+          <button
+              onClick={onStop}
+              style={{ ...styles.stopButton }}
+              disabled={!isRunning}
+          >
+            Stop
+          </button>
+        </div>
       </div>
-    </div>
   );
 }
 

@@ -3,10 +3,12 @@ import React from 'react';
 
 function TicketStatus({ status }) {
   return (
-    <div style={styles.container}>
-      <h2>Ticket Status</h2>
-      <p><strong>Current Tickets:</strong> {status.currentTickets}</p>
-    </div>
+      <div style={styles.container}>
+        <h2>Ticket Status</h2>
+        <p><strong>Current Tickets:</strong> {status.currentTickets}</p>
+        <p><strong>Total Tickets Released:</strong> {status.totalTicketsReleased}</p>
+        <p><strong>Total Tickets Purchased:</strong> {status.totalTicketsPurchased}</p>
+      </div>
   );
 }
 
