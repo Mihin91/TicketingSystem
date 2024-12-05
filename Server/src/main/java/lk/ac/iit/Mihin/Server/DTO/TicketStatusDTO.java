@@ -1,8 +1,6 @@
 // src/main/java/lk/ac/iit/Mihin/Server/DTO/TicketStatusDTO.java
 package lk.ac.iit.Mihin.Server.DTO;
 
-
-
 public class TicketStatusDTO {
     private int currentTickets;
     private int totalTicketsReleased;
@@ -11,6 +9,13 @@ public class TicketStatusDTO {
     public TicketStatusDTO() {
     }
 
+    public int getCurrentTickets() {
+        return currentTickets;
+    }
+
+    public void setCurrentTickets(int currentTickets) {
+        this.currentTickets = currentTickets;
+    }
 
     public int getTotalTicketsReleased() {
         return totalTicketsReleased;
@@ -20,15 +25,11 @@ public class TicketStatusDTO {
         this.totalTicketsReleased = totalTicketsReleased;
     }
 
+    public int getTotalTicketsPurchased() {
+        return totalTicketsPurchased;
+    }
+
     public void setTotalTicketsPurchased(int totalTicketsPurchased) {
         this.totalTicketsPurchased = totalTicketsPurchased;
-    }
-
-    public int getCurrentTickets() {
-        return currentTickets;
-    }
-
-    public void setCurrentTickets(int currentTickets) {
-        this.currentTickets = currentTickets;
     }
 }

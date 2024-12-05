@@ -9,40 +9,37 @@ import jakarta.validation.constraints.NotNull;
 @Entity
 public class Configuration {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Integer id;
 
-    @NotNull(message = "Total Tickets is required.")
-    @Min(value = 1, message = "Total Tickets must be at least 1.")
-    private int totalTickets;
+        @NotNull(message = "Total Tickets is required.")
+        @Min(value = 1, message = "Total Tickets must be at least 1.")
+        private int totalTickets;
 
-    @NotNull(message = "Ticket Release Rate is required.")
-    @Min(value = 1, message = "Ticket Release Rate must be at least 1 ms.")
-    private int ticketReleaseRate;
+        @NotNull(message = "Ticket Release Rate is required.")
+        @Min(value = 1, message = "Ticket Release Rate must be at least 1 ms.")
+        private int ticketReleaseRate;
 
-    @NotNull(message = "Customer Retrieval Rate is required.")
-    @Min(value = 1, message = "Customer Retrieval Rate must be at least 1 ms.")
-    private int customerRetrievalRate;
+        @NotNull(message = "Customer Retrieval Rate is required.")
+        @Min(value = 1, message = "Customer Retrieval Rate must be at least 1 ms.")
+        private int customerRetrievalRate;
 
-    @NotNull(message = "Max Ticket Capacity is required.")
-    @Min(value = 1, message = "Max Ticket Capacity must be at least 1.")
-    private int maxTicketCapacity;
+        @NotNull(message = "Max Ticket Capacity is required.")
+        @Min(value = 1, message = "Max Ticket Capacity must be at least 1.")
+        private int maxTicketCapacity;
 
-    @NotNull(message = "Number of Vendors is required.")
-    @Min(value = 1, message = "Number of Vendors must be at least 1.")
-    private int numberOfVendors;
+        @NotNull(message = "Number of Vendors is required.")
+        @Min(value = 1, message = "Number of Vendors must be at least 1.")
+        private int numberOfVendors;
 
-    @NotNull(message = "Number of Customers is required.")
-    @Min(value = 1, message = "Number of Customers must be at least 1.")
-    private int numberOfCustomers;
+        @NotNull(message = "Number of Customers is required.")
+        @Min(value = 1, message = "Number of Customers must be at least 1.")
+        private int numberOfCustomers;
 
-    @NotNull(message = "Release Interval is required.")
-    @Min(value = 1, message = "Release Interval must be at least 1 ms.")
-    private int releaseInterval;
+        public Configuration() {
+        }
 
-    public Configuration() {
-    }
 
     public Integer getId() {
         return id;
@@ -50,16 +47,6 @@ public class Configuration {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    @NotNull(message = "Release Interval is required.")
-    @Min(value = 1, message = "Release Interval must be at least 1 ms.")
-    public int getReleaseInterval() {
-        return releaseInterval;
-    }
-
-    public void setReleaseInterval(@NotNull(message = "Release Interval is required.") @Min(value = 1, message = "Release Interval must be at least 1 ms.") int releaseInterval) {
-        this.releaseInterval = releaseInterval;
     }
 
     @NotNull(message = "Number of Customers is required.")

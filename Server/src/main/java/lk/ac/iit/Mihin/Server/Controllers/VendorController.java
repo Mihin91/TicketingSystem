@@ -23,11 +23,9 @@ public class VendorController {
     public ResponseEntity<?> startVendor(@RequestBody VendorDTO vendorDTO) {
         vendorService.startVendor(
                 vendorDTO.getVendorId(),
-                vendorDTO.getTicketsPerRelease(),
-                vendorDTO.getReleaseInterval()
+                vendorDTO.getTicketReleaseRate()
         );
         return ResponseEntity.ok("Vendor started");
     }
 
-    // Additional endpoints for vendors
 }

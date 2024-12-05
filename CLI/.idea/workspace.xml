@@ -14,15 +14,8 @@
       <change beforePath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/TicketingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/TicketingSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/Vendor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/lk/ac/iit/Mihin/CLI/Vendor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ticketing_system.json" beforeDir="false" afterPath="$PROJECT_DIR$/ticketing_system.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/TicketingSystem-app/src/ApiClient.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/TicketingSystem-app/src/ApiClient.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/TicketingSystem-app/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/TicketingSystem-app/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Client/TicketingSystem-app/src/components/LogDisplay.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/TicketingSystem-app/src/components/LogDisplay.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Config/CorsConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Config/WebSocketConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/SystemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/SystemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/WebSocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/WebSocketController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Runnables/VendorRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Runnables/VendorRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Services/TicketPoolService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/src/main/java/lk/ac/iit/Mihin/Server/Services/TicketPoolService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +141,8 @@
       <workItem from="1733334185337" duration="4461000" />
       <workItem from="1733373837720" duration="723000" />
       <workItem from="1733376255770" duration="1000" />
-      <workItem from="1733377794428" duration="299000" />
+      <workItem from="1733377794428" duration="439000" />
+      <workItem from="1733410221166" duration="99000" />
     </task>
     <servers />
   </component>

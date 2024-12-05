@@ -28,19 +28,15 @@ public class VendorService {
      * Starts a vendor thread.
      *
      * @param vendorId          ID of the vendor.
-     * @param ticketsPerRelease Number of tickets released per interval.
-     * @param releaseInterval   Interval between releases in milliseconds.
+     * @param ticketReleaseRate Interval between releases in milliseconds.
      */
-    public void startVendor(int vendorId, int ticketsPerRelease, int releaseInterval) {
+    public void startVendor(int vendorId, int ticketReleaseRate) {
         Vendor vendor = new Vendor();
         vendor.setVendorId(vendorId);
-        vendor.setTicketsPerRelease(ticketsPerRelease);
-        vendor.setReleaseInterval(releaseInterval);
-        // Save vendor to repository
+        vendor.setTicketReleaseRate(ticketReleaseRate);
         vendorRepository.save(vendor);
 
-        // Instantiate the runnable manually
-        VendorRunnable vendorRunnable = new VendorRunnable(vendorId, ticketsPerRelease, releaseInterval, ticketPoolService, logService);
+        VendorRunnable vendorRunnable = new VendorRunnable(vendorId, ticketReleaseRate, ticketPoolService, logService);
         Thread vendorThread = new Thread(vendorRunnable, "Vendor-" + vendorId);
         vendorThreads.put(vendorId, vendorThread);
         vendorThread.start();
@@ -72,6 +68,4 @@ public class VendorService {
             logService.addLog("[System] Vendor-" + vendorId + " stopped.");
         }
     }
-
-    // Additional methods for managing vendors if needed
 }

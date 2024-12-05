@@ -1,7 +1,7 @@
 package lk.ac.iit.Mihin.CLI;
 
 public class Customer extends Participant {
-    private final int retrievalInterval; // Interval between retrieval attempts in milliseconds
+    private final int retrievalInterval; // Interval between retrievals in milliseconds
 
     // Constructor
     public Customer(int id, int retrievalInterval, TicketPool ticketPool) {
@@ -12,13 +12,16 @@ public class Customer extends Participant {
     @Override
     public void run() {
         try {
-            while (true) {
+            while (!Thread.currentThread().isInterrupted()) {
                 String ticket = ticketPool.removeTicket();
                 if (ticket == null) {
-                    System.out.println("[Customer] " + id + " detected no more tickets. Stopping...");
+                    // No more tickets will be available
+                    System.out.println("[Customer] " + id + " no more tickets to purchase. Stopping...");
                     break;
+                } else {
+                    // Print Customer purchase message
+                    System.out.println("[Customer] " + id + " purchased: " + ticket);
                 }
-                System.out.println("[Customer] " + id + " purchased " + ticket);
 
                 // Wait for the specified retrieval interval
                 Thread.sleep(retrievalInterval);
@@ -26,6 +29,10 @@ public class Customer extends Participant {
         } catch (InterruptedException e) {
             System.out.println("[Customer] " + id + " interrupted. Stopping...");
             Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            System.out.println("[Customer] " + id + " encountered an error: " + e.getMessage());
+        } finally {
+            System.out.println("[Customer] " + id + " terminated.");
         }
     }
 }

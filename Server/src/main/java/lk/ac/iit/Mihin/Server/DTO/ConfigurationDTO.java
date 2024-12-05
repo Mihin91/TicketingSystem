@@ -1,12 +1,19 @@
 // src/main/java/lk/ac/iit/Mihin/Server/DTO/ConfigurationDTO.java
 package lk.ac.iit.Mihin.Server.DTO;
 
-
 public class ConfigurationDTO {
+
+    private int totalTickets;
+    private int ticketReleaseRate;
+    private int customerRetrievalRate;
+    private int maxTicketCapacity;
+    private int numberOfVendors;
+    private int numberOfCustomers;
 
     public ConfigurationDTO() {
     }
 
+    // Getters and Setters
     public int getTotalTickets() {
         return totalTickets;
     }
@@ -15,20 +22,20 @@ public class ConfigurationDTO {
         this.totalTickets = totalTickets;
     }
 
-    public int getReleaseInterval() {
-        return releaseInterval;
+    public int getTicketReleaseRate() {
+        return ticketReleaseRate;
     }
 
-    public void setReleaseInterval(int releaseInterval) {
-        this.releaseInterval = releaseInterval;
+    public void setTicketReleaseRate(int ticketReleaseRate) {
+        this.ticketReleaseRate = ticketReleaseRate;
     }
 
-    public int getNumberOfCustomers() {
-        return numberOfCustomers;
+    public int getCustomerRetrievalRate() {
+        return customerRetrievalRate;
     }
 
-    public void setNumberOfCustomers(int numberOfCustomers) {
-        this.numberOfCustomers = numberOfCustomers;
+    public void setCustomerRetrievalRate(int customerRetrievalRate) {
+        this.customerRetrievalRate = customerRetrievalRate;
     }
 
     public int getMaxTicketCapacity() {
@@ -47,27 +54,11 @@ public class ConfigurationDTO {
         this.numberOfVendors = numberOfVendors;
     }
 
-    public int getCustomerRetrievalRate() {
-        return customerRetrievalRate;
+    public int getNumberOfCustomers() {
+        return numberOfCustomers;
     }
 
-    public void setCustomerRetrievalRate(int customerRetrievalRate) {
-        this.customerRetrievalRate = customerRetrievalRate;
+    public void setNumberOfCustomers(int numberOfCustomers) {
+        this.numberOfCustomers = numberOfCustomers;
     }
-
-    public int getTicketReleaseRate() {
-        return ticketReleaseRate;
-    }
-
-    public void setTicketReleaseRate(int ticketReleaseRate) {
-        this.ticketReleaseRate = ticketReleaseRate;
-    }
-
-    private int totalTickets;
-    private int ticketReleaseRate;
-    private int customerRetrievalRate;
-    private int maxTicketCapacity;
-    private int numberOfVendors;
-    private int numberOfCustomers;
-    private int releaseInterval; // Added this field
 }

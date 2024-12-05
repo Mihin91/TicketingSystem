@@ -1,13 +1,11 @@
 // src/main/java/lk/ac/iit/Mihin/Server/Controllers/SystemController.java
 package lk.ac.iit.Mihin.Server.Controllers;
 
+import lk.ac.iit.Mihin.Server.Events.TicketsSoldOutEvent;
 import lk.ac.iit.Mihin.Server.Model.Configuration;
-import lk.ac.iit.Mihin.Server.Services.ConfigurationService;
-import lk.ac.iit.Mihin.Server.Services.CustomerService;
-import lk.ac.iit.Mihin.Server.Services.LogService;
-import lk.ac.iit.Mihin.Server.Services.TicketPoolService;
-import lk.ac.iit.Mihin.Server.Services.VendorService;
+import lk.ac.iit.Mihin.Server.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.event.EventListener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,14 +35,25 @@ public class SystemController {
         this.logService = logService;
     }
 
-    /**
-     * Starts the simulation based on the latest configuration.
-     *
-     * @return JSON response indicating success or failure.
-     */
+    @EventListener
+    public void handleTicketsSoldOutEvent(TicketsSoldOutEvent event) {
+        stopSimulation();
+        logService.addLog("[System] All tickets have been sold. Simulation stopped automatically.");
+    }
+
+    private synchronized void stopSimulation() {
+        try {
+            vendorService.stopAllVendors();
+            customerService.stopAllCustomers();
+            ticketPoolService.resetPool();
+            logService.addLog("Simulation stopped.");
+        } catch (Exception e) {
+            logService.addLog("Error stopping the simulation: " + e.getMessage());
+        }
+    }
+
     @PostMapping("/start")
     public ResponseEntity<?> startSystem() {
-        // Fetch the latest configuration
         Configuration config = configurationService.getLatestConfiguration();
         if (config == null) {
             Map<String, String> response = new HashMap<>();
@@ -52,16 +61,13 @@ public class SystemController {
             return ResponseEntity.badRequest().body(response);
         }
 
-        // Initialize the ticket pool
         ticketPoolService.initializePool(config.getMaxTicketCapacity(), config.getTotalTickets());
 
-        // Start vendor threads
         int numberOfVendors = config.getNumberOfVendors();
         for (int i = 1; i <= numberOfVendors; i++) {
-            vendorService.startVendor(i, config.getTicketReleaseRate(), config.getReleaseInterval());
+            vendorService.startVendor(i, config.getTicketReleaseRate());
         }
 
-        // Start customer threads
         int numberOfCustomers = config.getNumberOfCustomers();
         for (int i = 1; i <= numberOfCustomers; i++) {
             customerService.startCustomer(i, config.getCustomerRetrievalRate());
@@ -74,29 +80,11 @@ public class SystemController {
         return ResponseEntity.ok(response);
     }
 
-    /**
-     * Stops the simulation by interrupting all vendor and customer threads.
-     *
-     * @return JSON response indicating success or failure.
-     */
     @PostMapping("/stop")
     public ResponseEntity<?> stopSystem() {
-        try {
-            // Stop vendor threads
-            vendorService.stopAllVendors();
-
-            // Stop customer threads
-            customerService.stopAllCustomers();
-
-            // Close the ticket pool
-            ticketPoolService.resetPool();
-
-            logService.addLog("Simulation stopped.");
-            return ResponseEntity.ok("Simulation stopped successfully.");
-        } catch (Exception e) {
-            logService.addLog("Error stopping the simulation: " + e.getMessage());
-            return ResponseEntity.status(500).body("Error stopping the simulation: " + e.getMessage());
-        }
+        stopSimulation();
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Simulation stopped successfully.");
+        return ResponseEntity.ok(response);
     }
-
 }

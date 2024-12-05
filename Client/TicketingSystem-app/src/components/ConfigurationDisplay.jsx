@@ -21,7 +21,6 @@ function ConfigurationDisplay({ config }) {
                 <li><strong>Max Ticket Capacity:</strong> {config.maxTicketCapacity}</li>
                 <li><strong>Number of Vendors:</strong> {config.numberOfVendors}</li>
                 <li><strong>Number of Customers:</strong> {config.numberOfCustomers}</li>
-                <li><strong>Release Interval (ms):</strong> {config.releaseInterval}</li>
             </ul>
         </div>
     );

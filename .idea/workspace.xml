@@ -13,16 +13,23 @@
       <change beforePath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/TicketPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/TicketPool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/TicketingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/TicketingSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/Vendor.java" beforeDir="false" afterPath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/Vendor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CLI/ticketing_system.json" beforeDir="false" afterPath="$PROJECT_DIR$/CLI/ticketing_system.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/ApiClient.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/ApiClient.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/LogDisplay.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/LogDisplay.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLI/ticketing_system.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/ConfigurationDisplay.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/ConfigurationDisplay.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/ConfigurationForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/ConfigurationForm.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/TicketStatus.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/TicketStatus.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Config/CorsConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Config/WebSocketConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/SystemController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/SystemController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/WebSocketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/WebSocketController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/VendorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/VendorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/DTO/ConfigurationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/DTO/ConfigurationDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/DTO/TicketStatusDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/DTO/TicketStatusDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/DTO/VendorDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/DTO/VendorDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Model/Configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Model/Configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Model/Vendor.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Model/Vendor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Runnables/CustomerRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Runnables/CustomerRunnable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Runnables/VendorRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Runnables/VendorRunnable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/TicketPoolService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/TicketPoolService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/VendorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/VendorService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +44,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/CLI" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
@@ -53,6 +60,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Application.TicketingSystem.executor": "Run",
     "Maven.Tickets [clean].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
@@ -63,7 +71,7 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "E:/Campus file/2nd Year/OOP-Coursework/Client",
+    "last_opened_file_path": "E:/Campus file/2nd Year/OOP-Coursework/CLI",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -71,14 +79,27 @@
     "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.TicketingSystem">
+    <configuration name="TicketingSystem" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="lk.ac.iit.Mihin.CLI.TicketingSystem" />
+      <module name="Tickets" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="lk.ac.iit.Mihin.CLI.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ServerApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="jbr-17" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -88,6 +109,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TicketingSystem" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
@@ -110,7 +136,11 @@
       <workItem from="1733375830747" duration="129000" />
       <workItem from="1733376037806" duration="723000" />
       <workItem from="1733376800681" duration="291000" />
-      <workItem from="1733377391415" duration="654000" />
+      <workItem from="1733377391415" duration="836000" />
+      <workItem from="1733378282887" duration="2422000" />
+      <workItem from="1733384821196" duration="25000" />
+      <workItem from="1733385005561" duration="25000" />
+      <workItem from="1733403970494" duration="16252000" />
     </task>
     <servers />
   </component>

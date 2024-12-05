@@ -9,7 +9,6 @@ function ConfigurationForm({ onSave }) {
     maxTicketCapacity: '',
     numberOfVendors: '',
     numberOfCustomers: '',
-    releaseInterval: '' // Added this field
   });
 
   const [errors, setErrors] = useState({});
@@ -54,7 +53,6 @@ function ConfigurationForm({ onSave }) {
           maxTicketCapacity: '',
           numberOfVendors: '',
           numberOfCustomers: '',
-          releaseInterval: '' // Reset this field as well
         });
         setSaveSuccess(true);
       } catch (error) {
@@ -165,22 +163,6 @@ function ConfigurationForm({ onSave }) {
               required
           />
           {errors.numberOfCustomers && <span style={styles.error}>{errors.numberOfCustomers}</span>}
-        </div>
-
-        <div style={styles.formGroup}>
-          <label htmlFor="releaseInterval">Release Interval (ms):</label>
-          <input
-              type="number"
-              id="releaseInterval"
-              name="releaseInterval"
-              value={config.releaseInterval}
-              onChange={handleChange}
-              placeholder="Enter release interval in milliseconds"
-              style={styles.input}
-              min="1"
-              required
-          />
-          {errors.releaseInterval && <span style={styles.error}>{errors.releaseInterval}</span>}
         </div>
 
         <button type="submit" style={styles.button} disabled={saving}>

@@ -1,15 +1,17 @@
 package lk.ac.iit.Mihin.CLI;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class TicketingSystem {
     // Define the predefined configuration filename
     private static final String CONFIG_FILENAME = "ticketing_system.json";
-    private static List<Thread> vendorThreads = new ArrayList<>();
-    private static List<Thread> customerThreads = new ArrayList<>();
+    private static final Map<Integer, Vendor> vendors = new HashMap<>();
+    private static final Map<Integer, Customer> customers = new HashMap<>();
+    private static final Map<Integer, Thread> vendorThreads = new HashMap<>();
+    private static final Map<Integer, Thread> customerThreads = new HashMap<>();
     private static TicketPool ticketPool;
     private static Configuration config;
     private static boolean isRunning = false;
@@ -48,11 +50,10 @@ public class TicketingSystem {
         // Initialize TicketPool with maxCapacity and totalTickets
         ticketPool = new TicketPool(config.getMaxTicketCapacity(), config.getTotalTickets());
 
-        // Start the interactive menu loop with integrated monitoring
+        // Start the interactive menu loop
         while (!exit) {
             displayMenu();
             System.out.print("Enter your choice: ");
-            System.out.println();
             String choice = scanner.nextLine().trim().toLowerCase();
 
             switch (choice) {
@@ -92,12 +93,6 @@ public class TicketingSystem {
                     break;
                 default:
                     System.out.println("Invalid choice. Please select a valid option.");
-            }
-
-            if (isRunning && ticketPool.isClosed()
-                    && ticketPool.getTotalTicketsPurchased() >= config.getTotalTickets()) {
-                stopSystem();
-                exit = true;
             }
         }
 
@@ -153,21 +148,23 @@ public class TicketingSystem {
      * Starts the vendor and customer threads based on the current configuration.
      */
     private static void startSystem() {
-        // Create and start Vendor threads based on configuration
+        // Start Vendor threads based on configuration
         for (int i = 1; i <= config.getNumberOfVendors(); i++) {
-            Vendor vendor = new Vendor(i, config.getTicketReleaseRate(), config.getTicketReleaseRate(), ticketPool);
+            Vendor vendor = new Vendor(i, config.getTicketReleaseRate(), ticketPool);
+            vendors.put(i, vendor);
             Thread vendorThread = new Thread(vendor, "Vendor-" + i);
-            vendorThreads.add(vendorThread);
             vendorThread.start();
+            vendorThreads.put(i, vendorThread);
             System.out.println("[System] Vendor-" + i + " started.");
         }
 
-        // Create and start Customer threads based on configuration
+        // Start Customer threads based on configuration
         for (int i = 1; i <= config.getNumberOfCustomers(); i++) {
             Customer customer = new Customer(i, config.getCustomerRetrievalRate(), ticketPool);
+            customers.put(i, customer);
             Thread customerThread = new Thread(customer, "Customer-" + i);
-            customerThreads.add(customerThread);
             customerThread.start();
+            customerThreads.put(i, customerThread);
             System.out.println("[System] Customer-" + i + " started.");
         }
 
@@ -181,32 +178,35 @@ public class TicketingSystem {
         System.out.println("\n[System] Stopping the ticketing system...");
 
         // Interrupt all vendor threads
-        for (Thread vendorThread : vendorThreads) {
+        for (Thread vendorThread : vendorThreads.values()) {
             vendorThread.interrupt();
         }
 
         // Interrupt all customer threads
-        for (Thread customerThread : customerThreads) {
+        for (Thread customerThread : customerThreads.values()) {
             customerThread.interrupt();
         }
 
         // Wait for all threads to finish
         waitForThreadsToFinish();
 
-        // Clear thread lists for potential restart
+        // Clear the vendors, customers, and threads maps
+        vendors.clear();
+        customers.clear();
         vendorThreads.clear();
         customerThreads.clear();
 
         isRunning = false;
 
-        System.out.println("[System] Ticketing System has been successfully shut down and terminated.");
+        System.out.println("[System] Ticketing System has been successfully shut down.");
     }
 
     /**
      * Waits for all vendor and customer threads to finish before proceeding.
      */
     private static void waitForThreadsToFinish() {
-        for (Thread vendorThread : vendorThreads) {
+        // Wait for vendor threads to finish
+        for (Thread vendorThread : vendorThreads.values()) {
             try {
                 vendorThread.join();
                 System.out.println("[System] " + vendorThread.getName() + " has terminated.");
@@ -216,7 +216,8 @@ public class TicketingSystem {
             }
         }
 
-        for (Thread customerThread : customerThreads) {
+        // Wait for customer threads to finish
+        for (Thread customerThread : customerThreads.values()) {
             try {
                 customerThread.join();
                 System.out.println("[System] " + customerThread.getName() + " has terminated.");
@@ -236,6 +237,14 @@ public class TicketingSystem {
         System.out.println("Tickets Released: " + ticketPool.getTotalTicketsReleased());
         System.out.println("Tickets Purchased: " + ticketPool.getTotalTicketsPurchased());
         System.out.println("Tickets Available in Pool: " + ticketPool.getCurrentTickets());
+        System.out.println("Is Pool Closed: " + ticketPool.isClosed());
+
+        // Display tickets released by each vendor
+        System.out.println("\n--- Tickets Released by Each Vendor ---");
+        for (int vendorId : ticketPool.getAllVendorIds()) {
+            int vendorTickets = ticketPool.getVendorTicketsReleased(vendorId);
+            System.out.println("Vendor-" + vendorId + " Tickets Released: " + vendorTickets);
+        }
     }
 
     /**
@@ -247,15 +256,10 @@ public class TicketingSystem {
 
         // Prompt user to confirm reconfiguration
         boolean confirmReconfig = getYesOrNo(scanner,
-                "Are you sure you want to reconfigure the system? This will stop all current operations. (yes/no): ");
+                "Are you sure you want to reconfigure the system? This will reset the ticket pool. (yes/no): ");
         if (!confirmReconfig) {
             System.out.println("Reconfiguration cancelled.");
             return;
-        }
-
-        // Stop the system first if it's running
-        if (isRunning) {
-            stopSystem();
         }
 
         // Prompt for new configuration
@@ -273,11 +277,11 @@ public class TicketingSystem {
             }
         }
 
-        // Reinitialize TicketPool with new configuration
-        ticketPool = new TicketPool(newConfig.getMaxTicketCapacity(), newConfig.getTotalTickets());
-
         // Update the static config variable
         config = newConfig;
+
+        // Reinitialize TicketPool with new configuration
+        ticketPool = new TicketPool(config.getMaxTicketCapacity(), config.getTotalTickets());
 
         System.out.println("System has been reconfigured successfully.");
     }

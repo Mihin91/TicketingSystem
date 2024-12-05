@@ -1,57 +1,59 @@
 package lk.ac.iit.Mihin.CLI;
 
+import java.util.Random;
+
 public class Vendor extends Participant {
-    private final int ticketsPerRelease; // Number of tickets released per interval
     private final int releaseInterval; // Interval between releases in milliseconds
-    private int ticketsReleased = 0; // Tracks tickets released by this vendor
+    private final Random random = new Random();
 
     // Constructor
-    public Vendor(int id, int ticketsPerRelease, int releaseInterval, TicketPool ticketPool) {
+    public Vendor(int id, int releaseInterval, TicketPool ticketPool) {
         super(id, ticketPool); // Initialize common fields
-        this.ticketsPerRelease = ticketsPerRelease;
         this.releaseInterval = releaseInterval;
     }
 
     @Override
     public void run() {
         try {
-            while (true) {
+            while (!Thread.currentThread().isInterrupted()) {
                 synchronized (ticketPool) {
-                    if (ticketPool.isClosed() && ticketPool.getTotalTicketsReleased() >= ticketPool.getTotalTickets()) {
-                        System.out.println("[vendor] " + id + " detected pool closure. Stopping...");
+                    if (ticketPool.isClosed()) {
+                        System.out.println("[Vendor] " + id + " detected pool closure. Stopping...");
                         break;
                     }
                 }
 
-                int ticketsToAdd = Math.min(ticketsPerRelease, ticketPool.getTotalTickets() - ticketPool.getTotalTicketsReleased());
+                // Generate a random number of tickets to release (e.g., between 1 and 3)
+                int ticketsToRelease = random.nextInt(3) + 1; // Random number between 1 and 3
 
-                if (ticketsToAdd > 0) {
-                    for (int i = 0; i < ticketsToAdd; i++) {
-                        String ticket = ticketPool.addTicket();
-                        if (ticket == null) {
-                            System.out.println("[vendor] " + id + " unable to add more tickets. Pool might be closed or full. Stopping...");
-                            return;
+                for (int i = 0; i < ticketsToRelease; i++) {
+                    String ticket = ticketPool.addTicket(id);
+                    if (ticket == null) {
+                        // Pool might be closed or no more tickets to release
+                        synchronized (ticketPool) {
+                            if (ticketPool.isClosed()) {
+                                break;
+                            }
                         }
-                        ticketsReleased++; // Increment the vendor's release count
-
-                        // Print Vendor release message first
-                        System.out.println("[vendor] " + id + " released: " + ticket + " | Total tickets released: " + ticketsReleased);
-
-                        // Then print TicketPool addition message
-                        System.out.println("[TicketPool] Ticket added: " + ticket + " | Pool size: " + ticketPool.getCurrentTickets());
+                        break; // Break the for-loop
+                    } else {
+                        int totalVendorTicketsReleased = ticketPool.getVendorTicketsReleased(id);
+                        // Print Vendor release message
+                        System.out.println("[Vendor] " + id + " released: " + ticket
+                                + " | Total tickets released by vendor: " + totalVendorTicketsReleased);
                     }
-                } else {
-                    System.out.println("[vendor] " + id + " Pool is full. Vendor waiting...");
                 }
 
                 // Wait for the specified release interval
                 Thread.sleep(releaseInterval);
             }
         } catch (InterruptedException e) {
-            System.out.println("[vendor] " + id + " interrupted. Stopping...");
+            System.out.println("[Vendor] " + id + " interrupted. Stopping...");
             Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            System.out.println("[Vendor] " + id + " encountered an error: " + e.getMessage());
         } finally {
-            System.out.println("[vendor] " + id + " terminated.");
+            System.out.println("[Vendor] " + id + " terminated.");
         }
     }
 }

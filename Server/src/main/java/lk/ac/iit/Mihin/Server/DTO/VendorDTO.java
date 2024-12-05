@@ -1,11 +1,9 @@
 // src/main/java/lk/ac/iit/Mihin/Server/DTO/VendorDTO.java
 package lk.ac.iit.Mihin.Server.DTO;
 
-
 public class VendorDTO {
     private int vendorId;
-    private int ticketsPerRelease;
-    private int releaseInterval;
+    private int ticketReleaseRate;
 
     public VendorDTO() {
     }
@@ -18,19 +16,11 @@ public class VendorDTO {
         this.vendorId = vendorId;
     }
 
-    public int getReleaseInterval() {
-        return releaseInterval;
+    public int getTicketReleaseRate() {
+        return ticketReleaseRate;
     }
 
-    public void setReleaseInterval(int releaseInterval) {
-        this.releaseInterval = releaseInterval;
-    }
-
-    public int getTicketsPerRelease() {
-        return ticketsPerRelease;
-    }
-
-    public void setTicketsPerRelease(int ticketsPerRelease) {
-        this.ticketsPerRelease = ticketsPerRelease;
+    public void setTicketReleaseRate(int ticketReleaseRate) {
+        this.ticketReleaseRate = ticketReleaseRate;
     }
 }
