@@ -2,6 +2,7 @@
 package lk.ac.iit.Mihin.Server.Services;
 
 import lk.ac.iit.Mihin.Server.DTO.TicketStatusDTO;
+import lk.ac.iit.Mihin.Server.Events.TicketsSoldOutEvent;
 import lk.ac.iit.Mihin.Server.Model.Ticket;
 import lk.ac.iit.Mihin.Server.Repositories.CustomerRepository;
 import lk.ac.iit.Mihin.Server.Repositories.TicketRepository;
@@ -86,6 +87,7 @@ public class TicketPoolService {
             totalTicketsReleased++;
 
             System.out.println("[TicketPool] Ticket added: " + ticket.getId() + " | Pool size: " + ticketsQueue.size());
+            logService.addLog("[Vendor] " + vendorId + " released: Ticket-" + ticket.getId() + " | Total tickets released: " + totalTicketsReleased + "\nAvailable tickets: " + getCurrentTickets());
             notifyAll();
             broadcastStatus();
             return ticket;
@@ -103,24 +105,30 @@ public class TicketPoolService {
     public synchronized Ticket removeTicket(int customerId) throws InterruptedException {
         while (ticketsQueue.isEmpty()) {
             if (isClosed && totalTicketsPurchased >= totalTickets) {
+                notifyAll();
                 return null;
             }
-            System.out.println("[TicketPool] No tickets available. Customer " + customerId + " waiting...");
             wait();
         }
 
         Ticket ticket = ticketsQueue.poll();
-        ticket.setStatus(Ticket.TicketStatus.PURCHASED);
-        // Associate customer
-        ticket.setCustomer(customerRepository.findById(customerId).orElse(null));
-        ticketRepository.save(ticket);
-        totalTicketsPurchased++;
+        if (ticket != null) {
+            ticket.setStatus(Ticket.TicketStatus.PURCHASED);
+            ticket.setCustomer(customerRepository.findById(customerId).orElse(null));
+            ticketRepository.save(ticket);
+            totalTicketsPurchased++;
 
-        System.out.println("[TicketPool] Ticket purchased: " + ticket.getId() + " | Pool size: " + ticketsQueue.size());
-        notifyAll();
-        broadcastStatus();
+            // Stop the system if all tickets are sold
+            if (totalTicketsPurchased >= totalTickets) {
+                isClosed = true;
+                notifyAll();
+            }
+
+            broadcastStatus();
+        }
         return ticket;
     }
+
 
     /**
      * Broadcasts the current ticket status to subscribers.
@@ -164,7 +172,24 @@ public class TicketPoolService {
         isClosed = false;
         ticketRepository.deleteAll();
         System.out.println("[TicketPool] Pool has been reset.");
+        logService.addLog("[System] Pool has been reset.");
         notifyAll();
         broadcastStatus();
+    }
+
+    // Injecting LogService for logging
+    @Autowired
+    private LogService logService;
+
+    // Injecting Event Publisher to publish TicketsSoldOutEvent
+    @Autowired
+    private org.springframework.context.ApplicationEventPublisher eventPublisher;
+
+    /**
+     * Stops the simulation by publishing a TicketsSoldOutEvent.
+     */
+    private void stopSimulation() {
+        TicketsSoldOutEvent event = new TicketsSoldOutEvent(this);
+        eventPublisher.publishEvent(event);
     }
 }

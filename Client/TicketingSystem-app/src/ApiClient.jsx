@@ -14,9 +14,9 @@ class ApiClient {
                 body: JSON.stringify(config),
             });
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Failed to save configuration:", errorText);
-                throw new Error(errorText || "Failed to save configuration");
+                const errorText = await response.json();
+                console.error("Failed to save configuration:", errorText.message);
+                throw new Error(errorText.message || "Failed to save configuration");
             }
             return response.json();
         } catch (error) {
@@ -34,9 +34,9 @@ class ApiClient {
         try {
             const response = await fetch("http://localhost:8080/api/system/start", { method: "POST" });
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Failed to start system:", errorText);
-                throw new Error(errorText || "Failed to start system");
+                const errorText = await response.json();
+                console.error("Failed to start system:", errorText.message);
+                throw new Error(errorText.message || "Failed to start system");
             }
             return response.json();
         } catch (error) {
@@ -54,9 +54,9 @@ class ApiClient {
         try {
             const response = await fetch("http://localhost:8080/api/system/stop", { method: "POST" });
             if (!response.ok) {
-                const errorText = await response.text();
-                console.error("Failed to stop system:", errorText);
-                throw new Error(errorText || "Failed to stop system");
+                const errorText = await response.json();
+                console.error("Failed to stop system:", errorText.message);
+                throw new Error(errorText.message || "Failed to stop system");
             }
             return response.json();
         } catch (error) {

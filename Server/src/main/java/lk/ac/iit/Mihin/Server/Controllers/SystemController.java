@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/system")
 public class SystemController {
@@ -37,14 +40,16 @@ public class SystemController {
     /**
      * Starts the simulation based on the latest configuration.
      *
-     * @return Response indicating success or failure.
+     * @return JSON response indicating success or failure.
      */
     @PostMapping("/start")
     public ResponseEntity<?> startSystem() {
         // Fetch the latest configuration
         Configuration config = configurationService.getLatestConfiguration();
         if (config == null) {
-            return ResponseEntity.badRequest().body("No configuration found. Please save a configuration first.");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "No configuration found. Please save a configuration first.");
+            return ResponseEntity.badRequest().body(response);
         }
 
         // Initialize the ticket pool
@@ -63,26 +68,35 @@ public class SystemController {
         }
 
         logService.addLog("Simulation started with configuration ID: " + config.getId());
-        return ResponseEntity.ok("Simulation started successfully.");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Simulation started successfully.");
+        return ResponseEntity.ok(response);
     }
 
     /**
      * Stops the simulation by interrupting all vendor and customer threads.
      *
-     * @return Response indicating success or failure.
+     * @return JSON response indicating success or failure.
      */
     @PostMapping("/stop")
     public ResponseEntity<?> stopSystem() {
-        // Stop vendor threads
-        vendorService.stopAllVendors();
+        try {
+            // Stop vendor threads
+            vendorService.stopAllVendors();
 
-        // Stop customer threads
-        customerService.stopAllCustomers();
+            // Stop customer threads
+            customerService.stopAllCustomers();
 
-        // Reset the ticket pool
-        ticketPoolService.resetPool();
+            // Close the ticket pool
+            ticketPoolService.resetPool();
 
-        logService.addLog("Simulation stopped.");
-        return ResponseEntity.ok("Simulation stopped successfully.");
+            logService.addLog("Simulation stopped.");
+            return ResponseEntity.ok("Simulation stopped successfully.");
+        } catch (Exception e) {
+            logService.addLog("Error stopping the simulation: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error stopping the simulation: " + e.getMessage());
+        }
     }
+
 }

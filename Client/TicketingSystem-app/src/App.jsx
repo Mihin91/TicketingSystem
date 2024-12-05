@@ -37,6 +37,12 @@ function App() {
       stompClient.subscribe('/topic/tickets/status', (message) => {
         const statusUpdate = JSON.parse(message.body);
         setStatus(statusUpdate);
+
+        // Stop the simulation if all tickets are sold
+        if (statusUpdate.totalTicketsPurchased >= config.totalTickets) {
+          alert("All tickets have been sold. Stopping the simulation.");
+          handleStop();
+        }
       });
 
       // Subscribe to log messages
@@ -91,10 +97,10 @@ function App() {
    */
   const handleStart = async () => {
     try {
-      await ApiClient.startSystem();
+      const response = await ApiClient.startSystem();
+      console.log(response.message); // Optional: Display success message
       setIsRunning(true);
       setError(null);
-      // Optionally, fetch latest status or logs
     } catch (error) {
       setError(error.message);
     }
@@ -105,10 +111,10 @@ function App() {
    */
   const handleStop = async () => {
     try {
-      await ApiClient.stopSystem();
+      const response = await ApiClient.stopSystem();
+      console.log(response.message); // Optional: Display success message
       setIsRunning(false);
       setError(null);
-      // Optionally, reset status or logs
     } catch (error) {
       setError(error.message);
     }

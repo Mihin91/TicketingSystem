@@ -21,7 +21,6 @@ public class VendorRunnable implements Runnable {
         this.logService = logService;
     }
 
-    @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
             try {
@@ -32,8 +31,12 @@ public class VendorRunnable implements Runnable {
                         System.out.println("[Vendor] " + vendorId + " could not add more tickets. Pool might be full or closed.");
                         break;
                     }
-                    System.out.println("[Vendor] " + vendorId + " released: Ticket-" + ticket.getId() + " | Total tickets released: " + ticketPoolService.getTotalTicketsReleased());
-                    logService.addLog("[Vendor] " + vendorId + " released: Ticket-" + ticket.getId());
+                    System.out.println("[Vendor] " + vendorId + " released: Ticket-" + ticket.getId() +
+                            " | Total tickets released: " + ticketPoolService.getTotalTicketsReleased() +
+                            " | Available tickets: " + ticketPoolService.getCurrentTickets());
+                    logService.addLog("[Vendor] " + vendorId + " released: Ticket-" + ticket.getId() +
+                            " | Total tickets released: " + ticketPoolService.getTotalTicketsReleased() +
+                            " | Available tickets: " + ticketPoolService.getCurrentTickets());
                 }
                 Thread.sleep(releaseInterval);
             } catch (InterruptedException e) {
@@ -44,3 +47,4 @@ public class VendorRunnable implements Runnable {
         }
     }
 }
+

@@ -11,7 +11,6 @@ function LogDisplay({ logs }) {
 
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = logContainer;
-      // Determine if the user is near the bottom (e.g., within 100px)
       const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
       shouldScrollRef.current = isNearBottom;
     };
@@ -20,7 +19,6 @@ function LogDisplay({ logs }) {
       logContainer.addEventListener('scroll', handleScroll);
     }
 
-    // Cleanup the event listener on component unmount
     return () => {
       if (logContainer) {
         logContainer.removeEventListener('scroll', handleScroll);
