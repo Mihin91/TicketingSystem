@@ -3,6 +3,7 @@ package lk.ac.iit.Mihin.Server.DTO;
 
 public class ConfigurationDTO {
 
+    private Integer id; // Added this field
     private int totalTickets;
     private int ticketReleaseRate;
     private int customerRetrievalRate;
@@ -13,7 +14,14 @@ public class ConfigurationDTO {
     public ConfigurationDTO() {
     }
 
-    // Getters and Setters
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public int getTotalTickets() {
         return totalTickets;
     }

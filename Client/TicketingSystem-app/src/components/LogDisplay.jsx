@@ -55,7 +55,7 @@ const styles = {
   container: {
     border: '1px solid #ffc107',
     padding: '15px',
-    borderRadius: '5px',
+    borderRadius: '15px',
     backgroundColor: '#fff8e1',
     marginBottom: '20px'
   },

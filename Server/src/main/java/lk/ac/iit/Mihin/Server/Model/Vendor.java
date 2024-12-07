@@ -1,4 +1,3 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Model/Vendor.java
 package lk.ac.iit.Mihin.Server.Model;
 
 import jakarta.persistence.Entity;
@@ -12,7 +11,7 @@ public class Vendor {
     private Integer vendorId;
 
     @NotNull
-    private int ticketReleaseRate;
+    private int ticketReleaseRate; // Interval between releases in milliseconds
 
     public Vendor() {
     }

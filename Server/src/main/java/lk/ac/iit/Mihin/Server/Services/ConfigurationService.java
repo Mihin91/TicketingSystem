@@ -6,6 +6,8 @@ import lk.ac.iit.Mihin.Server.Repositories.ConfigurationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ConfigurationService {
     private final ConfigurationRepository configurationRepository;
@@ -27,5 +29,15 @@ public class ConfigurationService {
         return configurationRepository.findTopByOrderByIdDesc();
     }
 
+    public List<Configuration> getAllConfigurations() {
+        return configurationRepository.findAll();
+    }
 
+    public boolean deleteConfiguration(int id) {
+        if (configurationRepository.existsById(id)) {
+            configurationRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
 }

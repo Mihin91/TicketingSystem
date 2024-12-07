@@ -1,4 +1,3 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Services/TicketPoolService.java
 package lk.ac.iit.Mihin.Server.Services;
 
 import lk.ac.iit.Mihin.Server.DTO.TicketStatusDTO;
@@ -7,6 +6,7 @@ import lk.ac.iit.Mihin.Server.Model.Customer;
 import lk.ac.iit.Mihin.Server.Model.Ticket;
 import lk.ac.iit.Mihin.Server.Model.Vendor;
 import lk.ac.iit.Mihin.Server.Repositories.CustomerRepository;
+import lk.ac.iit.Mihin.Server.Repositories.TicketRepository;
 import lk.ac.iit.Mihin.Server.Repositories.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -41,6 +41,9 @@ public class TicketPoolService {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private TicketRepository ticketRepository;
+
     public synchronized void initializePool(int maxTicketCapacity, int totalTickets) {
         this.ticketPool = new LinkedBlockingQueue<>(maxTicketCapacity);
         this.maxCapacity = maxTicketCapacity;
@@ -56,10 +59,9 @@ public class TicketPoolService {
             return null;
         }
 
-        // Fetch Vendor entity
+        // Fetch Vendor from DB
         Vendor vendor = vendorRepository.findById(vendorId).orElse(null);
         if (vendor == null) {
-            // Handle error: Vendor not found
             logService.addLog("[Error] Vendor with ID " + vendorId + " not found.");
             return null;
         }
@@ -67,6 +69,9 @@ public class TicketPoolService {
         Ticket ticket = new Ticket();
         ticket.setVendor(vendor);
         ticket.setStatus(Ticket.TicketStatus.AVAILABLE);
+
+        // Save ticket to DB to assign ID
+        ticket = ticketRepository.save(ticket);
 
         try {
             ticketPool.put(ticket);
@@ -89,16 +94,19 @@ public class TicketPoolService {
 
         Ticket ticket = ticketPool.poll();
         if (ticket != null) {
-            // Fetch Customer entity
+            // Fetch Customer from DB
             Customer customer = customerRepository.findById(customerId).orElse(null);
             if (customer == null) {
-                // Handle error: Customer not found
                 logService.addLog("[Error] Customer with ID " + customerId + " not found.");
                 return null;
             }
 
             ticket.setCustomer(customer);
             ticket.setStatus(Ticket.TicketStatus.PURCHASED);
+
+            // Update the ticket in DB
+            ticket = ticketRepository.save(ticket);
+
             totalTicketsPurchased++;
             sendTicketStatus();
 
@@ -151,7 +159,6 @@ public class TicketPoolService {
         totalTicketsReleased = 0;
         totalTicketsPurchased = 0;
         poolClosed = false;
-        System.out.println("[TicketPool] Pool has been reset.");
         logService.addLog("[System] Pool has been reset.");
         sendTicketStatus();
     }

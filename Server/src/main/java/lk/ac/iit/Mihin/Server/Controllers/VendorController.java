@@ -28,4 +28,5 @@ public class VendorController {
         return ResponseEntity.ok("Vendor started");
     }
 
+    // Additional endpoints for vendors if needed
 }

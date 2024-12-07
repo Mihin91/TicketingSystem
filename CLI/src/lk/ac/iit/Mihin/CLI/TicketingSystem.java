@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class TicketingSystem {
     // Define the predefined configuration filename
-    private static final String CONFIG_FILENAME = "ticketing_system.json";
+    private static final String filename = "ticketing_system.json";
     private static final Map<Integer, Vendor> vendors = new HashMap<>();
     private static final Map<Integer, Customer> customers = new HashMap<>();
     private static final Map<Integer, Thread> vendorThreads = new HashMap<>();
@@ -20,34 +20,32 @@ public class TicketingSystem {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Initial Configuration Setup
-        System.out.println("Welcome to the Ticketing System Configuration");
-        boolean loadFromFile = getYesOrNo(scanner,
-                "Do you want to load configuration from the default file (" + CONFIG_FILENAME + ")? (yes/no): ");
+        System.out.println("          -----Welcome to the Ticketing System Configuration-----    ");
+        boolean loadFromFile = value(scanner,
+                "Do you want to load configuration from the default file (" + filename + ")? (yes/no): ");
 
         if (loadFromFile) {
             try {
-                config = Configuration.loadFromFile(CONFIG_FILENAME);
-                System.out.println("Configuration loaded successfully from " + CONFIG_FILENAME + ".");
+                config = Configuration.loadFromFile(filename);
+                System.out.println("Configuration loaded successfully from " + filename + ".");
             } catch (IOException e) {
-                System.out.println("Failed to load configuration from " + CONFIG_FILENAME + ". Please enter manually.");
+                System.out.println("Failed to load configuration from " + filename + ". Please enter manually.");
                 config = Configuration.promptForConfiguration(scanner);
             }
         } else {
             config = Configuration.promptForConfiguration(scanner);
-            boolean saveConfig = getYesOrNo(scanner,
-                    "Do you want to save this configuration to the default file (" + CONFIG_FILENAME + ")? (yes/no): ");
+            boolean saveConfig = value(scanner,
+                    "Do you want to save this configuration to the default file (" + filename + ")? (yes/no): ");
             if (saveConfig) {
                 try {
-                    config.saveToFile(CONFIG_FILENAME);
-                    System.out.println("Configuration saved successfully to " + CONFIG_FILENAME + ".");
+                    config.saveToFile(filename);
+                    System.out.println("Configuration saved successfully to " + filename + ".");
                 } catch (IOException e) {
-                    System.out.println("Failed to save configuration to " + CONFIG_FILENAME + ".");
+                    System.out.println("Failed to save configuration to " + filename + ".");
                 }
             }
         }
 
-        // Initialize TicketPool with maxCapacity and totalTickets
         ticketPool = new TicketPool(config.getMaxTicketCapacity(), config.getTotalTickets());
 
         // Start the interactive menu loop
@@ -98,7 +96,6 @@ public class TicketingSystem {
 
         // Ensure all threads are terminated before exiting
         waitForThreadsToFinish();
-
         scanner.close();
     }
 
@@ -130,16 +127,16 @@ public class TicketingSystem {
      * @param prompt  The prompt message to display
      * @return true if user inputs "yes", false if "no"
      */
-    private static boolean getYesOrNo(Scanner scanner, String prompt) {
+    private static boolean value(Scanner scanner, String prompt) {
         while (true) {
             System.out.print(prompt);
-            String input = scanner.nextLine().trim().toLowerCase();
-            if (input.equals("yes") || input.equals("y")) {
+            String in = scanner.nextLine().trim().toLowerCase();
+            if (in.equals("yes") || in.equals("y")) {
                 return true;
-            } else if (input.equals("no") || input.equals("n")) {
+            } else if (in.equals("no") || in.equals("n")) {
                 return false;
             } else {
-                System.out.println("Invalid input. Please type 'yes' or 'no'.");
+                System.out.println("Invalid input. Please type 'yes'/'y' or 'no'/'n'.");
             }
         }
     }
@@ -255,7 +252,7 @@ public class TicketingSystem {
         System.out.println("Please ensure that no vendors or customers are active before reconfiguring.");
 
         // Prompt user to confirm reconfiguration
-        boolean confirmReconfig = getYesOrNo(scanner,
+        boolean confirmReconfig = value(scanner,
                 "Are you sure you want to reconfigure the system? This will reset the ticket pool. (yes/no): ");
         if (!confirmReconfig) {
             System.out.println("Reconfiguration cancelled.");
@@ -266,21 +263,20 @@ public class TicketingSystem {
         Configuration newConfig = Configuration.promptForConfiguration(scanner);
 
         // Save the new configuration if desired
-        boolean saveConfig = getYesOrNo(scanner,
-                "Do you want to save the new configuration to the default file (" + CONFIG_FILENAME + ")? (yes/no): ");
+        boolean saveConfig = value(scanner,
+                "Do you want to save the new configuration to the default file (" + filename + ")? (yes/no): ");
         if (saveConfig) {
             try {
-                newConfig.saveToFile(CONFIG_FILENAME);
-                System.out.println("Configuration saved successfully to " + CONFIG_FILENAME + ".");
+                newConfig.saveToFile(filename);
+                System.out.println("Configuration saved successfully to " + filename + ".");
             } catch (IOException e) {
-                System.out.println("Failed to save configuration to " + CONFIG_FILENAME + ".");
+                System.out.println("Failed to save configuration to " + filename + ".");
             }
         }
 
         // Update the static config variable
         config = newConfig;
 
-        // Reinitialize TicketPool with new configuration
         ticketPool = new TicketPool(config.getMaxTicketCapacity(), config.getTotalTickets());
 
         System.out.println("System has been reconfigured successfully.");

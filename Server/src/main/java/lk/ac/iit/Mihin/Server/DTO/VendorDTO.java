@@ -1,4 +1,3 @@
-// src/main/java/lk/ac/iit/Mihin/Server/DTO/VendorDTO.java
 package lk.ac.iit.Mihin.Server.DTO;
 
 public class VendorDTO {

@@ -1,11 +1,10 @@
 package lk.ac.iit.Mihin.CLI;
 
 public class Customer extends Participant {
-    private final int retrievalInterval; // Interval between retrievals in milliseconds
+    private final int retrievalInterval;
 
-    // Constructor
     public Customer(int id, int retrievalInterval, TicketPool ticketPool) {
-        super(id, ticketPool); // Initialize common fields
+        super(id, ticketPool);
         this.retrievalInterval = retrievalInterval;
     }
 
@@ -19,11 +18,8 @@ public class Customer extends Participant {
                     System.out.println("[Customer] " + id + " no more tickets to purchase. Stopping...");
                     break;
                 } else {
-                    // Print Customer purchase message
                     System.out.println("[Customer] " + id + " purchased: " + ticket);
                 }
-
-                // Wait for the specified retrieval interval
                 Thread.sleep(retrievalInterval);
             }
         } catch (InterruptedException e) {

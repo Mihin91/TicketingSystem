@@ -1,11 +1,5 @@
 // src/ApiClient.jsx
 class ApiClient {
-    /**
-     * Saves the configuration to the backend.
-     *
-     * @param {Object} config - Configuration data.
-     * @returns {Promise<Object>} - The saved configuration.
-     */
     static async saveConfiguration(config) {
         try {
             const response = await fetch("http://localhost:8080/api/configurations/save", {
@@ -25,11 +19,24 @@ class ApiClient {
         }
     }
 
-    /**
-     * Starts the simulation by calling the backend endpoint.
-     *
-     * @returns {Promise<Object>} - The response from the backend.
-     */
+    static async getAllConfigurations() {
+        const response = await fetch("http://localhost:8080/api/configurations/all");
+        if (!response.ok) {
+            throw new Error("Failed to fetch configurations");
+        }
+        return response.json();
+    }
+
+    static async deleteConfiguration(id) {
+        const response = await fetch(`http://localhost:8080/api/configurations/delete/${id}`, {
+            method: "DELETE"
+        });
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText || "Failed to delete configuration");
+        }
+    }
+
     static async startSystem() {
         try {
             const response = await fetch("http://localhost:8080/api/system/start", { method: "POST" });
@@ -45,11 +52,6 @@ class ApiClient {
         }
     }
 
-    /**
-     * Stops the simulation by calling the backend endpoint.
-     *
-     * @returns {Promise<Object>} - The response from the backend.
-     */
     static async stopSystem() {
         try {
             const response = await fetch("http://localhost:8080/api/system/stop", { method: "POST" });
@@ -64,8 +66,6 @@ class ApiClient {
             throw error;
         }
     }
-
-    // ... other methods if any
 }
 
 export default ApiClient;

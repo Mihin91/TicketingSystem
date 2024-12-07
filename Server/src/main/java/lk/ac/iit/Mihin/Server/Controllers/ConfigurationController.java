@@ -11,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/configurations")
@@ -25,13 +27,6 @@ public class ConfigurationController {
         this.modelMapper = modelMapper;
     }
 
-    /**
-     * Saves a new configuration.
-     *
-     * @param configDTO Configuration data transfer object.
-     * @param result    BindingResult to hold validation errors.
-     * @return The saved configuration or validation errors.
-     */
     @PostMapping("/save")
     public ResponseEntity<?> saveConfiguration(@Valid @RequestBody ConfigurationDTO configDTO, BindingResult result) {
         if (result.hasErrors()) {
@@ -51,11 +46,6 @@ public class ConfigurationController {
         }
     }
 
-    /**
-     * Retrieves the latest configuration.
-     *
-     * @return The latest configuration or a not found message.
-     */
     @GetMapping("/latest")
     public ResponseEntity<?> getLatestConfiguration() {
         Configuration config = configurationService.getLatestConfiguration();
@@ -67,5 +57,21 @@ public class ConfigurationController {
         }
     }
 
-    // Additional endpoints for configurations if needed
+    @GetMapping("/all")
+    public ResponseEntity<List<ConfigurationDTO>> getAllConfigurations() {
+        List<Configuration> configs = configurationService.getAllConfigurations();
+        List<ConfigurationDTO> dtos = configs.stream()
+                .map(c -> modelMapper.map(c, ConfigurationDTO.class))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteConfiguration(@PathVariable int id) {
+        boolean deleted = configurationService.deleteConfiguration(id);
+        if (!deleted) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok("Configuration deleted successfully.");
+    }
 }

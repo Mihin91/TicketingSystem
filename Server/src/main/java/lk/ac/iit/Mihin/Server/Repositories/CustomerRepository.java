@@ -1,4 +1,3 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Repositories/CustomerRepository.java
 package lk.ac.iit.Mihin.Server.Repositories;
 
 import lk.ac.iit.Mihin.Server.Model.Customer;
@@ -7,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
-    // Additional query methods if needed
 }

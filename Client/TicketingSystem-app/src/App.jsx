@@ -1,14 +1,12 @@
-// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import ConfigurationForm from './components/ConfigurationForm';
-import ControlPanel from './components/ControlPanel';
-import TicketStatus from './components/TicketStatus';
-import LogDisplay from './components/LogDisplay';
-import ConfigurationDisplay from './components/ConfigurationDisplay';
 import ApiClient from './ApiClient';
+import Navbar from './components/Navbar';
+import ConfigPage from './pages/ConfigPage';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
   const [client, setClient] = useState(null);
@@ -16,12 +14,12 @@ function App() {
   const [logs, setLogs] = useState([]);
   const [config, setConfig] = useState(null);
   const [isRunning, setIsRunning] = useState(false);
-  const [isLoading, setIsLoading] = useState(true); // State for loading
-  const [error, setError] = useState(null); // State for errors
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Initialize WebSocket connection only once
   useEffect(() => {
     const stompClient = new Client({
-      // Use absolute URL for SockJS
       webSocketFactory: () => new SockJS('http://localhost:8080/ws'),
       reconnectDelay: 5000,
       debug: (str) => {
@@ -31,18 +29,12 @@ function App() {
 
     stompClient.onConnect = () => {
       console.log('Connected to WebSocket');
-      setIsLoading(false); // Connection established
+      setIsLoading(false);
 
       // Subscribe to ticket status updates
       stompClient.subscribe('/topic/tickets/status', (message) => {
         const statusUpdate = JSON.parse(message.body);
         setStatus(statusUpdate);
-
-        // Stop the simulation if all tickets are sold
-        if (statusUpdate.totalTicketsPurchased >= config.totalTickets) {
-          alert("All tickets have been sold. Stopping the simulation.");
-          handleStop();
-        }
       });
 
       // Subscribe to log messages
@@ -54,14 +46,15 @@ function App() {
     };
 
     stompClient.onStompError = (frame) => {
-      console.error('Broker reported error: ' + frame.headers['message']);
-      console.error('Additional details: ' + frame.body);
+      console.error('Broker error: ' + frame.headers['message']);
+      console.error('Details: ' + frame.body);
       setError('An error occurred with the WebSocket connection.');
       setIsLoading(false);
     };
 
     stompClient.onWebSocketClose = () => {
       console.warn('WebSocket connection closed.');
+      // Show a message in the UI when WebSocket is closed
       setError('WebSocket connection closed.');
       setIsLoading(false);
     };
@@ -74,31 +67,30 @@ function App() {
         stompClient.deactivate();
       }
     };
-  }, []);
+  }, []); // No config or isRunning in dependencies
 
-  /**
-   * Handles saving the configuration by calling the backend API.
-   *
-   * @param {Object} configData - Configuration data from the form.
-   */
+  // Use a separate effect to handle stopping the simulation when all tickets are sold
+  useEffect(() => {
+    if (config && isRunning && status.totalTicketsPurchased >= config.totalTickets) {
+      alert("All tickets have been sold. Stopping the simulation.");
+      handleStop();
+    }
+  }, [config, isRunning, status.totalTicketsPurchased]);
+
   const handleSaveConfiguration = async (configData) => {
     try {
       const savedConfig = await ApiClient.saveConfiguration(configData);
       setConfig(savedConfig);
       setError(null);
-      // Optionally, show success message
     } catch (error) {
       setError(error.message);
     }
   };
 
-  /**
-   * Handles starting the simulation by calling the backend API.
-   */
   const handleStart = async () => {
     try {
       const response = await ApiClient.startSystem();
-      console.log(response.message); // Optional: Display success message
+      console.log(response.message);
       setIsRunning(true);
       setError(null);
     } catch (error) {
@@ -106,13 +98,10 @@ function App() {
     }
   };
 
-  /**
-   * Handles stopping the simulation by calling the backend API.
-   */
   const handleStop = async () => {
     try {
       const response = await ApiClient.stopSystem();
-      console.log(response.message); // Optional: Display success message
+      console.log(response.message);
       setIsRunning(false);
       setError(null);
     } catch (error) {
@@ -129,45 +118,55 @@ function App() {
   }
 
   return (
-      <div style={styles.container}>
-        <h1>Ticket Simulation Dashboard</h1>
-        {error && (
-            <div style={styles.errorContainer}>
-              <p>{error}</p>
-            </div>
-        )}
-        <div style={styles.grid}>
-          <div style={styles.column}>
-            <ConfigurationForm onSave={handleSaveConfiguration} />
-            <ConfigurationDisplay config={config} />
-            <ControlPanel onStart={handleStart} onStop={handleStop} isRunning={isRunning} config={config} />
-          </div>
-          <div style={styles.column}>
-            <TicketStatus status={status} />
-            <LogDisplay logs={logs} />
+      <Router>
+        <div className="app">
+          <Navbar />
+          {error && (
+              <div style={styles.errorContainer}>
+                <p>{error}</p>
+              </div>
+          )}
+          <div className="app-container">
+            <Routes>
+              <Route
+                  path="/config"
+                  element={
+                    <ConfigPage
+                        onSave={handleSaveConfiguration}
+                        config={config}
+                    />
+                  }
+              />
+              <Route
+                  path="/dashboard"
+                  element={
+                    <DashboardPage
+                        onStart={handleStart}
+                        onStop={handleStop}
+                        isRunning={isRunning}
+                        config={config}
+                        status={status}
+                        logs={logs}
+                    />
+                  }
+              />
+              <Route
+                  path="*"
+                  element={
+                    <ConfigPage
+                        onSave={handleSaveConfiguration}
+                        config={config}
+                    />
+                  }
+              />
+            </Routes>
           </div>
         </div>
-      </div>
+      </Router>
   );
 }
 
 const styles = {
-  container: {
-    fontFamily: 'Arial, sans-serif',
-    padding: '20px',
-    backgroundColor: '#f4f6f8',
-    minHeight: '100vh'
-  },
-  grid: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '20px',
-    marginTop: '20px'
-  },
-  column: {
-    flex: '1',
-    minWidth: '300px'
-  },
   loadingContainer: {
     display: 'flex',
     justifyContent: 'center',

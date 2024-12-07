@@ -121,18 +121,4 @@ public class TicketPool {
     public synchronized Set<Integer> getAllVendorIds() {
         return new HashSet<>(vendorTicketsReleased.keySet());
     }
-
-    /**
-     * Resets the ticket pool. Used when reconfiguring the system.
-     */
-    public synchronized void resetPool() {
-        tickets.clear();
-        totalTicketsReleased = 0;
-        totalTicketsPurchased = 0;
-        nextTicketId = 1;
-        isClosed = false;
-        vendorTicketsReleased.clear();
-        Logger.log("[TicketPool] Pool has been reset.");
-        notifyAll(); // Notify all waiting threads that the pool has been reset
-    }
 }

@@ -178,9 +178,9 @@ const styles = {
   form: {
     border: '1px solid #ccc',
     padding: '20px',
-    borderRadius: '5px',
+    borderRadius: '15px',
     maxWidth: '500px',
-    margin: '20px auto',
+    margin: '10px auto',
     backgroundColor: '#f9f9f9'
   },
   formGroup: {

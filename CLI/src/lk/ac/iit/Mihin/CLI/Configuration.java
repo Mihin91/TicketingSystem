@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Configuration {
+    // initializing the configuration variables for prompts
     private final int totalTickets;
     private final int ticketReleaseRate;
     private final int customerRetrievalRate;
@@ -63,7 +64,7 @@ public class Configuration {
     }
 
     public static Configuration promptForConfiguration(Scanner scanner) {
-        System.out.println("\n=== Configure Ticketing System ===");
+        System.out.println("      ----Ticketing System-----     ");
         int totalTickets = getPositiveInt(scanner, "Enter total number of tickets: ");
         int ticketReleaseRate = getPositiveInt(scanner, "Enter ticket release rate per vendor (ms): ");
         int customerRetrievalRate = getPositiveInt(scanner, "Enter customer retrieval rate per customer (ms): ");
@@ -91,7 +92,7 @@ public class Configuration {
                 if (value > 0) {
                     return value;
                 } else {
-                    System.out.println("Please enter a positive number greater than zero.");
+                    System.out.println("Value cannot be zero. Please enter greater positive value.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid positive number.");

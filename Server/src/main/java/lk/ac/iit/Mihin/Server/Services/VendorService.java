@@ -1,4 +1,3 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Services/VendorService.java
 package lk.ac.iit.Mihin.Server.Services;
 
 import lk.ac.iit.Mihin.Server.Model.Vendor;
@@ -24,12 +23,6 @@ public class VendorService {
         this.logService = logService;
     }
 
-    /**
-     * Starts a vendor thread.
-     *
-     * @param vendorId          ID of the vendor.
-     * @param ticketReleaseRate Interval between releases in milliseconds.
-     */
     public void startVendor(int vendorId, int ticketReleaseRate) {
         Vendor vendor = new Vendor();
         vendor.setVendorId(vendorId);
@@ -43,9 +36,6 @@ public class VendorService {
         logService.addLog("[System] Vendor-" + vendorId + " started.");
     }
 
-    /**
-     * Stops all vendor threads.
-     */
     public void stopAllVendors() {
         for (Map.Entry<Integer, Thread> entry : vendorThreads.entrySet()) {
             Thread thread = entry.getValue();
@@ -55,11 +45,6 @@ public class VendorService {
         vendorThreads.clear();
     }
 
-    /**
-     * Stops a specific vendor thread.
-     *
-     * @param vendorId ID of the vendor to stop.
-     */
     public void stopVendor(int vendorId) {
         Thread thread = vendorThreads.get(vendorId);
         if (thread != null) {
