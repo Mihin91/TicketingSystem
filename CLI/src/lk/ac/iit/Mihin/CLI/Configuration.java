@@ -63,18 +63,18 @@ public class Configuration {
         }
     }
 
-    public static Configuration promptForConfiguration(Scanner scanner) {
+    public static Configuration promptForConfiguration(Scanner input) {
         System.out.println("      ----Ticketing System-----     ");
-        int totalTickets = getPositiveInt(scanner, "Enter total number of tickets: ");
-        int ticketReleaseRate = getPositiveInt(scanner, "Enter ticket release rate per vendor (ms): ");
-        int customerRetrievalRate = getPositiveInt(scanner, "Enter customer retrieval rate per customer (ms): ");
-        int maxTicketCapacity = getPositiveInt(scanner, "Enter maximum ticket pool capacity: ");
-        int numberOfVendors = getPositiveInt(scanner, "Enter number of vendors: ");
-        int numberOfCustomers = getPositiveInt(scanner, "Enter number of customers: ");
+        int totalTickets = getPositiveInt(input, "Enter total number of tickets: ");
+        int ticketReleaseRate = getPositiveInt(input, "Enter ticket release rate per vendor (ms): ");
+        int customerRetrievalRate = getPositiveInt(input, "Enter customer retrieval rate per customer (ms): ");
+        int maxTicketCapacity = getPositiveInt(input, "Enter maximum ticket pool capacity: ");
+        int numberOfVendors = getPositiveInt(input, "Enter number of vendors: ");
+        int numberOfCustomers = getPositiveInt(input, "Enter number of customers: ");
 
         while (maxTicketCapacity < numberOfVendors || maxTicketCapacity < numberOfCustomers) {
             System.out.println("\nError: Maximum ticket capacity should be at least equal to the number of vendors and customers.");
-            maxTicketCapacity = getPositiveInt(scanner, "Re-enter maximum ticket pool capacity: ");
+            maxTicketCapacity = getPositiveInt(input, "Re-enter maximum ticket pool capacity: ");
         }
 
         return new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate,

@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class TicketingSystem {
-    // Define the predefined configuration filename
     private static final String filename = "ticketing_system.json";
     private static final Map<Integer, Vendor> vendors = new HashMap<>();
     private static final Map<Integer, Customer> customers = new HashMap<>();
@@ -48,7 +47,6 @@ public class TicketingSystem {
 
         ticketPool = new TicketPool(config.getMaxTicketCapacity(), config.getTotalTickets());
 
-        // Start the interactive menu loop
         while (!exit) {
             displayMenu();
             System.out.print("Enter your choice: ");
@@ -248,9 +246,7 @@ public class TicketingSystem {
      * Reconfigures the system by allowing the user to input new configuration parameters.
      */
     private static void reconfigureSystem(Scanner scanner) {
-        System.out.println("\n=== Reconfigure Ticketing System ===");
-        System.out.println("Please ensure that no vendors or customers are active before reconfiguring.");
-
+        System.out.println("\n  ----- Reconfigure Ticketing System -----");
         // Prompt user to confirm reconfiguration
         boolean confirmReconfig = value(scanner,
                 "Are you sure you want to reconfigure the system? This will reset the ticket pool. (yes/no): ");
@@ -277,7 +273,8 @@ public class TicketingSystem {
         // Update the static config variable
         config = newConfig;
 
-        ticketPool = new TicketPool(config.getMaxTicketCapacity(), config.getTotalTickets());
+        // **Reset the TicketPool using the reset method**
+        ticketPool.reset(config.getMaxTicketCapacity(), config.getTotalTickets());
 
         System.out.println("System has been reconfigured successfully.");
     }

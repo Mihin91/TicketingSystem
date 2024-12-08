@@ -1,8 +1,8 @@
 {
-  "totalTickets": 50,
+  "totalTickets": 60,
   "ticketReleaseRate": 1500,
-  "customerRetrievalRate": 2100,
-  "maxTicketCapacity": 9,
+  "customerRetrievalRate": 2000,
+  "maxTicketCapacity": 10,
   "numberOfVendors": 2,
-  "numberOfCustomers": 5
+  "numberOfCustomers": 6
 }
