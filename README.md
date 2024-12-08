@@ -286,7 +286,7 @@ Integration
 
 
  Contact
-Your Name - @Mihin91 - mihintabeywickrama@gmail.com
+Mihin Abeywickrama - @Mihin91 - mihintabeywickrama@gmail.com
 
 Project Link: https://github.com/Mihin91/ticketing-system
 
