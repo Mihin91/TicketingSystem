@@ -86,7 +86,7 @@ General:
   GitHub: Repository hosting and collaboration.
   VS Code / IntelliJ IDEA: Recommended IDEs.
   
-🔍 Project Structure
+Project Structure
   The project is divided into three main components:
 
   CLI
