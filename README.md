@@ -286,9 +286,9 @@ Integration
 
 
  Contact
-Your Name - @yourtwitter - your.email@example.com
+Your Name - @Mihin91 - mihintabeywickrama@gmail.com
 
-Project Link: https://github.com/yourusername/ticketing-system
+Project Link: https://github.com/Mihin91/ticketing-system
 
 
 
