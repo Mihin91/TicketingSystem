@@ -1,4 +1,3 @@
-// src/components/Navbar.jsx
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -10,15 +9,13 @@ function Navbar() {
                 <div style={styles.links}>
                     <NavLink
                         to="/config"
-                        style={styles.link}
-                        activeStyle={styles.activeLink}
+                        style={({ isActive }) => isActive ? { ...styles.link, ...styles.activeLink } : styles.link}
                     >
                         Configuration
                     </NavLink>
                     <NavLink
                         to="/dashboard"
-                        style={styles.link}
-                        activeStyle={styles.activeLink}
+                        style={({ isActive }) => isActive ? { ...styles.link, ...styles.activeLink } : styles.link}
                     >
                         Dashboard
                     </NavLink>

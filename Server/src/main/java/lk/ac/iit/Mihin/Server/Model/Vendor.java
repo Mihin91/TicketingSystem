@@ -1,17 +1,26 @@
+// src/main/java/lk/ac/iit/Mihin/Server/Model/Vendor.java
+
 package lk.ac.iit.Mihin.Server.Model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * Entity representing a Vendor.
+ */
 @Entity
 public class Vendor {
 
     @Id
+    @NotNull(message = "Vendor ID is required.")
+    @Min(value = 1, message = "Vendor ID must be at least 1.")
     private Integer vendorId;
 
-    @NotNull
-    private int ticketReleaseRate; // Interval between releases in milliseconds
+    @NotNull(message = "Ticket Release Rate is required.")
+    @Min(value = 1, message = "Ticket Release Rate must be at least 1 ms.")
+    private Integer ticketReleaseRate;
 
     public Vendor() {
     }
@@ -24,11 +33,11 @@ public class Vendor {
         this.vendorId = vendorId;
     }
 
-    public int getTicketReleaseRate() {
+    public Integer getTicketReleaseRate() {
         return ticketReleaseRate;
     }
 
-    public void setTicketReleaseRate(int ticketReleaseRate) {
+    public void setTicketReleaseRate(Integer ticketReleaseRate) {
         this.ticketReleaseRate = ticketReleaseRate;
     }
 }

@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useState, useEffect } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
@@ -27,9 +28,22 @@ function App() {
       },
     });
 
-    stompClient.onConnect = () => {
+    stompClient.onConnect = async () => {
       console.log('Connected to WebSocket');
       setIsLoading(false);
+
+      // Fetch existing logs from the backend
+      try {
+        const response = await fetch("http://localhost:8080/api/logs");
+        if (response.ok) {
+          const existingLogs = await response.json();
+          setLogs(existingLogs);
+        } else {
+          console.error("Failed to fetch existing logs:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching existing logs:", error);
+      }
 
       // Subscribe to ticket status updates
       stompClient.subscribe('/topic/tickets/status', (message) => {
@@ -54,7 +68,6 @@ function App() {
 
     stompClient.onWebSocketClose = () => {
       console.warn('WebSocket connection closed.');
-      // Show a message in the UI when WebSocket is closed
       setError('WebSocket connection closed.');
       setIsLoading(false);
     };
@@ -67,9 +80,9 @@ function App() {
         stompClient.deactivate();
       }
     };
-  }, []); // No config or isRunning in dependencies
+  }, []); // Empty dependency array ensures this runs once
 
-  // Use a separate effect to handle stopping the simulation when all tickets are sold
+  // Handle stopping the simulation when all tickets are sold
   useEffect(() => {
     if (config && isRunning && status.totalTicketsPurchased >= config.totalTickets) {
       alert("All tickets have been sold. Stopping the simulation.");

@@ -36,3 +36,4 @@ public class LogService {
         return new ArrayList<>(logs);
     }
 }
+

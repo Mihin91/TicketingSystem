@@ -21,7 +21,7 @@ public class TicketingSystem {
 
         System.out.println("          -----Welcome to the Ticketing System Configuration-----    ");
         boolean loadFromFile = value(scanner,
-                "Do you want to load configuration from the default file (" + filename + ")? (yes/no): ");
+                "Do you want to load configuration from (" + filename + ")? (yes/no): ");
 
         if (loadFromFile) {
             try {
@@ -34,7 +34,7 @@ public class TicketingSystem {
         } else {
             config = Configuration.promptForConfiguration(scanner);
             boolean saveConfig = value(scanner,
-                    "Do you want to save this configuration to the default file (" + filename + ")? (yes/no): ");
+                    "Do you want to save this configuration to the (" + filename + ")? (yes/no): ");
             if (saveConfig) {
                 try {
                     config.saveToFile(filename);
@@ -143,7 +143,7 @@ public class TicketingSystem {
      * Starts the vendor and customer threads based on the current configuration.
      */
     private static void startSystem() {
-        // Start Vendor threads based on configuration
+
         for (int i = 1; i <= config.getNumberOfVendors(); i++) {
             Vendor vendor = new Vendor(i, config.getTicketReleaseRate(), ticketPool);
             vendors.put(i, vendor);
@@ -193,7 +193,6 @@ public class TicketingSystem {
 
         isRunning = false;
 
-        System.out.println("[System] Ticketing System has been successfully shut down.");
     }
 
     /**
@@ -204,7 +203,6 @@ public class TicketingSystem {
         for (Thread vendorThread : vendorThreads.values()) {
             try {
                 vendorThread.join();
-                System.out.println("[System] " + vendorThread.getName() + " has terminated.");
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.out.println("Interrupted while waiting for " + vendorThread.getName() + " to terminate.");
@@ -215,7 +213,6 @@ public class TicketingSystem {
         for (Thread customerThread : customerThreads.values()) {
             try {
                 customerThread.join();
-                System.out.println("[System] " + customerThread.getName() + " has terminated.");
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.out.println("Interrupted while waiting for " + customerThread.getName() + " to terminate.");

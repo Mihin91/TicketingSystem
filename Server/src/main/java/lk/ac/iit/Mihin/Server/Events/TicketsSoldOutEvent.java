@@ -1,4 +1,3 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Events/TicketsSoldOutEvent.java
 package lk.ac.iit.Mihin.Server.Events;
 
 import org.springframework.context.ApplicationEvent;

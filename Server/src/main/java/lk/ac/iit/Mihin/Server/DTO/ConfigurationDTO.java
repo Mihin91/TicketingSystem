@@ -3,7 +3,7 @@ package lk.ac.iit.Mihin.Server.DTO;
 
 public class ConfigurationDTO {
 
-    private Integer id; // Added this field
+    private Integer id; 
     private int totalTickets;
     private int ticketReleaseRate;
     private int customerRetrievalRate;

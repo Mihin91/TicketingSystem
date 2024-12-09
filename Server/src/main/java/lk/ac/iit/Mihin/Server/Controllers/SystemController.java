@@ -45,7 +45,8 @@ public class SystemController {
         try {
             vendorService.stopAllVendors();
             customerService.stopAllCustomers();
-            ticketPoolService.resetPool();
+            // Removed the resetPool call to preserve the current status
+            // ticketPoolService.resetPool();
             logService.addLog("Simulation stopped.");
         } catch (Exception e) {
             logService.addLog("Error stopping the simulation: " + e.getMessage());

@@ -1,4 +1,4 @@
-// src/main/java/lk/ac/iit/Mihin/Server/DTO/TicketStatusDTO.java
+
 package lk.ac.iit.Mihin.Server.DTO;
 
 public class TicketStatusDTO {

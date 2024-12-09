@@ -11,7 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,11 +32,11 @@ public class ConfigurationController {
     @PostMapping("/save")
     public ResponseEntity<?> saveConfiguration(@Valid @RequestBody ConfigurationDTO configDTO, BindingResult result) {
         if (result.hasErrors()) {
-            StringBuilder errors = new StringBuilder();
+            Map<String, String> errors = new HashMap<>();
             result.getFieldErrors().forEach(error ->
-                    errors.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ")
+                    errors.put(error.getField(), error.getDefaultMessage())
             );
-            return ResponseEntity.badRequest().body("Validation errors: " + errors.toString());
+            return ResponseEntity.badRequest().body(errors);
         }
         try {
             Configuration config = modelMapper.map(configDTO, Configuration.class);

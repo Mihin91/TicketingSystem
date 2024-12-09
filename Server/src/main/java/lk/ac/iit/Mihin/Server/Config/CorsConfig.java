@@ -1,4 +1,4 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Config/CorsConfig.java
+
 package lk.ac.iit.Mihin.Server.Config;
 
 import org.springframework.context.annotation.Bean;
@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:5173") // Adjust based on your frontend's URL
+                        .allowedOriginPatterns("http://localhost:5173") // Frontend URL
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);

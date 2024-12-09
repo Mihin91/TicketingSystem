@@ -92,7 +92,7 @@ public class Configuration {
                 if (value > 0) {
                     return value;
                 } else {
-                    System.out.println("Value cannot be zero. Please enter greater positive value.");
+                    System.out.println("Value must be greater than zero. Please try again.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Invalid input. Please enter a valid positive number.");

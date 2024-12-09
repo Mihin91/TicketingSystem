@@ -8,9 +8,10 @@ class ApiClient {
                 body: JSON.stringify(config),
             });
             if (!response.ok) {
-                const errorText = await response.json();
-                console.error("Failed to save configuration:", errorText.message);
-                throw new Error(errorText.message || "Failed to save configuration");
+                const errorData = await response.json();
+                console.error("Failed to save configuration:", errorData);
+                // Throw an error object containing status and data
+                throw { status: response.status, data: errorData };
             }
             return response.json();
         } catch (error) {

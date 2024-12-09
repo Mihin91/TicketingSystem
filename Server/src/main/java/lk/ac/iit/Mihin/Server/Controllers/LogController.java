@@ -1,4 +1,3 @@
-
 package lk.ac.iit.Mihin.Server.Controllers;
 
 import lk.ac.iit.Mihin.Server.Services.LogService;
