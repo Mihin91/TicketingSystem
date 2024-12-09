@@ -1,10 +1,7 @@
-Ticketing System Simulation
+# Ticketing System Simulation
 
 Welcome to the Ticketing System Simulation! This project is a comprehensive simulation of a ticketing system, encompassing a Command-Line Interface (CLI), a robust Backend powered by Spring Boot, and a dynamic Frontend built with React.
 Whether you're looking to understand multi-threaded applications, RESTful APIs, or modern frontend development, this project has something for you.
-
-1. Table of Contents
-2. Ticketing System Simulation
 
 Table of Contents
   Features
@@ -61,7 +58,7 @@ Frontend:
   Responsive Design: Accessible on various devices and screen sizes.
   Interactive Components: Configuration forms, status displays, and log viewers.
   
-🛠️ Technologies Used
+Technologies Used
 
 CLI:
   Java 11: High-performance programming language.
@@ -280,7 +277,6 @@ Integration
   Vendor: Represents vendors releasing tickets.
   Customer: Represents customers purchasing tickets.
   Ticket: Represents individual tickets and their statuses.
-
 
 
 
