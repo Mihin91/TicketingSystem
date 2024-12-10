@@ -270,7 +270,6 @@ Frontend Structure
 
 
 git clone https://github.com/yourusername/ticketing-system-simulation.git
-
 cd ticketing-system-simulation
 
 Create a New Branch:
@@ -278,16 +277,11 @@ Create a New Branch:
 
 git checkout -b feature/your-feature-name
 
-Make Your Changes:
-
-
 Commit Changes:
 
 git commit -m "Add your descriptive commit message here"
-Push to Your Fork:
 
 git push origin feature/your-feature-name
-Create a Pull Request:
 
 License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the license terms.
