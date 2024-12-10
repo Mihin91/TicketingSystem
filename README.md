@@ -1,4 +1,4 @@
-Ticketing System Simulation
+# Ticketing System Simulation
 
 Table of Contents
  1. Overview
