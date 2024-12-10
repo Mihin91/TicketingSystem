@@ -270,11 +270,14 @@ Frontend Structure
 
 
 git clone https://github.com/yourusername/ticketing-system-simulation.git
+
 cd ticketing-system-simulation
+
 Create a New Branch:
 
 
 git checkout -b feature/your-feature-name
+
 Make Your Changes:
 
 
@@ -293,6 +296,7 @@ Contact
 For any questions, issues, or contributions, please contact:
 
 Mihin Thenuja Abeywickrama
+
 Email: mihintabeywicmrama55@gmail.com
 LinkedIn: https://www.linkedin.com/in/mihin-abeywickrama-9324372ab/
 GitHub: Mihin91
