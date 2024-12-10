@@ -36,7 +36,7 @@ State Preservation: Maintain the state of ticket counts and logs across simulati
 WebSocket Integration: Utilize WebSockets (STOMP over SockJS) for efficient real-time communication between backend and frontend.
 Security: Configure security settings to protect endpoints, especially the H2 console during development.
 
-#Technologies Used
+Technologies Used
 
 Backend
 
@@ -63,20 +63,20 @@ mvn clean install
 Configure Application Properties:
 
 
-# Server port
+Server port
 server.port=8080
 
-# H2 Console Configuration
+H2 Console Configuration
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
 
-# Database Configuration
+Database Configuration
 spring.datasource.url=jdbc:h2:mem:testdb
 spring.datasource.driverClassName=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=
 
-# JPA Configuration
+JPA Configuration
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
