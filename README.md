@@ -1,6 +1,7 @@
 # Ticketing System Simulation
 
 Table of Contents
+
  1. Overview
  2. Features
  3. Technologies Used
@@ -22,11 +23,11 @@ Table of Contents
  10. Contact
 
 
-Overview
+# Overview
 
 The Ticketing System Simulation is a robust application designed to emulate the process of ticket distribution and purchasing. It leverages a Java Spring Boot backend and a React.js frontend to provide a seamless experience for configuring simulations, monitoring real-time ticket statuses, and managing system logs. The system is capable of handling multiple vendors releasing tickets and multiple customers purchasing them concurrently, ensuring accurate tracking and logging throughout the simulation lifecycle.
 
-Features
+# Features
 
 Configuration Management: Define simulation parameters such as the number of vendors and customers, ticket release rates, retrieval intervals, maximum ticket capacities, and total tickets.
 Real-Time Monitoring: View live updates on ticket statuses, including current tickets available, total tickets released, and total tickets purchased.
@@ -36,7 +37,7 @@ State Preservation: Maintain the state of ticket counts and logs across simulati
 WebSocket Integration: Utilize WebSockets (STOMP over SockJS) for efficient real-time communication between backend and frontend.
 Security: Configure security settings to protect endpoints, especially the H2 console during development.
 
-Technologies Used
+# Technologies Used
 
 Backend
 
@@ -116,7 +117,7 @@ Access the Dashboard:
 
 Open your browser and navigate to http://localhost:3000/dashboard to access the simulation dashboard.
 
-#Usage
+# Usage
 
 Configuration
 
@@ -174,99 +175,99 @@ Ensure that logs are cleared from the frontend.
 Ticket status displays are reset to initial values.
 No ongoing processes are running until the simulation is started again.
 
-#Project Structure
+# Project Structure
 
-CLI Structure
-
-Configuration.java
-Logger.java
-Participant.java
-Vendor.java
-Customer.java
-TicketPool.java
-TicketingSystem.java
-
-
-Backend Structure
-
-
- Config
-  CorsConfig.java
-  ModelMapperConfig.java
-  WebSocketConfig.java
+ CLI Structure
  
- Controllers
-  SystemController.java
-  LogController.java
-  TicketController.java
-  ConfigurationController.java
-  CustomerController.java
-  VendorCOntroller.java
-  WebSocketController.java
-  
- DTO
-  ConfigurationDTO.java
-  TicketStatusDTO.java
-  VendorDTO.java
-  CustomerDTO.java
- 
- Events
-  TicketsSoldOutEvent.java
-  
- Model
   Configuration.java
-  Customer.java
-  Ticket.java
+  Logger.java
+  Participant.java
   Vendor.java
+  Customer.java
+  TicketPool.java
+  TicketingSystem.java
   
- Repositories
-  
-  ConfigurationRepository.java
-  CustomerRepository.java
-  TicketRepository.java
-  VendorRepository.java
-  
- Runnables
- 
-  CustomerRunnable.java
-  VendorRunnable.java
-  
- Security
- 
-  SecurityConfig.java
-  
- Services
- 
-  ConfigurationService.java
-  CustomerService.java
-  LogService.java
-  TicketPoolService.java
-  TicketService.java
-  VendorService.java
-  
- resources
-  application.properties
-  
- pom.xml
- 
 
-Frontend Structure
-
- components
-  
-  ControlPanel.jsx
-  LogDisplay.jsx
-  Navbar.jsx
-  
- pages
+ Backend Structure
  
- ConfigPage.jsx
- DashboardPage.jsx
  
- App.jsx
- ApiClient.js
- index.js
- package.json
+  Config
+   CorsConfig.java
+   ModelMapperConfig.java
+   WebSocketConfig.java
+ 
+  Controllers
+   SystemController.java
+   LogController.java
+   TicketController.java
+   ConfigurationController.java
+   CustomerController.java
+   VendorCOntroller.java
+   WebSocketController.java
+   
+  DTO
+   ConfigurationDTO.java
+   TicketStatusDTO.java
+   VendorDTO.java
+   CustomerDTO.java
+  
+  Events
+   TicketsSoldOutEvent.java
+   
+  Model
+   Configuration.java
+   Customer.java
+   Ticket.java
+   Vendor.java
+   
+  Repositories
+   
+   ConfigurationRepository.java
+   CustomerRepository.java
+   TicketRepository.java
+   VendorRepository.java
+   
+  Runnables
+  
+   CustomerRunnable.java
+   VendorRunnable.java
+   
+  Security
+  
+   SecurityConfig.java
+   
+  Services
+  
+   ConfigurationService.java
+   CustomerService.java
+   LogService.java
+   TicketPoolService.java
+   TicketService.java
+   VendorService.java
+   
+  resources
+   application.properties
+   
+  pom.xml
+ 
+ 
+ Frontend Structure
+ 
+  components
+   
+   ControlPanel.jsx
+   LogDisplay.jsx
+   Navbar.jsx
+   
+  pages
+ 
+  ConfigPage.jsx
+  DashboardPage.jsx
+  
+  App.jsx
+  ApiClient.js
+  index.js
+  package.json
 
 
 git clone https://github.com/yourusername/ticketing-system-simulation.git
