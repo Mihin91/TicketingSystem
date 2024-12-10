@@ -1,4 +1,4 @@
-#Ticketing System Simulation
+Ticketing System Simulation
 
 Table of Contents
  1. Overview
@@ -22,11 +22,11 @@ Table of Contents
  10. Contact
 
 
-#Overview
+Overview
 
 The Ticketing System Simulation is a robust application designed to emulate the process of ticket distribution and purchasing. It leverages a Java Spring Boot backend and a React.js frontend to provide a seamless experience for configuring simulations, monitoring real-time ticket statuses, and managing system logs. The system is capable of handling multiple vendors releasing tickets and multiple customers purchasing them concurrently, ensuring accurate tracking and logging throughout the simulation lifecycle.
 
-#Features
+Features
 
 Configuration Management: Define simulation parameters such as the number of vendors and customers, ticket release rates, retrieval intervals, maximum ticket capacities, and total tickets.
 Real-Time Monitoring: View live updates on ticket statuses, including current tickets available, total tickets released, and total tickets purchased.
