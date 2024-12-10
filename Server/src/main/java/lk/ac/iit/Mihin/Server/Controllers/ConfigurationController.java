@@ -1,4 +1,4 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Controllers/ConfigurationController.java
+
 package lk.ac.iit.Mihin.Server.Controllers;
 
 import lk.ac.iit.Mihin.Server.DTO.ConfigurationDTO;
@@ -11,9 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,14 +30,21 @@ public class ConfigurationController {
     @PostMapping("/save")
     public ResponseEntity<?> saveConfiguration(@Valid @RequestBody ConfigurationDTO configDTO, BindingResult result) {
         if (result.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
+            StringBuilder errors = new StringBuilder();
             result.getFieldErrors().forEach(error ->
-                    errors.put(error.getField(), error.getDefaultMessage())
+                    errors.append(error.getField()).append(": ").append(error.getDefaultMessage()).append("; ")
             );
-            return ResponseEntity.badRequest().body(errors);
+            return ResponseEntity.badRequest().body("Validation errors: " + errors.toString());
         }
+
+        Configuration config = modelMapper.map(configDTO, Configuration.class);
+
+        // Check if maxTicketCapacity is valid
+        if (!config.isValidMaxCapacity()) {
+            return ResponseEntity.badRequest().body("Max Ticket Capacity cannot be less than the number of vendors or customers.");
+        }
+
         try {
-            Configuration config = modelMapper.map(configDTO, Configuration.class);
             Configuration savedConfig = configurationService.saveConfiguration(config);
             ConfigurationDTO savedConfigDTO = modelMapper.map(savedConfig, ConfigurationDTO.class);
             return ResponseEntity.ok(savedConfigDTO);

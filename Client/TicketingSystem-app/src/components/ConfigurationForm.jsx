@@ -12,7 +12,6 @@ function ConfigurationForm({ onSave }) {
   });
 
   const [errors, setErrors] = useState({});
-  const [backendErrors, setBackendErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState(null);
@@ -23,8 +22,7 @@ function ConfigurationForm({ onSave }) {
       ...config,
       [name]: value === '' ? '' : Number(value), // Convert to number if not empty
     });
-    setErrors({ ...errors, [name]: '' }); // Clear frontend error on change
-    setBackendErrors({ ...backendErrors, [name]: '' }); // Clear backend error on change
+    setErrors({ ...errors, [name]: '' }); // Clear error on change
     setSaveSuccess(false);
     setSaveError(null);
   };
@@ -38,6 +36,12 @@ function ConfigurationForm({ onSave }) {
         newErrors[key] = 'Please enter a positive number.';
       }
     });
+
+    // Ensure maxTicketCapacity is not less than number of vendors or customers
+    if (config.maxTicketCapacity < config.numberOfVendors || config.maxTicketCapacity < config.numberOfCustomers) {
+      newErrors.maxTicketCapacity = 'Max Ticket Capacity cannot be less than the number of vendors or customers.';
+    }
+
     return newErrors;
   };
 
@@ -47,8 +51,6 @@ function ConfigurationForm({ onSave }) {
     if (Object.keys(validationErrors).length === 0) {
       try {
         setSaving(true);
-        setBackendErrors({});
-        setSaveError(null);
         await onSave(config);
         setConfig({
           totalTickets: '',
@@ -60,13 +62,7 @@ function ConfigurationForm({ onSave }) {
         });
         setSaveSuccess(true);
       } catch (error) {
-        if (error.data) {
-          // Backend returned validation errors
-          setBackendErrors(error.data);
-        } else {
-          // Other errors
-          setSaveError(error.message || "An unexpected error occurred.");
-        }
+        setSaveError(error.message);
       } finally {
         setSaving(false);
       }
@@ -89,10 +85,10 @@ function ConfigurationForm({ onSave }) {
               onChange={handleChange}
               placeholder="Enter total number of tickets"
               style={styles.input}
-              // Removed min and required
+              min="1"
+              required
           />
           {errors.totalTickets && <span style={styles.error}>{errors.totalTickets}</span>}
-          {backendErrors.totalTickets && <span style={styles.error}>{backendErrors.totalTickets}</span>}
         </div>
 
         <div style={styles.formGroup}>
@@ -105,10 +101,10 @@ function ConfigurationForm({ onSave }) {
               onChange={handleChange}
               placeholder="Enter ticket release rate in milliseconds"
               style={styles.input}
-              // Removed min and required
+              min="1"
+              required
           />
           {errors.ticketReleaseRate && <span style={styles.error}>{errors.ticketReleaseRate}</span>}
-          {backendErrors.ticketReleaseRate && <span style={styles.error}>{backendErrors.ticketReleaseRate}</span>}
         </div>
 
         <div style={styles.formGroup}>
@@ -121,10 +117,10 @@ function ConfigurationForm({ onSave }) {
               onChange={handleChange}
               placeholder="Enter customer retrieval rate in milliseconds"
               style={styles.input}
-              // Removed min and required
+              min="1"
+              required
           />
           {errors.customerRetrievalRate && <span style={styles.error}>{errors.customerRetrievalRate}</span>}
-          {backendErrors.customerRetrievalRate && <span style={styles.error}>{backendErrors.customerRetrievalRate}</span>}
         </div>
 
         <div style={styles.formGroup}>
@@ -137,10 +133,10 @@ function ConfigurationForm({ onSave }) {
               onChange={handleChange}
               placeholder="Enter maximum ticket capacity"
               style={styles.input}
-              // Removed min and required
+              min="1"
+              required
           />
           {errors.maxTicketCapacity && <span style={styles.error}>{errors.maxTicketCapacity}</span>}
-          {backendErrors.maxTicketCapacity && <span style={styles.error}>{backendErrors.maxTicketCapacity}</span>}
         </div>
 
         <div style={styles.formGroup}>
@@ -153,10 +149,10 @@ function ConfigurationForm({ onSave }) {
               onChange={handleChange}
               placeholder="Enter number of vendors"
               style={styles.input}
-              // Removed min and required
+              min="1"
+              required
           />
           {errors.numberOfVendors && <span style={styles.error}>{errors.numberOfVendors}</span>}
-          {backendErrors.numberOfVendors && <span style={styles.error}>{backendErrors.numberOfVendors}</span>}
         </div>
 
         <div style={styles.formGroup}>
@@ -169,10 +165,10 @@ function ConfigurationForm({ onSave }) {
               onChange={handleChange}
               placeholder="Enter number of customers"
               style={styles.input}
-              // Removed min and required
+              min="1"
+              required
           />
           {errors.numberOfCustomers && <span style={styles.error}>{errors.numberOfCustomers}</span>}
-          {backendErrors.numberOfCustomers && <span style={styles.error}>{backendErrors.numberOfCustomers}</span>}
         </div>
 
         <button type="submit" style={styles.button} disabled={saving}>

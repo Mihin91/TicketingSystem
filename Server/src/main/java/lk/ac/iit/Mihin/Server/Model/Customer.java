@@ -1,6 +1,8 @@
+// src/main/java/lk/ac/iit/Mihin/Server/Model/Customer.java
 package lk.ac.iit.Mihin.Server.Model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +13,9 @@ public class Customer {
     @Id
     private Integer customerId;
 
-    @NotNull
-    private int retrievalInterval;
+    @NotNull(message = "Retrieval Interval is required.")
+    @Min(value = 1, message = "Retrieval Interval must be at least 1 ms.")
+    private Integer retrievalInterval;
 
     @OneToMany(mappedBy = "customer")
     private List<Ticket> tickets = new ArrayList<>();
@@ -24,7 +27,7 @@ public class Customer {
         return customerId;
     }
 
-    public int getRetrievalInterval() {
+    public Integer getRetrievalInterval() {
         return retrievalInterval;
     }
 
@@ -32,7 +35,7 @@ public class Customer {
         this.customerId = customerId;
     }
 
-    public void setRetrievalInterval(@NotNull int retrievalInterval) {
+    public void setRetrievalInterval(@NotNull(message = "Retrieval Interval is required.") @Min(value = 1, message = "Retrieval Interval must be at least 1 ms.") Integer retrievalInterval) {
         this.retrievalInterval = retrievalInterval;
     }
 

@@ -52,5 +52,6 @@ public class VendorRunnable implements Runnable {
                 break;
             }
         }
+        logService.addLog("[Vendor] " + vendorId + " terminated.");
     }
 }

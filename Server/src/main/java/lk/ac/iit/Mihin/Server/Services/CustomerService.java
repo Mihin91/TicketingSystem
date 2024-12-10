@@ -31,6 +31,11 @@ public class CustomerService {
      * @param retrievalInterval Interval between retrievals in milliseconds.
      */
     public void startCustomer(int customerId, int retrievalInterval) {
+        if (customerThreads.containsKey(customerId) && customerThreads.get(customerId).isAlive()) {
+            logService.addLog("[System] Customer-" + customerId + " is already running.");
+            return;
+        }
+
         Customer customer = new Customer();
         customer.setCustomerId(customerId);
         customer.setRetrievalInterval(retrievalInterval);
@@ -71,4 +76,15 @@ public class CustomerService {
         }
     }
 
+    /**
+     * Checks if a specific customer is running.
+     *
+     * @param customerId ID of the customer.
+     * @return true if running, false otherwise.
+     */
+    public boolean isCustomerRunning(int customerId) {
+        return customerThreads.containsKey(customerId) && customerThreads.get(customerId).isAlive();
+    }
+
+    // Additional methods for managing customers if needed
 }

@@ -1,21 +1,19 @@
-// src/main/java/lk/ac/iit/Mihin/Server/DTO/CustomerDTO.java
-
 package lk.ac.iit.Mihin.Server.DTO;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 public class CustomerDTO {
+
     @NotNull(message = "Customer ID is required.")
-    @Min(value = 1, message = "Customer ID must be at least 1.")
+    @Min(value = 1, message = "Customer ID must be a at least 1.")
     private Integer customerId;
 
-    @NotNull(message = "Retrieval Interval is required.")
-    @Min(value = 1, message = "Retrieval Interval must be at least 1 ms.")
+    @NotNull(message = "Retrieval interval is required.")
+    @Min(value = 1, message = "Ticket Release Rate must be at least 1 ms.")
     private Integer retrievalInterval;
 
-    public CustomerDTO() {
-    }
+    public CustomerDTO() {}
 
     public Integer getCustomerId() {
         return customerId;

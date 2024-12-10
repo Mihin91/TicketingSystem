@@ -1,7 +1,7 @@
 // src/components/ControlPanel.jsx
 import React from 'react';
 
-function ControlPanel({ onStart, onStop, isRunning, config }) {
+function ControlPanel({ onStart, onStop, isRunning, onReset, config }) {
   const handleStart = () => {
     if (config) {
       onStart();
@@ -16,17 +16,24 @@ function ControlPanel({ onStart, onStop, isRunning, config }) {
         <div style={styles.buttonGroup}>
           <button
               onClick={handleStart}
-              style={{ ...styles.startButton }}
+              style={styles.startButton}
               disabled={isRunning || !config}
           >
             Start
           </button>
           <button
               onClick={onStop}
-              style={{ ...styles.stopButton }}
+              style={styles.stopButton}
               disabled={!isRunning}
           >
             Stop
+          </button>
+          <button
+              onClick={onReset}
+              style={styles.resetButton}
+              disabled={isRunning}
+          >
+            Reset
           </button>
         </div>
       </div>
@@ -35,17 +42,17 @@ function ControlPanel({ onStart, onStop, isRunning, config }) {
 
 const styles = {
   container: {
-    backgroundColor: 'rgba(161,140,209,0.8)', // Semi-transparent purple from the gradient
+    backgroundColor: 'rgba(161,140,209,0.8)',
     padding: '15px',
-    border: '1px solid #8a6dbe', // Complementary deeper purple border
+    border: '1px solid #8a6dbe',
     borderRadius: '15px',
     textAlign: 'center',
     margin: '3px 0px 20px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Optional: Adds a subtle shadow for depth
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
   },
   title: {
     margin: '0 0 10px 0',
-    color: '#fff', // White text for better contrast
+    color: '#fff',
     fontSize: '1.5rem',
     fontWeight: 'bold',
   },
@@ -55,7 +62,7 @@ const styles = {
   },
   startButton: {
     padding: '10px 15px',
-    backgroundColor: '#28a745', // Green for Start
+    backgroundColor: '#28a745',
     color: '#fff',
     border: 'none',
     borderRadius: '15px',
@@ -64,11 +71,11 @@ const styles = {
     marginRight: '10px',
     fontSize: '16px',
     transition: 'background-color 0.3s ease',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', // Optional: Adds a subtle shadow
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
   },
   stopButton: {
     padding: '10px 15px',
-    backgroundColor: '#dc3545', // Red for Stop
+    backgroundColor: '#dc3545',
     color: '#fff',
     border: 'none',
     borderRadius: '15px',
@@ -77,7 +84,20 @@ const styles = {
     marginLeft: '10px',
     fontSize: '16px',
     transition: 'background-color 0.3s ease',
-    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)', // Optional: Adds a subtle shadow
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
+  },
+  resetButton: {
+    padding: '10px 15px',
+    backgroundColor: '#ffc107',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '15px',
+    cursor: 'pointer',
+    flex: '1',
+    marginLeft: '10px',
+    fontSize: '16px',
+    transition: 'background-color 0.3s ease',
+    boxShadow: '0 2px 4px rgba(0, 0, 0, 0.2)',
   },
 };
 

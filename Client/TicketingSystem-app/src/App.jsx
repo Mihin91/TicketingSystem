@@ -55,7 +55,11 @@ function App() {
       stompClient.subscribe('/topic/logs', (message) => {
         const logMessage = message.body;
         console.log('Received log:', logMessage);
-        setLogs((prevLogs) => [...prevLogs, logMessage]);
+        if (logMessage === "LOGS_CLEARED") {
+          setLogs([]);
+        } else {
+          setLogs((prevLogs) => [...prevLogs, logMessage]);
+        }
       });
     };
 
@@ -90,6 +94,11 @@ function App() {
     }
   }, [config, isRunning, status.totalTicketsPurchased]);
 
+  /**
+   * Handles saving a new configuration.
+   *
+   * @param {Object} configData The configuration data to save.
+   */
   const handleSaveConfiguration = async (configData) => {
     try {
       const savedConfig = await ApiClient.saveConfiguration(configData);
@@ -100,6 +109,9 @@ function App() {
     }
   };
 
+  /**
+   * Handles starting the simulation.
+   */
   const handleStart = async () => {
     try {
       const response = await ApiClient.startSystem();
@@ -111,6 +123,9 @@ function App() {
     }
   };
 
+  /**
+   * Handles stopping the simulation.
+   */
   const handleStop = async () => {
     try {
       const response = await ApiClient.stopSystem();
@@ -119,6 +134,27 @@ function App() {
       setError(null);
     } catch (error) {
       setError(error.message);
+    }
+  };
+
+  /**
+   * Handles resetting the simulation.
+   */
+  const handleReset = async () => {
+    try {
+      const response = await fetch('http://localhost:8080/api/system/reset', {
+        method: 'POST',
+      });
+      const data = await response.json();
+      alert(data.message || 'System reset successfully');
+      // Reset logs and ticket status after reset
+      setLogs([]);
+      setStatus({ currentTickets: 0, totalTicketsReleased: 0, totalTicketsPurchased: 0 });
+      setIsRunning(false);
+      setError(null);
+    } catch (error) {
+      console.error('Error resetting system:', error);
+      alert('Failed to reset the system.');
     }
   };
 
@@ -156,6 +192,7 @@ function App() {
                     <DashboardPage
                         onStart={handleStart}
                         onStop={handleStop}
+                        onReset={handleReset}
                         isRunning={isRunning}
                         config={config}
                         status={status}

@@ -35,24 +35,36 @@ public class SystemController {
         this.logService = logService;
     }
 
+    /**
+     * Handles the event when all tickets are sold out.
+     *
+     * @param event The TicketsSoldOutEvent.
+     */
     @EventListener
     public void handleTicketsSoldOutEvent(TicketsSoldOutEvent event) {
         stopSimulation();
         logService.addLog("[System] All tickets have been sold. Simulation stopped automatically.");
     }
 
+    /**
+     * Stops the simulation by interrupting all vendor and customer threads.
+     */
     private synchronized void stopSimulation() {
         try {
             vendorService.stopAllVendors();
             customerService.stopAllCustomers();
-            // Removed the resetPool call to preserve the current status
-            // ticketPoolService.resetPool();
+            // Do not reset the ticket pool here to preserve the current status
             logService.addLog("Simulation stopped.");
         } catch (Exception e) {
             logService.addLog("Error stopping the simulation: " + e.getMessage());
         }
     }
 
+    /**
+     * Starts the simulation by initializing the ticket pool and starting all vendors and customers.
+     *
+     * @return Response indicating the result of the start operation.
+     */
     @PostMapping("/start")
     public ResponseEntity<?> startSystem() {
         Configuration config = configurationService.getLatestConfiguration();
@@ -62,16 +74,24 @@ public class SystemController {
             return ResponseEntity.badRequest().body(response);
         }
 
-        ticketPoolService.initializePool(config.getMaxTicketCapacity(), config.getTotalTickets());
+        if (!ticketPoolService.isInitialized()) {
+            ticketPoolService.initializePool(config.getMaxTicketCapacity(), config.getTotalTickets());
+        } else {
+            logService.addLog("[System] Ticket pool already initialized. Continuing simulation.");
+        }
 
         int numberOfVendors = config.getNumberOfVendors();
         for (int i = 1; i <= numberOfVendors; i++) {
-            vendorService.startVendor(i, config.getTicketReleaseRate());
+            if (!vendorService.isVendorRunning(i)) { // Check if vendor is already running
+                vendorService.startVendor(i, config.getTicketReleaseRate());
+            }
         }
 
         int numberOfCustomers = config.getNumberOfCustomers();
         for (int i = 1; i <= numberOfCustomers; i++) {
-            customerService.startCustomer(i, config.getCustomerRetrievalRate());
+            if (!customerService.isCustomerRunning(i)) { // Check if customer is already running
+                customerService.startCustomer(i, config.getCustomerRetrievalRate());
+            }
         }
 
         logService.addLog("Simulation started with configuration ID: " + config.getId());
@@ -81,11 +101,43 @@ public class SystemController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Stops the simulation by interrupting all vendor and customer threads.
+     *
+     * @return Response indicating the result of the stop operation.
+     */
     @PostMapping("/stop")
     public ResponseEntity<?> stopSystem() {
-        stopSimulation();
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Simulation stopped successfully.");
-        return ResponseEntity.ok(response);
+        vendorService.stopAllVendors();
+        customerService.stopAllCustomers();
+        return ResponseEntity.ok(Map.of("message", "System stopped"));
+    }
+
+    /**
+     * Resets the simulation by clearing the ticket pool and logs, and stopping all threads.
+     *
+     * @return Response indicating the result of the reset operation.
+     */
+    @PostMapping("/reset")
+    public ResponseEntity<?> resetSystem() {
+        try {
+            // Reset ticket pool and stop all vendors and customers
+            ticketPoolService.resetPool();
+            vendorService.stopAllVendors();
+            customerService.stopAllCustomers();
+
+            // Clear logs and broadcast to frontend
+            logService.clearLogs();
+
+            // Log the reset action
+            logService.addLog("[System] System reset successfully.");
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "System reset successfully.");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logService.addLog("[Error] System reset failed: " + e.getMessage());
+            return ResponseEntity.status(500).body("Error resetting the system: " + e.getMessage());
+        }
     }
 }

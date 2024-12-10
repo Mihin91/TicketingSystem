@@ -1,3 +1,4 @@
+// src/main/java/lk/ac/iit/Mihin/Server/Services/TicketPoolService.java
 package lk.ac.iit.Mihin.Server.Services;
 
 import lk.ac.iit.Mihin.Server.DTO.TicketStatusDTO;
@@ -44,7 +45,17 @@ public class TicketPoolService {
     @Autowired
     private TicketRepository ticketRepository;
 
+    /**
+     * Initializes the ticket pool if it hasn't been initialized yet.
+     *
+     * @param maxTicketCapacity Maximum capacity of the ticket pool.
+     * @param totalTickets      Total number of tickets to be released.
+     */
     public synchronized void initializePool(int maxTicketCapacity, int totalTickets) {
+        if (this.ticketPool != null) {
+            logService.addLog("[System] Ticket pool is already initialized.");
+            return;
+        }
         this.ticketPool = new LinkedBlockingQueue<>(maxTicketCapacity);
         this.maxCapacity = maxTicketCapacity;
         this.totalTickets = totalTickets;
@@ -52,8 +63,15 @@ public class TicketPoolService {
         this.totalTicketsPurchased = 0;
         this.poolClosed = false;
         logService.addLog("[System] Ticket pool initialized with capacity: " + maxTicketCapacity);
+        sendTicketStatus(); // Notify frontend about the initial status
     }
 
+    /**
+     * Adds a ticket to the pool.
+     *
+     * @param vendorId ID of the vendor releasing the ticket.
+     * @return The added ticket or null if the pool is full or closed.
+     */
     public synchronized Ticket addTicket(int vendorId) {
         if (poolClosed || totalTicketsReleased >= totalTickets) {
             return null;
@@ -87,6 +105,12 @@ public class TicketPoolService {
         }
     }
 
+    /**
+     * Removes a ticket from the pool for a customer.
+     *
+     * @param customerId ID of the customer purchasing the ticket.
+     * @return The purchased ticket or null if the pool is empty.
+     */
     public synchronized Ticket removeTicket(int customerId) {
         if (totalTicketsPurchased >= totalTickets) {
             return null;
@@ -120,6 +144,9 @@ public class TicketPoolService {
         }
     }
 
+    /**
+     * Sends the current ticket status to the frontend via WebSocket.
+     */
     private void sendTicketStatus() {
         TicketStatusDTO statusDTO = new TicketStatusDTO();
         statusDTO.setCurrentTickets(getCurrentTickets());
@@ -150,16 +177,23 @@ public class TicketPoolService {
     }
 
     /**
-     * Resets the ticket pool.
+     * Resets the ticket pool, clearing all counts and the pool itself.
      */
     public synchronized void resetPool() {
-        if (ticketPool != null) {
-            ticketPool.clear();
-        }
-        totalTicketsReleased = 0;
-        totalTicketsPurchased = 0;
-        poolClosed = false;
-        logService.addLog("[System] Pool has been reset.");
-        sendTicketStatus();
+        this.ticketPool.clear();
+        this.totalTicketsReleased = 0;
+        this.totalTicketsPurchased = 0;
+        this.poolClosed = false;
+        logService.addLog("[System] Ticket pool has been reset.");
+        sendTicketStatus(); // Notify frontend about the reset status
+    }
+
+    /**
+     * Checks if the ticket pool has been initialized.
+     *
+     * @return true if initialized, false otherwise.
+     */
+    public synchronized boolean isInitialized() {
+        return this.ticketPool != null;
     }
 }

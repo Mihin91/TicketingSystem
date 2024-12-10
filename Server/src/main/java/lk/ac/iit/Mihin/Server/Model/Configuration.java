@@ -1,4 +1,3 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Model/Configuration.java
 package lk.ac.iit.Mihin.Server.Model;
 
 import jakarta.persistence.*;
@@ -14,32 +13,31 @@ public class Configuration {
 
     @NotNull(message = "Total Tickets is required.")
     @Min(value = 1, message = "Total Tickets must be at least 1.")
-    private Integer totalTickets;
+    private int totalTickets;
 
     @NotNull(message = "Ticket Release Rate is required.")
     @Min(value = 1, message = "Ticket Release Rate must be at least 1 ms.")
-    private Integer ticketReleaseRate;
+    private int ticketReleaseRate;
 
     @NotNull(message = "Customer Retrieval Rate is required.")
     @Min(value = 1, message = "Customer Retrieval Rate must be at least 1 ms.")
-    private Integer customerRetrievalRate;
+    private int customerRetrievalRate;
 
     @NotNull(message = "Max Ticket Capacity is required.")
     @Min(value = 1, message = "Max Ticket Capacity must be at least 1.")
-    private Integer maxTicketCapacity;
+    private int maxTicketCapacity;
 
     @NotNull(message = "Number of Vendors is required.")
     @Min(value = 1, message = "Number of Vendors must be at least 1.")
-    private Integer numberOfVendors;
+    private int numberOfVendors;
 
     @NotNull(message = "Number of Customers is required.")
     @Min(value = 1, message = "Number of Customers must be at least 1.")
-    private Integer numberOfCustomers;
+    private int numberOfCustomers;
 
     public Configuration() {
     }
 
-    // Getters and Setters without annotations
     public Integer getId() {
         return id;
     }
@@ -48,51 +46,56 @@ public class Configuration {
         this.id = id;
     }
 
-    public Integer getTotalTickets() {
+    public int getTotalTickets() {
         return totalTickets;
     }
 
-    public void setTotalTickets(Integer totalTickets) {
+    public void setTotalTickets(int totalTickets) {
         this.totalTickets = totalTickets;
     }
 
-    public Integer getTicketReleaseRate() {
+    public int getTicketReleaseRate() {
         return ticketReleaseRate;
     }
 
-    public void setTicketReleaseRate(Integer ticketReleaseRate) {
+    public void setTicketReleaseRate(int ticketReleaseRate) {
         this.ticketReleaseRate = ticketReleaseRate;
     }
 
-    public Integer getCustomerRetrievalRate() {
+    public int getCustomerRetrievalRate() {
         return customerRetrievalRate;
     }
 
-    public void setCustomerRetrievalRate(Integer customerRetrievalRate) {
+    public void setCustomerRetrievalRate(int customerRetrievalRate) {
         this.customerRetrievalRate = customerRetrievalRate;
     }
 
-    public Integer getMaxTicketCapacity() {
+    public int getMaxTicketCapacity() {
         return maxTicketCapacity;
     }
 
-    public void setMaxTicketCapacity(Integer maxTicketCapacity) {
+    public void setMaxTicketCapacity(int maxTicketCapacity) {
         this.maxTicketCapacity = maxTicketCapacity;
     }
 
-    public Integer getNumberOfVendors() {
+    public int getNumberOfVendors() {
         return numberOfVendors;
     }
 
-    public void setNumberOfVendors(Integer numberOfVendors) {
+    public void setNumberOfVendors(int numberOfVendors) {
         this.numberOfVendors = numberOfVendors;
     }
 
-    public Integer getNumberOfCustomers() {
+    public int getNumberOfCustomers() {
         return numberOfCustomers;
     }
 
-    public void setNumberOfCustomers(Integer numberOfCustomers) {
+    public void setNumberOfCustomers(int numberOfCustomers) {
         this.numberOfCustomers = numberOfCustomers;
+    }
+
+    // Custom validation for maxTicketCapacity
+    public boolean isValidMaxCapacity() {
+        return this.maxTicketCapacity >= this.numberOfVendors && this.maxTicketCapacity >= this.numberOfCustomers;
     }
 }

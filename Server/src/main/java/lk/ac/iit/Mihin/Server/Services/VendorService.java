@@ -1,3 +1,4 @@
+// src/main/java/lk/ac/iit/Mihin/Server/Services/VendorService.java
 package lk.ac.iit.Mihin.Server.Services;
 
 import lk.ac.iit.Mihin.Server.Model.Vendor;
@@ -23,7 +24,18 @@ public class VendorService {
         this.logService = logService;
     }
 
+    /**
+     * Starts a vendor thread.
+     *
+     * @param vendorId          ID of the vendor.
+     * @param ticketReleaseRate Interval between ticket releases in milliseconds.
+     */
     public void startVendor(int vendorId, int ticketReleaseRate) {
+        if (vendorThreads.containsKey(vendorId) && vendorThreads.get(vendorId).isAlive()) {
+            logService.addLog("[System] Vendor-" + vendorId + " is already running.");
+            return;
+        }
+
         Vendor vendor = new Vendor();
         vendor.setVendorId(vendorId);
         vendor.setTicketReleaseRate(ticketReleaseRate);
@@ -36,6 +48,9 @@ public class VendorService {
         logService.addLog("[System] Vendor-" + vendorId + " started.");
     }
 
+    /**
+     * Stops all vendor threads.
+     */
     public void stopAllVendors() {
         for (Map.Entry<Integer, Thread> entry : vendorThreads.entrySet()) {
             Thread thread = entry.getValue();
@@ -45,6 +60,11 @@ public class VendorService {
         vendorThreads.clear();
     }
 
+    /**
+     * Stops a specific vendor thread.
+     *
+     * @param vendorId ID of the vendor to stop.
+     */
     public void stopVendor(int vendorId) {
         Thread thread = vendorThreads.get(vendorId);
         if (thread != null) {
@@ -52,5 +72,15 @@ public class VendorService {
             vendorThreads.remove(vendorId);
             logService.addLog("[System] Vendor-" + vendorId + " stopped.");
         }
+    }
+
+    /**
+     * Checks if a specific vendor is running.
+     *
+     * @param vendorId ID of the vendor.
+     * @return true if running, false otherwise.
+     */
+    public boolean isVendorRunning(int vendorId) {
+        return vendorThreads.containsKey(vendorId) && vendorThreads.get(vendorId).isAlive();
     }
 }

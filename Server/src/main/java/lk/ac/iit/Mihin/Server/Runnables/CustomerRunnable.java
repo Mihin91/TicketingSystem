@@ -1,3 +1,4 @@
+// src/main/java/lk/ac/iit/Mihin/Server/Runnables/CustomerRunnable.java
 package lk.ac.iit.Mihin.Server.Runnables;
 
 import lk.ac.iit.Mihin.Server.Model.Ticket;
@@ -46,5 +47,6 @@ public class CustomerRunnable implements Runnable {
                 break;
             }
         }
+        logService.addLog("[Customer] " + customerId + " terminated.");
     }
 }
