@@ -284,10 +284,10 @@ git commit -m "Add your descriptive commit message here"
 
 git push origin feature/your-feature-name
 
-License
+# License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the license terms.
 
-Contact
+# Contact
 For any questions, issues, or contributions, please contact:
 
 Mihin Thenuja Abeywickrama
