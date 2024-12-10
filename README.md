@@ -1,4 +1,4 @@
-##Ticketing System Simulation
+#Ticketing System Simulation
 
 Table of Contents
  1. Overview
@@ -178,92 +178,113 @@ No ongoing processes are running until the simulation is started again.
 
 CLI Structure
 
+Configuration.java
+Logger.java
+Participant.java
+Vendor.java
+Customer.java
+TicketPool.java
+TicketingSystem.java
 
 
 Backend Structure
 
-backend/
-├── src/
-│   ├── main/
-│   │   ├── java/
-│   │   │   └── lk.ac.iit.Mihin.Server/
-│   │   │       ├── Config/
-│   │   │       │   └── CorsConfig.java
-│   │   │       │   └── ModelMapperConfig.java
-│   │   │       │   └── WebSocketConfig.java
-│   │   │       ├── Controllers/
-│   │   │       │   └── SystemController.java
-│   │   │       ├── DTO/
-│   │   │       │   └── TicketStatusDTO.java
-│   │   │       ├── Events/
-│   │   │       │   └── TicketsSoldOutEvent.java
-│   │   │       ├── Model/
-│   │   │       │   ├── Configuration.java
-│   │   │       │   ├── Customer.java
-│   │   │       │   ├── Ticket.java
-│   │   │       │   └── Vendor.java
-│   │   │       ├── Repositories/
-│   │   │       │   ├── ConfigurationRepository.java
-│   │   │       │   ├── CustomerRepository.java
-│   │   │       │   ├── TicketRepository.java
-│   │   │       │   └── VendorRepository.java
-│   │   │       ├── Runnables/
-│   │   │       │   ├── CustomerRunnable.java
-│   │   │       │   └── VendorRunnable.java
-│   │   │       ├── Security/
-│   │   │       │   └── SecurityConfig.java
-│   │   │       ├── Services/
-│   │   │       │   ├── ConfigurationService.java
-│   │   │       │   ├── CustomerService.java
-│   │   │       │   ├── LogService.java
-│   │   │       │   ├── TicketPoolService.java
-│   │   │       │   ├── TicketService.java
-│   │   │       │   └── VendorService.java
-│   │   └── resources/
-│   │       └── application.properties
-├── pom.xml
+
+ Config
+  CorsConfig.java
+  ModelMapperConfig.java
+  WebSocketConfig.java
+ 
+ Controllers
+  SystemController.java
+  LogController.java
+  TicketController.java
+  ConfigurationController.java
+  CustomerController.java
+  VendorCOntroller.java
+  WebSocketController.java
+  
+ DTO
+  ConfigurationDTO.java
+  TicketStatusDTO.java
+  VendorDTO.java
+  CustomerDTO.java
+ 
+ Events
+  TicketsSoldOutEvent.java
+  
+ Model
+  Configuration.java
+  Customer.java
+  Ticket.java
+  Vendor.java
+  
+ Repositories
+  
+  ConfigurationRepository.java
+  CustomerRepository.java
+  TicketRepository.java
+  VendorRepository.java
+  
+ Runnables
+ 
+  CustomerRunnable.java
+  VendorRunnable.java
+  
+ Security
+ 
+  SecurityConfig.java
+  
+ Services
+ 
+  ConfigurationService.java
+  CustomerService.java
+  LogService.java
+  TicketPoolService.java
+  TicketService.java
+  VendorService.java
+  
+ resources
+  application.properties
+  
+ pom.xml
+ 
 
 Frontend Structure
 
-frontend/
-├── public/
-│   └── index.html
-├── src/
-│   ├── components/
-│   │   ├── ControlPanel.jsx
-│   │   ├── LogDisplay.jsx
-│   │   └── Navbar.jsx
-│   ├── pages/
-│   │   ├── ConfigPage.jsx
-│   │   └── DashboardPage.jsx
-│   ├── App.jsx
-│   ├── ApiClient.js
-│   └── index.js
-├── package.json
+ components
+  
+  ControlPanel.jsx
+  LogDisplay.jsx
+  Navbar.jsx
+  
+ pages
+ 
+ ConfigPage.jsx
+ DashboardPage.jsx
+ 
+ App.jsx
+ ApiClient.js
+ index.js
+ package.json
 
 
-bash
-Copy code
 git clone https://github.com/yourusername/ticketing-system-simulation.git
 cd ticketing-system-simulation
 Create a New Branch:
 
-bash
-Copy code
+
 git checkout -b feature/your-feature-name
 Make Your Changes:
 
-Implement your features or bug fixes.
 
-Commit Your Changes:
+Commit Changes:
 
 git commit -m "Add your descriptive commit message here"
 Push to Your Fork:
 
 git push origin feature/your-feature-name
 Create a Pull Request:
-
-Navigate to your fork on GitHub and click the Compare & pull request button.
 
 License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the license terms.
