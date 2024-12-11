@@ -73,7 +73,7 @@ function ConfigurationForm({ onSave }) {
   };
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -107,119 +107,146 @@ function ConfigurationForm({ onSave }) {
   };
 
   return (
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.formGroup}>
-          <label htmlFor="totalTickets">Total Tickets:</label>
-          <input
-              type="number"
-              id="totalTickets"
-              name="totalTickets"
-              value={formData.totalTickets}
-              onChange={handleChange}
-              style={styles.input}
-          />
-          {errors.totalTickets && <span style={styles.error}>{errors.totalTickets}</span>}
-        </div>
+      <div style={styles.formContainer}>
+        <form onSubmit={handleSubmit} style={styles.form}>
+          <h2 style={styles.formTitle}>Create New Configuration</h2>
+          <div style={styles.formGroup}>
+            <label htmlFor="totalTickets" style={styles.label}>Total Tickets:</label>
+            <input
+                type="number"
+                id="totalTickets"
+                name="totalTickets"
+                value={formData.totalTickets}
+                onChange={handleChange}
+                style={styles.input}
+            />
+            {errors.totalTickets && <span style={styles.error}>{errors.totalTickets}</span>}
+          </div>
 
-        <div style={styles.formGroup}>
-          <label htmlFor="ticketReleaseRate">Ticket Release Rate (ms):</label>
-          <input
-              type="number"
-              id="ticketReleaseRate"
-              name="ticketReleaseRate"
-              value={formData.ticketReleaseRate}
-              onChange={handleChange}
-              style={styles.input}
-          />
-          {errors.ticketReleaseRate && <span style={styles.error}>{errors.ticketReleaseRate}</span>}
-        </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="ticketReleaseRate" style={styles.label}>Ticket Release Rate (ms):</label>
+            <input
+                type="number"
+                id="ticketReleaseRate"
+                name="ticketReleaseRate"
+                value={formData.ticketReleaseRate}
+                onChange={handleChange}
+                style={styles.input}
+            />
+            {errors.ticketReleaseRate && <span style={styles.error}>{errors.ticketReleaseRate}</span>}
+          </div>
 
-        <div style={styles.formGroup}>
-          <label htmlFor="customerRetrievalRate">Customer Retrieval Rate (ms):</label>
-          <input
-              type="number"
-              id="customerRetrievalRate"
-              name="customerRetrievalRate"
-              value={formData.customerRetrievalRate}
-              onChange={handleChange}
-              style={styles.input}
-          />
-          {errors.customerRetrievalRate && <span style={styles.error}>{errors.customerRetrievalRate}</span>}
-        </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="customerRetrievalRate" style={styles.label}>Customer Retrieval Rate (ms):</label>
+            <input
+                type="number"
+                id="customerRetrievalRate"
+                name="customerRetrievalRate"
+                value={formData.customerRetrievalRate}
+                onChange={handleChange}
+                style={styles.input}
+            />
+            {errors.customerRetrievalRate && <span style={styles.error}>{errors.customerRetrievalRate}</span>}
+          </div>
 
-        <div style={styles.formGroup}>
-          <label htmlFor="maxTicketCapacity">Max Ticket Capacity:</label>
-          <input
-              type="number"
-              id="maxTicketCapacity"
-              name="maxTicketCapacity"
-              value={formData.maxTicketCapacity}
-              onChange={handleChange}
-              style={styles.input}
-          />
-          {errors.maxTicketCapacity && <span style={styles.error}>{errors.maxTicketCapacity}</span>}
-        </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="maxTicketCapacity" style={styles.label}>Max Ticket Capacity:</label>
+            <input
+                type="number"
+                id="maxTicketCapacity"
+                name="maxTicketCapacity"
+                value={formData.maxTicketCapacity}
+                onChange={handleChange}
+                style={styles.input}
+            />
+            {errors.maxTicketCapacity && <span style={styles.error}>{errors.maxTicketCapacity}</span>}
+          </div>
 
-        <div style={styles.formGroup}>
-          <label htmlFor="numberOfVendors">Number of Vendors:</label>
-          <input
-              type="number"
-              id="numberOfVendors"
-              name="numberOfVendors"
-              value={formData.numberOfVendors}
-              onChange={handleChange}
-              style={styles.input}
-          />
-          {errors.numberOfVendors && <span style={styles.error}>{errors.numberOfVendors}</span>}
-        </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="numberOfVendors" style={styles.label}>Number of Vendors:</label>
+            <input
+                type="number"
+                id="numberOfVendors"
+                name="numberOfVendors"
+                value={formData.numberOfVendors}
+                onChange={handleChange}
+                style={styles.input}
+            />
+            {errors.numberOfVendors && <span style={styles.error}>{errors.numberOfVendors}</span>}
+          </div>
 
-        <div style={styles.formGroup}>
-          <label htmlFor="numberOfCustomers">Number of Customers:</label>
-          <input
-              type="number"
-              id="numberOfCustomers"
-              name="numberOfCustomers"
-              value={formData.numberOfCustomers}
-              onChange={handleChange}
-              style={styles.input}
-          />
-          {errors.numberOfCustomers && <span style={styles.error}>{errors.numberOfCustomers}</span>}
-        </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="numberOfCustomers" style={styles.label}>Number of Customers:</label>
+            <input
+                type="number"
+                id="numberOfCustomers"
+                name="numberOfCustomers"
+                value={formData.numberOfCustomers}
+                onChange={handleChange}
+                style={styles.input}
+            />
+            {errors.numberOfCustomers && <span style={styles.error}>{errors.numberOfCustomers}</span>}
+          </div>
 
-        <button type="submit" style={styles.submitButton}>Save Configuration</button>
-      </form>
+          <button type="submit" style={styles.submitButton}>Save Configuration</button>
+        </form>
+      </div>
   );
 }
-  const styles = {
-    form: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '10px'
-    },
-    formGroup: {
-      display: 'flex',
-      flexDirection: 'column'
-    },
-    input: {
-      padding: '8px',
-      borderRadius: '4px',
-      border: '1px solid #ccc',
-      fontSize: '14px'
-    },
-    submitButton: {
-      padding: '10px',
-      backgroundColor: '#007bff',
-      color: '#fff',
-      border: 'none',
-      borderRadius: '5px',
-      cursor: 'pointer',
-      fontSize: '16px'
-    },
-    error: {
-      color: 'red',
-      fontSize: '12px',
-      marginTop: '2px'
-    }
-  };
+
+const styles = {
+  formContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '20px'
+  },
+  form: {
+    backgroundColor: '#ffffff',
+    padding: '30px',
+    borderRadius: '10px',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+    width: '100%',
+    maxWidth: '500px',
+    boxSizing: 'border-box'
+  },
+  formTitle: {
+    textAlign: 'center',
+    marginBottom: '20px',
+    color: '#333333'
+  },
+  formGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: '15px'
+  },
+  label: {
+    marginBottom: '5px',
+    color: '#555555',
+    fontSize: '14px'
+  },
+  input: {
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #cccccc',
+    fontSize: '14px'
+  },
+  submitButton: {
+    width: '100%',
+    padding: '12px',
+    backgroundColor: '#28a745',
+    color: '#ffffff',
+    border: 'none',
+    borderRadius: '5px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease'
+  },
+  error: {
+    color: '#dc3545',
+    fontSize: '12px',
+    marginTop: '5px'
+  }
+};
 
 export default ConfigurationForm;

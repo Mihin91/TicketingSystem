@@ -23,6 +23,7 @@ public class Configuration {
         this.numberOfVendors = numberOfVendors;
         this.numberOfCustomers = numberOfCustomers;
     }
+    // applying all getters and setters
 
     public int getTotalTickets() {
         return totalTickets;

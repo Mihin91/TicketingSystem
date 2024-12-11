@@ -101,7 +101,7 @@ public class TicketingSystem {
      * Displays the command menu to the user.
      */
     private static void displayMenu() {
-        System.out.println("\n=== Ticketing System Menu ===");
+        System.out.println("\n---- Ticketing System Menu ----");
         if (!isRunning) {
             System.out.println("1. Start - Start the ticketing system.");
             System.out.println("2. Stop - Stop the ticketing system.");
@@ -231,7 +231,7 @@ public class TicketingSystem {
         System.out.println("Tickets Available in Pool: " + ticketPool.getCurrentTickets());
         System.out.println("Is Pool Closed: " + ticketPool.isClosed());
 
-        // Display tickets released by each vendor
+        // Displays the tickets released by each vendor
         System.out.println("\n--- Tickets Released by Each Vendor ---");
         for (int vendorId : ticketPool.getAllVendorIds()) {
             int vendorTickets = ticketPool.getVendorTicketsReleased(vendorId);
@@ -244,7 +244,7 @@ public class TicketingSystem {
      */
     private static void reconfigureSystem(Scanner scanner) {
         System.out.println("\n  ----- Reconfigure Ticketing System -----");
-        // Prompt user to confirm reconfiguration
+        // Prompts the user to confirm the reconfiguration
         boolean confirmReconfig = value(scanner,
                 "Are you sure you want to reconfigure the system? This will reset the ticket pool. (yes/no): ");
         if (!confirmReconfig) {
@@ -252,10 +252,10 @@ public class TicketingSystem {
             return;
         }
 
-        // Prompt for new configuration
+        // Prompts for new configuration
         Configuration newConfig = Configuration.promptForConfiguration(scanner);
 
-        // Save the new configuration if desired
+        // Saves the new configuration if wanted by user
         boolean saveConfig = value(scanner,
                 "Do you want to save the new configuration to the default file (" + filename + ")? (yes/no): ");
         if (saveConfig) {
@@ -267,10 +267,10 @@ public class TicketingSystem {
             }
         }
 
-        // Update the static config variable
+        // Updates the static config variable
         config = newConfig;
 
-        // **Reset the TicketPool using the reset method**
+        // Resets the TicketPool using the reset method
         ticketPool.reset(config.getMaxTicketCapacity(), config.getTotalTickets());
 
         System.out.println("System has been reconfigured successfully.");

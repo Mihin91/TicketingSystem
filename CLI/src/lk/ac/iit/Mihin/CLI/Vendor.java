@@ -17,7 +17,7 @@ public class Vendor extends Participant {
             while (!Thread.currentThread().isInterrupted()) {
                 synchronized (ticketPool) {
                     if (ticketPool.isClosed()) {
-                        System.out.println("[Vendor] " + id + " detected pool closure. Stopping...");
+                        System.out.println("[Vendor] " + id + " detected pool is closed. Stopping...");
                         break;
                     }
                 }

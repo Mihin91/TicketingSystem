@@ -2,7 +2,6 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  /* Attractive soft gradient from pink to purple */
   background: linear-gradient(to right, #fbc2eb, #a18cd1);
   min-height: 100vh;
 }

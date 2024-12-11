@@ -1,4 +1,3 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Config/WebSocketConfig.java
 package lk.ac.iit.Mihin.Server.Config;
 
 import org.springframework.context.annotation.Configuration;

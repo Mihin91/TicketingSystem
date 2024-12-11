@@ -14,17 +14,12 @@
       <change beforePath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/TicketingSystem.java" beforeDir="false" afterPath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/TicketingSystem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/Vendor.java" beforeDir="false" afterPath="$PROJECT_DIR$/CLI/src/lk/ac/iit/Mihin/CLI/Vendor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CLI/ticketing_system.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/ConfigurationDisplay.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/ConfigurationDisplay.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/ConfigurationForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/ConfigurationForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/components/Navbar.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/vite.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/ConfigurationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Controllers/ConfigurationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Repositories/VendorRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Repositories/VendorRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Runnables/CustomerRunnable.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Runnables/CustomerRunnable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/ConfigurationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/ConfigurationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/CustomerService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/CustomerService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/VendorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Services/VendorService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/TicketingSystem-app/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/Client/TicketingSystem-app/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Config/WebSocketConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Config/WebSocketConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Server/src/main/java/lk/ac/iit/Mihin/Server/Model/Customer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ticketing_system.json" beforeDir="false" afterPath="$PROJECT_DIR$/ticketing_system.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,7 +36,8 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/CLI" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
@@ -148,7 +144,7 @@
       <workItem from="1733820414527" duration="20043000" />
       <workItem from="1733852065533" duration="454000" />
       <workItem from="1733879468408" duration="3172000" />
-      <workItem from="1733884023639" duration="4853000" />
+      <workItem from="1733884023639" duration="22654000" />
     </task>
     <servers />
   </component>

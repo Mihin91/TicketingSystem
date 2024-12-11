@@ -1,4 +1,3 @@
-// src/main/java/lk/ac/iit/Mihin/Server/Model/Customer.java
 package lk.ac.iit.Mihin.Server.Model;
 
 import jakarta.persistence.*;

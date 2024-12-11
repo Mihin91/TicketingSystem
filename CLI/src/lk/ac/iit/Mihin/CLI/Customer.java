@@ -14,7 +14,7 @@ public class Customer extends Participant {
             while (!Thread.currentThread().isInterrupted()) {
                 String ticket = ticketPool.removeTicket();
                 if (ticket == null) {
-                    // No more tickets will be available
+                    // No more tickets will be available to purchase
                     System.out.println("[Customer] " + id + " no more tickets to purchase. Stopping...");
                     break;
                 } else {
@@ -24,6 +24,7 @@ public class Customer extends Participant {
             }
         } catch (InterruptedException e) {
             System.out.println("[Customer] " + id + " interrupted. Stopping...");
+            // customer stopping
             Thread.currentThread().interrupt();
         } catch (Exception e) {
             System.out.println("[Customer] " + id + " encountered an error: " + e.getMessage());
