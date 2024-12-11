@@ -5,18 +5,18 @@ Table of Contents
  1. Overview
  2. Features
  3. Technologies Used
- 6. Running the Application
- 7. Usage
+ 4. Running the Application
+ 5. Usage
     Configuration
     Starting the Simulation
     Stopping the Simulation
     Resetting the Simulation
- 8. Project Structure
+ 6. Project Structure
     CLI Sturture
     Backend Structure
     Frontend Structure
- 9. License
- 10. Contact
+ 7. License
+ 8. Contact
 
 
 # Overview
