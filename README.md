@@ -1,290 +1,299 @@
 # Ticketing System Simulation
 
-Welcome to the Ticketing System Simulation! This project is a comprehensive simulation of a ticketing system, encompassing a Command-Line Interface (CLI), a robust Backend powered by Spring Boot, and a dynamic Frontend built with React.
-Whether you're looking to understand multi-threaded applications, RESTful APIs, or modern frontend development, this project has something for you.
-
 Table of Contents
-  Features
-  Technologies Used
-  Project Structure
-  Getting Started
-  Prerequisites
-  Installation
-    1. Clone the Repository
-    2. Setup Backend
-    3. Setup Frontend
-    4. Setup CLI
-       
-  Usage
-    1. Running the Backend
-    2. Running the Frontend
-    3. Using the CLI
-     
-  API Documentation
-    1. Configuration APIs
-    2. System Control APIs
-    3. Log APIs
-    4. Vendor APIs
-    5. Customer APIs
-    
-  Integration
-    1. WebSockets
-    2. Database
-    
-  Contact
+
+ 1. Overview
+ 2. Features
+ 3. Technologies Used
+ 4. Prerequisites
+ 5. Installation and Setup
+    Backend Setup
+    Frontend Setup
+ 6. Running the Application
+ 7. Usage
+    Configuration
+    Starting the Simulation
+    Stopping the Simulation
+    Resetting the Simulation
+ 8. Project Structure
+    CLI Sturture
+    Backend Structure
+    Frontend Structure
+ 9. License
+ 10. Contact
 
 
-Command-Line Interface (CLI):
+# Overview
 
-  Configuration Management: Configure simulation parameters interactively.
-  Persistence: Save and load configurations from JSON files.
-  Control: Start and stop the simulation seamlessly.
-  Validation: Ensures input parameters are valid and consistent.
-  
-Backend:
+The Ticketing System Simulation is a robust application designed to emulate the process of ticket distribution and purchasing. It leverages a Java Spring Boot backend and a React.js frontend to provide a seamless experience for configuring simulations, monitoring real-time ticket statuses, and managing system logs. The system is capable of handling multiple vendors releasing tickets and multiple customers purchasing them concurrently, ensuring accurate tracking and logging throughout the simulation lifecycle.
 
-  Spring Boot Framework: Robust and scalable backend services.
-  RESTful APIs: Manage configurations, vendors, customers, and logs.
-  WebSockets (STOMP): Real-time communication for status updates and logs.
-  In-Memory H2 Database: Quick setup for development and testing.
-  Thread Management: Handles concurrent operations for vendors and customers.
-  Event-Driven Architecture: Automatically stops simulation when all tickets are sold.
-  
-Frontend:
+# Features
 
-  React Application: Dynamic and responsive user interface.
-  Real-Time Updates: Utilizes WebSockets for live status and log updates.
-  User-Friendly Dashboard: Monitor and control the simulation with ease.
-  Responsive Design: Accessible on various devices and screen sizes.
-  Interactive Components: Configuration forms, status displays, and log viewers.
-  
-Technologies Used
+Configuration Management: Define simulation parameters such as the number of vendors and customers, ticket release rates, retrieval intervals, maximum ticket capacities, and total tickets.
+Real-Time Monitoring: View live updates on ticket statuses, including current tickets available, total tickets released, and total tickets purchased.
+Logging: Monitor detailed logs of vendor activities (ticket releases) and customer actions (ticket purchases) in real-time.
+Control Panel: Start, stop, and reset the simulation with ease.
+State Preservation: Maintain the state of ticket counts and logs across simulation runs without unintended resets.
+WebSocket Integration: Utilize WebSockets (STOMP over SockJS) for efficient real-time communication between backend and frontend.
+Security: Configure security settings to protect endpoints, especially the H2 console during development.
 
-CLI:
-  Java 11: High-performance programming language.
-  Gson: JSON serialization and deserialization.
-  
-Backend:
-  Spring Boot: Framework for building Java applications.
-  H2 Database: In-memory database for development and testing.
-  WebSockets (STOMP): Real-time communication.
-  ModelMapper: Simplifies object mapping.
-  JUnit: For unit and integration testing.
-  Maven: Dependency and build management.
-  
-Frontend:
-  React: JavaScript library for building user interfaces.
-  StompJS & SockJS: For WebSocket communication.
-  CSS: Styling the application.
-  React Router: Navigation within the application.
-  
-General:
-  Git: Version control.
-  GitHub: Repository hosting and collaboration.
-  VS Code / IntelliJ IDEA: Recommended IDEs.
-  
-Project Structure
-  The project is divided into three main components:
+# Technologies Used
 
-  CLI
-  Backend
-  Frontend
-    1. CLI
-      Located in the CLI directory, this component allows users to configure and manage the ticketing simulation via the command line.
+Backend
 
-  Key Components:
+Java Spring Boot: Framework for building the backend services.
+Spring Data JPA: For data persistence and repository management.
+Spring WebSocket: Facilitates real-time communication using STOMP over SockJS.
+H2 Database: In-memory database for development and testing purposes.
+Maven: Dependency and build management.
 
-  Configuration.java: Handles configuration parameters and JSON file operations.
-  Customer.java: Represents customer participants in the simulation.
-  Vendor.java: Represents vendor participants in the simulation.
-  TicketPool.java: Manages the pool of tickets with thread-safe operations.
-  Logger.java: Centralized logging utility.
-  Participant.java: Abstract class for participants.
-  TicketingSystem.java: Main class to run the simulation.
+Frontend
 
-  2. Backend
-    Located in the Backend directory, this is a Spring Boot application that manages the simulation logic, RESTful APIs, WebSockets, and database interactions.
+React.js: Library for building the user interface.
+STOMP.js & SockJS-client: For handling WebSocket connections.
+React Router: Manages routing within the application.
+CSS-in-JS: Styling components using JavaScript.
+Prerequisites
 
-  Key Components:
-  
-  Controllers: Handle API requests and WebSocket messages.
-  ConfigurationController.java
-  VendorController.java
-  CustomerController.java
-  LogController.java
-  SystemController.java
-  TicketController.java
-  Services: Contain business logic and interact with repositories.
-  ConfigurationService.java
-  VendorService.java
-  CustomerService.java
-  TicketPoolService.java
-  TicketService.java
-  LogService.java
-  Repositories: Interface with the H2 database.
-  ConfigurationRepository.java
-  VendorRepository.java
-  CustomerRepository.java
-  TicketRepository.java
-  Models: Define the data structures.
+git clone https://github.com/yourusername/ticketing-system-simulation.git
+cd ticketing-system-simulation/backend
+Install Dependencies and Build:
+
+
+mvn clean install
+Configure Application Properties:
+
+
+Server port
+server.port=8080
+
+H2 Console Configuration
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2-console
+
+Database Configuration
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+
+JPA Configuration
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+Run the Backend Application:
+
+
+mvn spring-boot:run
+The backend server will start on http://localhost:8080.
+
+Frontend Setup
+Navigate to Frontend Directory:
+
+cd ../frontend
+Install Dependencies:
+
+Using npm:
+
+npm install
+
+
+
+Run the Frontend Application:
+
+Using npm:
+
+npm start
+
+
+The frontend will start on http://localhost:3000 and should automatically open in your default browser.
+
+Running the Application
+Ensure Both Backend and Frontend Are Running:
+
+Backend: http://localhost:8080
+Frontend: http://localhost:3000
+Access the Dashboard:
+
+Open your browser and navigate to http://localhost:3000/dashboard to access the simulation dashboard.
+
+# Usage
+
+Configuration
+
+Navigate to Configuration Page:
+
+Use the Navbar to go to the Configuration page.
+
+Define Simulation Parameters:
+
+Number of Vendors: Specify how many vendors will release tickets.
+Number of Customers: Specify how many customers will purchase tickets.
+Ticket Release Rate (ms): Interval at which each vendor releases a ticket.
+Customer Retrieval Interval (ms): Interval at which each customer attempts to purchase a ticket.
+Maximum Ticket Capacity: Maximum number of tickets that can be held in the pool at any given time.
+Total Tickets: Total number of tickets to be released during the simulation.
+Save Configuration:
+
+After entering all parameters, save the configuration to persist it in the database.
+
+Starting the Simulation
+Navigate to Dashboard:
+
+Go to the Dashboard page via the Navbar.
+
+Start the Simulation:
+
+Click the Start button in the Control Panel.
+Vendors will begin releasing tickets at the defined intervals.
+Customers will start attempting to purchase tickets based on their retrieval intervals.
+Monitor Real-Time Status:
+
+Ticket Status: View the number of current tickets available, total tickets released, and total tickets purchased.
+Logs: Observe real-time logs detailing vendor releases and customer purchases.
+Stopping the Simulation
+Stop the Simulation:
+
+Click the Stop button in the Control Panel.
+This will interrupt all running vendor and customer threads.
+Ticket counts and logs up to the point of stopping will remain preserved.
+Restarting the Simulation:
+
+Click the Start button again.
+The simulation will resume from where it was stopped, continuing to release and purchase tickets without resetting counts.
+Resetting the Simulation
+Reset the Simulation:
+
+Click the Reset button in the Control Panel.
+This will perform the following actions:
+Stop all running vendor and customer threads.
+Clear all logs.
+Reset ticket counts to their initial state (e.g., currentTickets: 0, totalTicketsReleased: 0, totalTicketsPurchased: 0).
+Verify Reset:
+
+Ensure that logs are cleared from the frontend.
+Ticket status displays are reset to initial values.
+No ongoing processes are running until the simulation is started again.
+
+# Project Structure
+
+ CLI Structure
+ 
   Configuration.java
+  Logger.java
+  Participant.java
   Vendor.java
   Customer.java
-  Ticket.java
-  Runnables: Handle concurrent operations.
-  VendorRunnable.java
-  CustomerRunnable.java
-  Config: Configuration classes for CORS, WebSockets, and Security.
-  CorsConfig.java
-  WebSocketConfig.java
-  SecurityConfig.java
-  ModelMapperConfig.java
-  Events: Custom events.
-  TicketsSoldOutEvent.java
+  TicketPool.java
+  TicketingSystem.java
   
-  3. Frontend
-    Located in the Frontend directory, this is a React application that provides a user interface to interact with the simulation.
 
-  Key Components:
-
-  Components:
+ Backend Structure
+ 
+ 
+  Config
+   CorsConfig.java
+   ModelMapperConfig.java
+   WebSocketConfig.java
+ 
+  Controllers
+   SystemController.java
+   LogController.java
+   TicketController.java
+   ConfigurationController.java
+   CustomerController.java
+   VendorCOntroller.java
+   WebSocketController.java
+   
+  DTO
+   ConfigurationDTO.java
+   TicketStatusDTO.java
+   VendorDTO.java
+   CustomerDTO.java
   
-  ConfigurationForm.jsx: Form to create and save configurations.
-  ConfigurationDisplay.jsx: Displays saved configurations.
-  ControlPanel.jsx: Controls to start and stop the simulation.
-  TicketStatus.jsx: Displays the current status of tickets.
-  LogDisplay.jsx: Shows real-time logs.
-  Navbar.jsx: Navigation bar.
+  Events
+   TicketsSoldOutEvent.java
+   
+  Model
+   Configuration.java
+   Customer.java
+   Ticket.java
+   Vendor.java
+   
+  Repositories
+   
+   ConfigurationRepository.java
+   CustomerRepository.java
+   TicketRepository.java
+   VendorRepository.java
+   
+  Runnables
   
-  Pages:
-  ConfigPage.jsx: Page for managing configurations.
-  DashboardPage.jsx: Main dashboard for monitoring and control.
+   CustomerRunnable.java
+   VendorRunnable.java
+   
+  Security
   
-  Utilities:
-  ApiClient.jsx: Handles API requests.
-  Styling:
-  index.css: Global styles.
-
-Usage
-  1. Running the Backend
-    Ensure that the backend server is running by following the Setup Backend steps. The backend provides RESTful APIs and WebSocket endpoints for real-time communication.
+   SecurityConfig.java
+   
+  Services
   
-  2. Running the Frontend
-    Start the frontend React application as described in the Setup Frontend section. Access the dashboard and configuration pages to interact with the simulation.
-
-  3. Using the CLI
-    The CLI allows you to configure and manage the ticketing simulation.
-
-  Load Configuration: Load existing configurations from a JSON file.
-  Save Configuration: Save current settings to a JSON file for future use.
-  Start Simulation: Initiate the simulation with the configured parameters.
-  Stop Simulation: Gracefully terminate the simulation.
-  Display Status: View the current status of tickets, vendors, and customers.
-
-API Documentation
-  The backend provides several RESTful APIs for managing configurations, vendors, customers, and logs.
-
-  Configuration APIs
-  Manage simulation configurations.
-
-  Save Configuration
-
-  Endpoint: POST /api/configurations/save
-  Description: Saves a new configuration.
-  Request Body: ConfigurationDTO
-  Response: Saved ConfigurationDTO
-
-  Get Latest Configuration
-
-  Endpoint: GET /api/configurations/latest
-  Description: Retrieves the most recent configuration.
-  Response: Latest ConfigurationDTO
-  Get All Configurations
-
-  Endpoint: GET /api/configurations/all
-  Description: Retrieves all saved configurations.
-  Response: Array of ConfigurationDTO
-  Delete Configuration
-
-  Endpoint: DELETE /api/configurations/delete/{id}
-  Description: Deletes a configuration by ID.
-  Response: Success message or 404 if not found.
-  System Control APIs
-  Control the simulation lifecycle.
-
-  Start Simulation
-
-  Endpoint: POST /api/system/start
-  Description: Starts the ticketing simulation based on the latest configuration.
-  Response: Success message or error if no configuration is found.
-  Stop Simulation
-
-  Endpoint: POST /api/system/stop
-  Description: Stops the ticketing simulation.
-  Response: Success message.
-  Log APIs
-  Retrieve simulation logs.
+   ConfigurationService.java
+   CustomerService.java
+   LogService.java
+   TicketPoolService.java
+   TicketService.java
+   VendorService.java
+   
+  resources
+   application.properties
+   
+  pom.xml
+ 
+ 
+ Frontend Structure
+ 
+  components
+   
+   ControlPanel.jsx
+   LogDisplay.jsx
+   Navbar.jsx
+   
+  pages
+ 
+  ConfigPage.jsx
+  DashboardPage.jsx
   
-  Get Logs
-  Endpoint: GET /api/logs
-  Description: Retrieves all logs generated during the simulation.
-  Response: Array of log strings.
-  Vendor APIs
-  Manage vendors in the simulation.
-  
-  Start Vendor
-  Endpoint: POST /api/vendors/start
-  Description: Starts a vendor with specified parameters.
-  Request Body: VendorDTO
-  Response: Success message.
-
-  Customer APIs
-  Manage customers in the simulation.
-  
-  Start Customer
-  Endpoint: POST /api/customers/start
-  Description: Starts a customer with specified parameters.
-  Request Body: CustomerDTO
-  Response: Success message.
+  App.jsx
+  ApiClient.js
+  index.js
+  package.json
 
 
-Integration
-  WebSockets
-    The backend uses WebSockets with STOMP protocol to provide real-time updates to the frontend.
+git clone https://github.com/yourusername/ticketing-system-simulation.git
+cd ticketing-system-simulation
 
-  WebSocket Endpoint: http://localhost:8080/ws
-  
-  Topics Subscribed:
-    /topic/tickets/status: Receives updates on ticket status.
-    /topic/logs: Receives real-time log messages.
-    
-  Frontend Integration:
-  
-  Utilizes StompJS and SockJS to establish WebSocket connections.
-  Subscribes to relevant topics to receive live data.
-  
-  Database
-  An in-memory H2 database is used for development and testing purposes.
-
-  Access H2 Console: http://localhost:8080/h2-console
-  JDBC URL: jdbc:h2:mem:Ticketsdb
-  Username: sa
-  Password: (leave blank)
-  
-  Entities:
-  
-  Configuration: Stores simulation parameters.
-  Vendor: Represents vendors releasing tickets.
-  Customer: Represents customers purchasing tickets.
-  Ticket: Represents individual tickets and their statuses.
+Create a New Branch:
 
 
+git checkout -b feature/your-feature-name
 
+Commit Changes:
 
- Contact
-Mihin Abeywickrama - @Mihin91 - mihintabeywickrama@gmail.com
+git commit -m "Add your descriptive commit message here"
 
-Project Link: https://github.com/Mihin91/ticketing-system
+git push origin feature/your-feature-name
 
+# License
+This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the license terms.
 
+# Contact
+For any questions, issues, or contributions, please contact:
 
+Mihin Thenuja Abeywickrama
+
+Email: mihintabeywicmrama55@gmail.com
+
+LinkedIn: https://www.linkedin.com/in/mihin-abeywickrama-9324372ab/
+
+GitHub: Mihin91
