@@ -16,7 +16,7 @@ Table of Contents
     Stopping the Simulation
     Resetting the Simulation
  8. Project Structure
-    CLI Structure
+    CLI Sturture
     Backend Structure
     Frontend Structure
  9. License
@@ -72,7 +72,7 @@ spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
 
 Database Configuration
-spring.datasource.url=jdbc:h2:mem:Ticketsdb
+spring.datasource.url=jdbc:h2:mem:testdb
 spring.datasource.driverClassName=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=
@@ -202,7 +202,7 @@ No ongoing processes are running until the simulation is started again.
    TicketController.java
    ConfigurationController.java
    CustomerController.java
-   VendorController.java
+   VendorCOntroller.java
    WebSocketController.java
    
   DTO
