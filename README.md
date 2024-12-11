@@ -5,10 +5,6 @@ Table of Contents
  1. Overview
  2. Features
  3. Technologies Used
- 4. Prerequisites
- 5. Installation and Setup
-    Backend Setup
-    Frontend Setup
  6. Running the Application
  7. Usage
     Configuration
@@ -53,14 +49,9 @@ React.js: Library for building the user interface.
 STOMP.js & SockJS-client: For handling WebSocket connections.
 React Router: Manages routing within the application.
 CSS-in-JS: Styling components using JavaScript.
-Prerequisites
-
-git clone https://github.com/yourusername/ticketing-system-simulation.git
-cd ticketing-system-simulation/backend
-Install Dependencies and Build:
 
 
-mvn clean install
+
 Configure Application Properties:
 
 
@@ -72,7 +63,7 @@ spring.h2.console.enabled=true
 spring.h2.console.path=/h2-console
 
 Database Configuration
-spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.url=jdbc:h2:mem:Ticketsdb
 spring.datasource.driverClassName=org.h2.Driver
 spring.datasource.username=sa
 spring.datasource.password=
@@ -81,41 +72,29 @@ JPA Configuration
 spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
 spring.jpa.hibernate.ddl-auto=update
 spring.jpa.show-sql=true
+
 Run the Backend Application:
 
-
-mvn spring-boot:run
-The backend server will start on http://localhost:8080.
-
-Frontend Setup
-Navigate to Frontend Directory:
-
-cd ../frontend
-Install Dependencies:
-
-Using npm:
-
-npm install
-
+ mvn spring-boot:run
+ The backend server will start on http://localhost:8080.
 
 
 Run the Frontend Application:
 
-Using npm:
+ Using npm:
+ 
+ npm start
+ 
+ 
+ The frontend will start on http://localhost:5173 and should open in your default browser.
 
-npm start
+ Running the Application
+ 
+  Ensure Both Backend and Frontend Are Running:
+  
+  Backend: http://localhost:8080
+  Frontend: http://localhost:5173
 
-
-The frontend will start on http://localhost:3000 and should automatically open in your default browser.
-
-Running the Application
-Ensure Both Backend and Frontend Are Running:
-
-Backend: http://localhost:8080
-Frontend: http://localhost:3000
-Access the Dashboard:
-
-Open your browser and navigate to http://localhost:3000/dashboard to access the simulation dashboard.
 
 # Usage
 
@@ -269,20 +248,6 @@ No ongoing processes are running until the simulation is started again.
   index.js
   package.json
 
-
-git clone https://github.com/yourusername/ticketing-system-simulation.git
-cd ticketing-system-simulation
-
-Create a New Branch:
-
-
-git checkout -b feature/your-feature-name
-
-Commit Changes:
-
-git commit -m "Add your descriptive commit message here"
-
-git push origin feature/your-feature-name
 
 # License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the license terms.
