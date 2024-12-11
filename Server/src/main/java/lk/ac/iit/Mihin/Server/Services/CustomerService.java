@@ -86,5 +86,13 @@ public class CustomerService {
         return customerThreads.containsKey(customerId) && customerThreads.get(customerId).isAlive();
     }
 
+    /**
+     * Deletes all customers.
+     */
+    public void deleteAllCustomers() {
+        customerRepository.deleteAll();
+        logService.addLog("[System] All customers have been deleted.");
+    }
+
     // Additional methods for managing customers if needed
 }

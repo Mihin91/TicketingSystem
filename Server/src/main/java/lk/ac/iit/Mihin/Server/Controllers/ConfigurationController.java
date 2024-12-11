@@ -1,4 +1,4 @@
-
+// src/main/java/lk/ac/iit/Mihin/Server/Controllers/ConfigurationController.java
 package lk.ac.iit.Mihin.Server.Controllers;
 
 import lk.ac.iit.Mihin.Server.DTO.ConfigurationDTO;
@@ -79,6 +79,6 @@ public class ConfigurationController {
         if (!deleted) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok("Configuration deleted successfully.");
+        return ResponseEntity.ok("Configuration and all related entities deleted successfully.");
     }
 }

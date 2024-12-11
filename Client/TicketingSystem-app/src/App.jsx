@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import { Client } from '@stomp/stompjs';
 import SockJS from 'sockjs-client';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
 import ApiClient from './ApiClient';
 import Navbar from './components/Navbar';
 import ConfigPage from './pages/ConfigPage';

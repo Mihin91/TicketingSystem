@@ -83,4 +83,12 @@ public class VendorService {
     public boolean isVendorRunning(int vendorId) {
         return vendorThreads.containsKey(vendorId) && vendorThreads.get(vendorId).isAlive();
     }
+
+    /**
+     * Deletes all vendors.
+     */
+    public void deleteAllVendors() {
+        vendorRepository.deleteAll();
+        logService.addLog("[System] All vendors have been deleted.");
+    }
 }

@@ -3,6 +3,7 @@ package lk.ac.iit.Mihin.Server.Services;
 
 import lk.ac.iit.Mihin.Server.Model.Configuration;
 import lk.ac.iit.Mihin.Server.Repositories.ConfigurationRepository;
+import lk.ac.iit.Mihin.Server.Repositories.TicketRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +12,19 @@ import java.util.List;
 @Service
 public class ConfigurationService {
     private final ConfigurationRepository configurationRepository;
+    private final CustomerService customerService;
+    private final VendorService vendorService;
+    private final TicketRepository ticketRepository;
 
     @Autowired
-    public ConfigurationService(ConfigurationRepository configurationRepository) {
+    public ConfigurationService(ConfigurationRepository configurationRepository,
+                                CustomerService customerService,
+                                VendorService vendorService,
+                                TicketRepository ticketRepository) {
         this.configurationRepository = configurationRepository;
+        this.customerService = customerService;
+        this.vendorService = vendorService;
+        this.ticketRepository = ticketRepository;
     }
 
     /**
@@ -56,17 +66,30 @@ public class ConfigurationService {
     }
 
     /**
-     * Deletes a configuration by its ID.
+     * Deletes a configuration and all related entities.
      *
      * @param id The ID of the configuration to delete.
      * @return true if deleted, false otherwise.
      */
     public boolean deleteConfiguration(int id) {
         if (configurationRepository.existsById(id)) {
+            // Stop all running customers and vendors
+            customerService.stopAllCustomers();
+            vendorService.stopAllVendors();
+
+            // Delete all tickets
+            ticketRepository.deleteAll();
+
+            // Delete all customers
+            customerService.deleteAllCustomers();
+
+            // Delete all vendors
+            vendorService.deleteAllVendors();
+
+            // Finally, delete the configuration
             configurationRepository.deleteById(id);
             return true;
         }
         return false;
     }
-
 }

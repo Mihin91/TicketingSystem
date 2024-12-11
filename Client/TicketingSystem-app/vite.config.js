@@ -24,7 +24,6 @@ export default defineConfig({
     },
   },
   server: {
-    port: 5173, // Ensure that Vite always uses port 5173
     proxy: {
       '/ws': {
         target: 'http://localhost:8080', // Backend server

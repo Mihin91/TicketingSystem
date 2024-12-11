@@ -7,7 +7,6 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Configuration {
-    // initializing the configuration variables for prompts
     private final int totalTickets;
     private final int ticketReleaseRate;
     private final int customerRetrievalRate;

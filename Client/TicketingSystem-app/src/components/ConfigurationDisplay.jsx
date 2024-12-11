@@ -19,12 +19,12 @@ function ConfigurationDisplay({ configs, onDeleteConfig }) {
                     <thead>
                     <tr>
                         <th style={{ ...styles.headerCell, textAlign: 'left' }}>ID</th>
-                        <th style={styles.headerCell}>Customer retrieval rate(ms)</th>
-                        <th style={styles.headerCell}>Max ticket capacity</th>
-                        <th style={styles.headerCell}>No. of Customers</th>
-                        <th style={styles.headerCell}>No. of Vendors</th>
-                        <th style={styles.headerCell}>Ticket Release Rate(ms)</th>
-                        <th style={styles.headerCell}>Total tickets</th>
+                        <th style={styles.headerCell}>Customer Retrieval Rate (ms)</th>
+                        <th style={styles.headerCell}>Max Ticket Capacity</th>
+                        <th style={styles.headerCell}>Number of Customers</th>
+                        <th style={styles.headerCell}>Number of Vendors</th>
+                        <th style={styles.headerCell}>Ticket Release Rate (ms)</th>
+                        <th style={styles.headerCell}>Total Tickets</th>
                         <th style={styles.headerCell}>Action</th>
                     </tr>
                     </thead>
@@ -39,7 +39,14 @@ function ConfigurationDisplay({ configs, onDeleteConfig }) {
                             <td style={styles.numericCell}>{config.ticketReleaseRate}</td>
                             <td style={styles.numericCell}>{config.totalTickets}</td>
                             <td style={styles.cell}>
-                                <button style={styles.deleteButton} onClick={() => onDeleteConfig(config.id)}>
+                                <button
+                                    style={styles.deleteButton}
+                                    onClick={() => {
+                                        if (window.confirm(`Are you sure you want to delete Configuration ID ${config.id}? This will remove all related customers, vendors, and tickets.`)) {
+                                            onDeleteConfig(config.id);
+                                        }
+                                    }}
+                                >
                                     Delete
                                 </button>
                             </td>
