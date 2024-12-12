@@ -5,8 +5,7 @@ Table of Contents
  1. Overview
  2. Features
  3. Technologies Used
- 4. Prerequisites
- 5. Installation and Setup
+ 4. Installation and Setup
     Backend Setup
     Frontend Setup
  6. Running the Application
@@ -16,7 +15,7 @@ Table of Contents
     Stopping the Simulation
     Resetting the Simulation
  8. Project Structure
-    CLI Sturture
+    CLI Structure
     Backend Structure
     Frontend Structure
  9. License
@@ -55,67 +54,67 @@ React Router: Manages routing within the application.
 CSS-in-JS: Styling components using JavaScript.
 Prerequisites
 
-git clone https://github.com/yourusername/ticketing-system-simulation.git
-cd ticketing-system-simulation/backend
-Install Dependencies and Build:
+# Installation and Setup
+
+    Backend Setup
+    
+        cd ticketing-system-simulation/backend
+        Install Dependencies and Build:
 
 
-mvn clean install
-Configure Application Properties:
+        mvn clean install
+        Configure Application Properties:
 
 
-Server port
-server.port=8080
-
-H2 Console Configuration
-spring.h2.console.enabled=true
-spring.h2.console.path=/h2-console
-
-Database Configuration
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=
-
-JPA Configuration
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-Run the Backend Application:
-
-
-mvn spring-boot:run
-The backend server will start on http://localhost:8080.
-
-Frontend Setup
-Navigate to Frontend Directory:
-
-cd ../frontend
-Install Dependencies:
-
-Using npm:
-
-npm install
+        Server port
+        server.port=8080
+    
+        H2 Console Configuration
+        spring.h2.console.enabled=true
+        spring.h2.console.path=/h2-console
+    
+        Database Configuration
+        spring.datasource.url=jdbc:h2:mem:testdb
+        spring.datasource.driverClassName=org.h2.Driver
+        spring.datasource.username=sa
+        spring.datasource.password=
+    
+        JPA Configuration
+        spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+        spring.jpa.hibernate.ddl-auto=update
+        spring.jpa.show-sql=true
+        Run the Backend Application:
 
 
+        mvn spring-boot:run
+        The backend server will start on http://localhost:8080.
+    
+    Frontend Setup
+        Navigate to Frontend Directory:
+        
+        cd ../frontend
+        Install Dependencies:
+        
+        Using npm:
 
-Run the Frontend Application:
+    npm install
 
-Using npm:
+    Run the Frontend Application:
+    
+    Using npm:
+    
+    npm start / npm run dev
 
-npm start
+
+    The frontend will start on http://localhost:5173 and should open in the default browser.
+
+    Running the Application
+    Ensure Both Backend and Frontend Are Running:
+    
+    Backend: http://localhost:8080
+    Frontend: http://localhost:5173
 
 
-The frontend will start on http://localhost:3000 and should automatically open in your default browser.
-
-Running the Application
-Ensure Both Backend and Frontend Are Running:
-
-Backend: http://localhost:8080
-Frontend: http://localhost:3000
-Access the Dashboard:
-
-Open your browser and navigate to http://localhost:3000/dashboard to access the simulation dashboard.
 
 # Usage
 
@@ -202,7 +201,7 @@ No ongoing processes are running until the simulation is started again.
    TicketController.java
    ConfigurationController.java
    CustomerController.java
-   VendorCOntroller.java
+   VendorController.java
    WebSocketController.java
    
   DTO
@@ -270,19 +269,20 @@ No ongoing processes are running until the simulation is started again.
   package.json
 
 
-git clone https://github.com/yourusername/ticketing-system-simulation.git
-cd ticketing-system-simulation
-
 Create a New Branch:
 
 
-git checkout -b feature/your-feature-name
+Check status and add files:
+
+    git status
+
+    git add .
 
 Commit Changes:
 
-git commit -m "Add your descriptive commit message here"
-
-git push origin feature/your-feature-name
+    git commit -m "Add your descriptive commit message here"
+    
+    git push origin feature/your-feature-name
 
 # License
 This project is licensed under the MIT License. You are free to use, modify, and distribute this software as per the license terms.
@@ -292,8 +292,8 @@ For any questions, issues, or contributions, please contact:
 
 Mihin Thenuja Abeywickrama
 
-Email: mihintabeywicmrama55@gmail.com
+Email: mihintabeywickrama55@gmail.com
 
 LinkedIn: https://www.linkedin.com/in/mihin-abeywickrama-9324372ab/
 
-GitHub: Mihin91
+GitHub Name: Mihin91
