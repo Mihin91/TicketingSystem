@@ -8,25 +8,31 @@ Table of Contents
  4. Installation and Setup
 
     Backend Setup
+
     Frontend Setup
 
- 6. Running the Application
+ 5. Running the Application
 
- 7. Usage
+ 6. Usage
 
     Configuration
+
     Starting the Simulation
+
     Stopping the Simulation
+
     Resetting the Simulation
 
- 8. Project Structure
+ 7. Project Structure
 
     CLI Structure
+
     Backend Structure
+
     Frontend Structure
 
- 9. License
- 10. Contact
+ 8. License
+ 9. Contact
 
 
 # Overview
