@@ -71,7 +71,7 @@ Prerequisites
 
     Backend Setup
     
-        cd ticketing-system-simulation/backend
+        cd ticketing_system/backend
         Install Dependencies and Build:
 
 
@@ -87,7 +87,7 @@ Prerequisites
         spring.h2.console.path=/h2-console
     
         Database Configuration
-        spring.datasource.url=jdbc:h2:mem:testdb
+        spring.datasource.url=jdbc:h2:mem:Ticketsdb
         spring.datasource.driverClassName=org.h2.Driver
         spring.datasource.username=sa
         spring.datasource.password=
